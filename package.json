@@ -9,18 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/code-input": "^4.1.4",
+    "@sanity/image-url": "^1.0.2",
+    "@sanity/vision": "^3.48.1",
+    "next": "14.2.4",
+    "next-sanity": "^9.4.2",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.4"
+    "react-fast-marquee": "^1.6.5",
+    "react-icons": "^5.2.1",
+    "sanity": "^3.48.1",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/typography": "^0.5.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "typescript": "^5"
   }
 }
