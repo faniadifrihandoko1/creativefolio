@@ -1,8 +1,7 @@
-import React from "react";
-import { Newsreader, Silkscreen } from "next/font/google";
 import Header from "@/app/components/Fragements/Header";
+import { Silkscreen } from "next/font/google";
+import React from "react";
 
-import imageProject from "../../asset/1.jpg";
 import ProjectCard from "@/app/components/Fragements/ProjectCard";
 
 export const fontLogo = Silkscreen({ weight: "400", subsets: ["latin"] });
@@ -55,7 +54,7 @@ const Projects: React.FC = () => {
         title="Project"
         description="A list of all my personal projects"
       />
-      <div className="flex flex-col h-full mt-5 gap-4">
+      <div className="flex flex-col h-full mt-5 gap-6 md:gap-4">
         {dummyProjects.map((project, index) => (
           <ProjectCard
             key={index}

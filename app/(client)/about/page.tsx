@@ -1,18 +1,17 @@
 import Image from "next/image";
-import profile from "../../asset/profile.png";
+import Link from "next/link";
+import Marquee from "react-fast-marquee";
+import { CgMail } from "react-icons/cg";
 import {
-  FaReact,
-  FaSpotify,
-  FaLinkedin,
   FaFacebook,
   FaGithub,
+  FaLinkedin,
+  FaReact,
+  FaSpotify,
 } from "react-icons/fa";
-import { CgMail } from "react-icons/cg";
-import { SiTypescript, SiRedux } from "react-icons/si";
-import { RiTailwindCssFill, RiNextjsFill } from "react-icons/ri";
-import React from "react";
-import Marquee from "react-fast-marquee";
-import Link from "next/link";
+import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
+import { SiRedux, SiTypescript } from "react-icons/si";
+import profile from "../../asset/profile.png";
 
 const About = () => {
   return (
@@ -41,12 +40,12 @@ const About = () => {
                 Who am I?
               </h2>
               <p className="font-normal lg:text-lg">
-                I am a graduate with a Bachelor's degree in Informatics
+                I am a graduate with a Bachelor degree in Informatics
                 Engineering from &nbsp;
                 <a href="https://www.its.ac.id">
                   <u>STT Terpadu Nurul Fikri</u>
                 </a>
-                , I'm inspired by exploring new technologies and enjoy
+                , I am inspired by exploring new technologies and enjoy
                 incorporating fresh ideas into application development. My
                 experience in utilizing <b>ReactJS</b>, <b>NextJS</b>, and{" "}
                 <b>ExpressJS</b>&nbsp; strengthens my skills in creating
@@ -78,8 +77,10 @@ const About = () => {
                 <ol className="py-8 md:py-12">
                   <li>
                     <div className="space-y-3">
-                      <p className="text-center text-sm font-normal text-slate-500 dark:text-slate-400 lg:text-base">
-                        Hmm, i haven't worked anywhere yet :(
+                      <p className=" text-sm font-normal text-slate-500 dark:text-slate-400 lg:text-base">
+                        I’m currently a Frontend Developer at PT Nizom Berkah
+                        Informasi, building intuitive and responsive web
+                        applications.
                       </p>
                     </div>
                   </li>
@@ -113,12 +114,12 @@ const About = () => {
                         <img
                           alt="Last Played"
                           loading="lazy"
-                          width="100"
-                          height="100"
+                          width="100px"
+                          height="100px"
                           decoding="async"
                           data-nimg="1"
                           className="bg-transparent rounded-lg shadow-lg filter transition-all duration-300 hover:shadow-xl hover:brightness-75 hover:saturated-125 hover:drop-shadow-md"
-                          src="/_next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=128&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=256&amp;q=75 2x"
+                          src="/next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=128&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=256&amp;q=75 2x"
                         ></img>
                       </a>
                     </div>
