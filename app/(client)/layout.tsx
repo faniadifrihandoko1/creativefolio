@@ -1,11 +1,11 @@
 "use client";
-import type { Metadata } from "next";
-import { Fira_Code, Poppins, Berkshire_Swash } from "next/font/google";
-import "./globals.css";
-import Navbar from "../components/Fragements/Navbar";
-import Provide from "../utils/Provider";
+import { Poppins } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import React from "react";
 import Footer from "../components/Fragements/Footer";
+import Navbar from "../components/Fragements/Navbar";
+import Provide from "../utils/Provider";
+import "./globals.css";
 
 const inter = Poppins({ subsets: ["latin"], weight: "500" });
 
@@ -21,6 +21,7 @@ export default function RootLayout({
         className={`${inter.className} h-full bg-bgBody text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500 `}
       >
         <Provide>
+          <NextTopLoader />
           <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
           <main
             className={`mx-auto  ${
