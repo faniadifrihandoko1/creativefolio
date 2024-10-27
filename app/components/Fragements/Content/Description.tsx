@@ -1,15 +1,16 @@
-import React from "react";
-
 const Description = () => {
   return (
     <div className="mt-5 text-center px-4 lg:max-w-4xl md:max-w-2xl max-w-lg">
       <p className="text-base md:text-lg">
-        I am a digital architect ready to create virtual worlds from my
-        imagination. With the skills I possess, I have built various web
-        projects that serve as digital masterpieces. I am prepared to explore
-        the endless ocean of technology, face the storms of new challenges, and
-        contribute to dynamic development teams with a spirit that burns like
-        fire and an insatiable curiosity.
+        As a digital architect, I’m ready to transform my imagination into
+        virtual worlds. With my skills, I’ve crafted a variety of web projects
+        that stand as digital masterpieces. I’m eager to explore the boundless
+        sea of technology, tackle new challenges, and contribute to dynamic
+        development teams with a fiery spirit and insatiable curiosity.
+      </p>
+      <p className="text-base md:text-lg mt-2 hidden md:block">
+        Let&apos;s bring your ideas to life with captivating digital
+        experiences!
       </p>
     </div>
   );
