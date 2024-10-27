@@ -30,7 +30,7 @@ const About = () => {
             <span className="text-teal-700 dark:text-teal-400">
               Fani Adi Frihandoko
             </span>
-            , a Fullstack Developer from Depok, Indonesia.
+            , a Frontend Developer from Depok, Indonesia.
           </h1>
         </div>
         <div className="pt-12 text-base">
@@ -42,7 +42,7 @@ const About = () => {
               <p className="font-normal lg:text-lg">
                 I am a graduate with a Bachelor degree in Informatics
                 Engineering from &nbsp;
-                <a href="https://www.its.ac.id">
+                <a href="https://nurulfikri.ac.id/">
                   <u>STT Terpadu Nurul Fikri</u>
                 </a>
                 , I am inspired by exploring new technologies and enjoy
