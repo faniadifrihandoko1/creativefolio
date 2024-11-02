@@ -61,23 +61,24 @@ const About = () => {
                   <FaReact
                     href="https://react.dev/"
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tip="React"
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Hello to you too!"
                   />
                   <SiTypescript
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tip="TypeScript"
+                    data-tooltip-id="TypeScript"
                   />
                   <RiTailwindCssFill
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tip="Tailwind CSS"
+                    data-tooltip-id="TailwindCSS"
                   />
                   <RiNextjsFill
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tip="Next.js"
+                    data-tooltip-id="NextJS"
                   />
                   <SiRedux
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tip="Redux"
+                    data-tooltip-id="Redux"
                   />
                 </Marquee>
               </div>
@@ -116,24 +117,24 @@ const About = () => {
                   <div className="flex h-full w-full flex-row items-center justify-between rounded-lg bg-teal-900 bg-opacity-60 px-4 py-4 md:px-6 md:py-6">
                     <div>
                       <h1 className="mb-1 line-clamp-1 items-center justify-self-center pt-2 text-sm font-bold text-gray-200 lg:text-lg">
-                        Rumble
+                        The Scientist
                       </h1>
                       <h2 className="mb-2 line-clamp-1 items-center justify-center text-sm font-medium text-gray-300 lg:text-base">
-                        Skrillex, Fred again.., Flowdan
+                        Coldplay
                       </h2>
                     </div>
                     <div>
-                      <a href="https://open.spotify.com/track/74fmYjFwt9CqEFAh8ybeBD">
-                        <img
+                      <a href="https://open.spotify.com/track/75JFxkI2RXiU7L9VXzMkle?si=9fc829262cee463b">
+                        <Image
                           alt="Last Played"
                           loading="lazy"
-                          width="100px"
-                          height="100px"
+                          width={100}
+                          height={100}
                           decoding="async"
                           data-nimg="1"
                           className="bg-transparent rounded-lg shadow-lg filter transition-all duration-300 hover:shadow-xl hover:brightness-75 hover:saturated-125 hover:drop-shadow-md"
-                          src="/next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=128&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b2736382f06498259682f91cf981&amp;w=256&amp;q=75 2x"
-                        ></img>
+                          src="/images/the-scientis.jpg" // Corrected path
+                        />
                       </a>
                     </div>
                   </div>
