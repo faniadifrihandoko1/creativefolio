@@ -33,7 +33,7 @@ const dummyProjects: Project[] = [
     ],
   },
   {
-    image: "/images/circle.jpg",
+    image: "/images/portofolio.jpg",
     title: "Portfolio Website",
     date: "May 2024",
     description:
