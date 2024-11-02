@@ -61,11 +61,24 @@ const About = () => {
                   <FaReact
                     href="https://react.dev/"
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tip="React"
                   />
-                  <SiTypescript className="text-5xl hover:text-green-800 cursor-pointer mx-7" />
-                  <RiTailwindCssFill className="text-5xl hover:text-green-800 cursor-pointer mx-7" />
-                  <RiNextjsFill className="text-5xl hover:text-green-800 cursor-pointer mx-7" />
-                  <SiRedux className="text-5xl hover:text-green-800 cursor-pointer mx-7" />
+                  <SiTypescript
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tip="TypeScript"
+                  />
+                  <RiTailwindCssFill
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tip="Tailwind CSS"
+                  />
+                  <RiNextjsFill
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tip="Next.js"
+                  />
+                  <SiRedux
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tip="Redux"
+                  />
                 </Marquee>
               </div>
             </div>
