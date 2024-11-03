@@ -17,6 +17,7 @@ interface Project {
   date: string;
   description: string;
   technologies: Technology[];
+  url: string;
 }
 
 const dummyProjects: Project[] = [
@@ -31,6 +32,7 @@ const dummyProjects: Project[] = [
       { name: "TAILWINDCSS", color: "bg-green-600" },
       { name: "SANITY", color: "bg-orange-500" },
     ],
+    url: "https://github.com/faniadifrihandoko1/fe-threads",
   },
   {
     image: "/images/portofolio.jpg",
@@ -43,6 +45,7 @@ const dummyProjects: Project[] = [
       { name: "TAILWINDCSS", color: "bg-green-600" },
       { name: "FRAMER MOTION", color: "bg-purple-600" },
     ],
+    url: "https://fanidev.vercel.app/",
   },
 
   // Tambahkan lebih banyak proyek jika diperlukan
@@ -64,6 +67,7 @@ const Projects: React.FC = () => {
             date={project.date}
             description={project.description}
             technologies={project.technologies}
+            url={project.url}
           />
         ))}
       </div>

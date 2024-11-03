@@ -1,7 +1,7 @@
-import React from "react";
-import Image from "next/image";
-import { FaLink } from "react-icons/fa6";
 import Button from "@/app/components/Elements/Button";
+import Image from "next/image";
+import Link from "next/link";
+import { FaLink } from "react-icons/fa6";
 
 export interface Technology {
   name: string;
@@ -14,6 +14,7 @@ export interface Project {
   date: string;
   description: string;
   technologies: Technology[];
+  url: string;
 }
 
 const ProjectCard = ({
@@ -22,6 +23,7 @@ const ProjectCard = ({
   date,
   description,
   technologies,
+  url,
 }: Project) => {
   return (
     <div className="card flex flex-col md:flex-row gap-1 md:gap-3 shadow-md border-[1px] z-50 rounded-md border-gray-400">
@@ -49,7 +51,9 @@ const ProjectCard = ({
           ))}
         </div>
         <div className="visit flex gap-5 mt-3">
-          <FaLink size={25} className="cursor-pointer" />
+          <Link href={url} target="_blank" rel="noopener noreferrer">
+            <FaLink size={25} className="cursor-pointer" />
+          </Link>
         </div>
       </div>
     </div>
