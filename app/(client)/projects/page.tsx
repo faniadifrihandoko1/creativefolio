@@ -4,7 +4,7 @@ import React from "react";
 
 import ProjectCard from "@/app/components/Fragements/ProjectCard";
 
-export const fontLogo = Silkscreen({ weight: "400", subsets: ["latin"] });
+const fontLogo = Silkscreen({ weight: "400", subsets: ["latin"] });
 
 interface Technology {
   name: string;
@@ -56,7 +56,7 @@ const Projects: React.FC = () => {
         description="A list of all my personal projects"
       />
       <div className="flex flex-col h-full mt-5 gap-6 md:gap-4">
-        {dummyProjects.map((project, index) => (
+        {dummyProjects?.map((project, index) => (
           <ProjectCard
             key={index}
             image={project.image}
