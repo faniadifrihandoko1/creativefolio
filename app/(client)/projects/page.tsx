@@ -37,13 +37,14 @@ const dummyProjects: Project[] = [
     title: "Portfolio Website",
     date: "May 2024",
     description:
-      "A professional portfolio website designed to showcase projects, technical skills, and work experience in an interactive and visually engaging format. Built with modern technologies like ReactJS, TailwindCSS, and Framer Motion, the site delivers smooth navigation, appealing animations, and a fully responsive user experience. Each project is presented with detailed descriptions, reflecting a strong focus on design and functionality, as well as a commitment to quality in every piece of work. This portfolio serves as an effective digital representation of expertise and creativity in frontend development.",
+      "A professional portfolio site showcasing projects, skills, and work experience, built with ReactJS, TailwindCSS, and Framer Motion for a smooth, responsive user experience with engaging animations.",
     technologies: [
       { name: "REACTJS", color: "bg-blue-600" },
       { name: "TAILWINDCSS", color: "bg-green-600" },
       { name: "FRAMER MOTION", color: "bg-purple-600" },
     ],
   },
+
   // Tambahkan lebih banyak proyek jika diperlukan
 ];
 
