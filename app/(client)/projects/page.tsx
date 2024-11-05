@@ -51,6 +51,23 @@ const dummyProjects: Project[] = [
     ],
     url: "https://fanidev.vercel.app/",
   },
+  {
+    image: "/images/micro-feature.jpg",
+    title: "Micro Feature",
+    date: "Jan 2024",
+    description:
+      "Micro Feature is an interactive application packed with various tools and games. Its features include a Tic-Tac-Toe game, Mobile Legends hero search, duration counter, currency converter, salary calculator, and word scrambler. This app is designed to provide a user-friendly and engaging experience.",
+    technologies: [
+      { name: "TypeScript", color: "bg-indigo-500" },
+      { name: "ReactJS", color: "bg-blue-600" },
+      { name: "TailwindCSS", color: "bg-teal-500" },
+      { name: "React Query", color: "bg-pink-500" },
+      { name: "Formik", color: "bg-purple-600" },
+    ],
+    url: "https://micro-feature-by-fani.vercel.app/",
+  },
+
+  // ,
 
   // Tambahkan lebih banyak proyek jika diperlukan
 ];
