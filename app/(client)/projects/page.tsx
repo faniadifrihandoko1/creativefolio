@@ -28,9 +28,12 @@ const dummyProjects: Project[] = [
     description:
       "Circle is a web-based social media application inspired by Twitter (now X). It allows users to create, delete, and reply to posts, like and dislike content, follow and unfollow users, search for users, and share thread links.",
     technologies: [
-      { name: "NEXTJS", color: "bg-gray-600" },
+      { name: "Typecript", color: " bg-orange-500" },
+      { name: "EXPRESSJS", color: "bg-gray-600" },
+      { name: "PostgreSQL", color: "bg-red-600" },
       { name: "TAILWINDCSS", color: "bg-green-600" },
-      { name: "SANITY", color: "bg-orange-500" },
+      { name: "REACTJS", color: "bg-blue-500" },
+      { name: "CHAKRAUI", color: "bg-yellow-600" },
     ],
     url: "https://github.com/faniadifrihandoko1/fe-threads",
   },
@@ -44,6 +47,7 @@ const dummyProjects: Project[] = [
       { name: "REACTJS", color: "bg-blue-600" },
       { name: "TAILWINDCSS", color: "bg-green-600" },
       { name: "FRAMER MOTION", color: "bg-purple-600" },
+      { name: "SANITY", color: "bg-orange-500" },
     ],
     url: "https://fanidev.vercel.app/",
   },
