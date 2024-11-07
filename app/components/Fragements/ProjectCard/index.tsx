@@ -25,7 +25,6 @@ const ProjectCard = ({
   technologies,
   url,
 }: Project) => {
-
   return (
     <div className="card flex flex-col md:flex-row gap-1 md:gap-3 shadow-md border-[1px] z-1 rounded-md border-gray-400 md:max-h-[500px] lg:max-h-[600px] overflow-hidden">
       {/* Card Image */}
@@ -38,7 +37,7 @@ const ProjectCard = ({
           className="w-full h-full"
         />
       </div>
-      {/* Ca */}
+      {/* Card Body */}
       <div className="body flex flex-col gap-1 md:gap-2 p-4 md:w-1/2">
         <h1
           className={`text-3xl md:text-4xl font-extrabold text-indigo-950 dark:text-bgBody`}

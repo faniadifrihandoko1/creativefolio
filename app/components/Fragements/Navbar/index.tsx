@@ -91,6 +91,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </Link>
           </div>
           <div className="flex items-center gap-4">
+            {/* Navlist */}
             <NavList
               items={navItems}
               onItemClick={toggleMenu}
@@ -120,7 +121,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </Button>
           </div>
         </div>
-        {/* Mobile Menu */}
+        {/* Mobile Menu navbar */}
         {isOpen && (
           <div className="md:hidden my-4">
             <NavList
