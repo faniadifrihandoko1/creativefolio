@@ -1,8 +1,7 @@
-import React from "react";
-
 const HeaderContent = () => {
   return (
     <div className="flex flex-col justify-center gap-3 items-center text-center">
+      {/* Tes */}
       <p
         className="text-3xl md:text-5xl inline-block animate-wave"
         style={{ transformOrigin: "70% 70%" }}
