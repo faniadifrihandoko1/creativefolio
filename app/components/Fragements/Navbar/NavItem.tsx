@@ -23,7 +23,7 @@ const NavItem = ({ name, path, onClick, classname, isMobile }: Props) => {
         >
           {name}
           <span
-            className={`absolute bottom-0 left-0 h-[2px] bg-red-500 transition-all duration-300 ease-in-out ${
+            className={`absolute bottom-0 left-0 h-[2px] bg-red-500 transition-all duration-500 ease-in-out ${
               isActive ? "w-full" : "w-0 md:group-hover:w-full"
             }`}
           ></span>
