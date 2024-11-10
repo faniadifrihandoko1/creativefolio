@@ -60,7 +60,7 @@ const ProjectCard = ({
         </div>
         <div className="visit flex gap-5 mt-3">
           <Link href={url} target="_blank" rel="noopener noreferrer">
-            <FaLink size={25} className="cursor-pointer" />
+            <FaLink size={25} className="cursor-pointer hover:text-green-500 hover:dark:text-green-400" />
           </Link>
         </div>
       </div>
