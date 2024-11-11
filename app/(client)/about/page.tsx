@@ -16,7 +16,7 @@ import profile from "../../asset/profile.png";
 const About = () => {
   return (
     <div className="mx-auto mb-12 pt-28  px-6 md:px-0  grid w-full grid-cols-1 justify-center gap-y-8 space-y-10  lg:max-w-5xl lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-20">
-      <div className="lg:pl-32 xl:pl-36 max-w-xs px-2.5 lg:max-w-none pr-10">
+      <div className="lg:pl-32 xl:pl-36 max-w-xs mx-auto px-2.5  lg:max-w-none pr-10">
         <Image
           src={profile}
           alt="profile"
