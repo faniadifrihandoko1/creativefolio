@@ -1,17 +1,10 @@
 "use client";
+import { Silkscreen } from "next/font/google";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Button from "../../Elements/Button";
 import ThemeSwitch from "../ThemeSwitch";
 import NavList from "./NavList";
-import Button from "../../Elements/Button";
-import {
-  DM_Serif_Display,
-  Passion_One,
-  Luckiest_Guy,
-  Silkscreen,
-  Berkshire_Swash,
-  Hanalei_Fill,
-} from "next/font/google";
 
 interface Props {
   isOpen: boolean;
@@ -86,7 +79,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
               <h1
                 className={`${fontLogo.className} text-3xl  font-extrabold text-indigo-950 dark:text-bgBody`}
               >
-                Fan<span className="text-green-500">Dev.</span>
+                Fani<span className="text-green-500">Dev.</span>
               </h1>
             </Link>
           </div>
