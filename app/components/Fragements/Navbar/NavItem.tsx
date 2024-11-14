@@ -12,6 +12,7 @@ interface Props {
 const NavItem = ({ name, path, onClick, classname, isMobile }: Props) => {
   const currentPath = usePathname();
 
+  // Active Item Navbar
   const isActive = currentPath === path;
 
   return (
