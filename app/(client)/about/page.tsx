@@ -35,23 +35,29 @@ const About = () => {
         </div>
         <div className="pt-12 text-base">
           <section className="space-y-12 md:space-y-16">
-            <div className=" pointer-events-auto transform-none">
+            <div className="pointer-events-auto transform-none">
               <h2 className="mb-3 font-newsreader text-xl font-bold lg:mb-5 lg:text-2xl">
                 Who am I?
               </h2>
-              <p className="font-normal lg:text-lg">
-                I am a graduate with a Bachelor degree in Informatics
-                Engineering from &nbsp;
-                <a href="https://nurulfikri.ac.id/">
-                  <u>STT Terpadu Nurul Fikri</u>
+              <p className="font-normal lg:text-lg mb-4">
+                I am a passionate and adaptable Frontend Developer, a graduate
+                in Informatics Engineering from &nbsp;
+                <a href="https://nurulfikri.ac.id/" className="underline">
+                  STT Terpadu Nurul Fikri
                 </a>
-                , I am inspired by exploring new technologies and enjoy
-                incorporating fresh ideas into application development. My
-                experience in utilizing <b>ReactJS</b>, <b>NextJS</b>, and{" "}
-                <b>ExpressJS</b>&nbsp; strengthens my skills in creating
-                innovative solutions
+                . With a strong foundation in web technologies, I am committed
+                to continuous learning and skill development. I enjoy exploring
+                new technologies and integrating innovative ideas into
+                application development.
+              </p>
+              <p className="font-normal lg:text-lg">
+                With expertise in <b>ReactJS</b>, <b>NextJS</b>, and{" "}
+                <b>ExpressJS</b>, I am skilled in building innovative, reliable,
+                scalable, and efficient applications that deliver exceptional
+                user experiences.
               </p>
             </div>
+
             <div className="pointer-events-auto transform-none">
               <h2 className="mb-8 font-newsreader text-xl font-bold lg:mb-10 lg:text-2xl">
                 What am I using?
@@ -92,9 +98,10 @@ const About = () => {
                   <li>
                     <div className="space-y-3">
                       <p className=" text-sm font-normal text-slate-500 dark:text-slate-400 lg:text-base">
-                        I’m currently a Frontend Developer at PT Nizom Berkah
+                        {/* I’m currently a Frontend Developer at PT Nizom Berkah
                         Informasi, building intuitive and responsive web
-                        applications.
+                        applications. */}
+                        Hmm, i haven't worked anywhere yet :(
                       </p>
                     </div>
                   </li>
