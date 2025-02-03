@@ -101,7 +101,7 @@ const About = () => {
                         {/* I’m currently a Frontend Developer at PT Nizom Berkah
                         Informasi, building intuitive and responsive web
                         applications. */}
-                        Hmm, i haven't worked anywhere yet :(
+                        Hmm, I haven&#39;t worked anywhere yet :(
                       </p>
                     </div>
                   </li>
