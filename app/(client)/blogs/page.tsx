@@ -1,6 +1,6 @@
 import Button from "@/app/components/Elements/Button";
 import Header from "@/app/components/Fragements/Header";
-import React from "react";
+import { FaRegFolderOpen } from "react-icons/fa";
 
 const Blogs = () => {
   return (
@@ -21,6 +21,15 @@ const Blogs = () => {
         </Button>
       </div>
       <hr className="border-1.5 border-black dark:border-white mt-7" />
+      <div className="mt-10 md:mt-32 flex flex-col items-center justify-center text-center">
+        <FaRegFolderOpen className="text-6xl text-gray-400 dark:text-gray-600" />
+        <h3 className="mt-4 text-lg font-semibold text-gray-600 dark:text-gray-400">
+          Belum ada artikel yang tersedia
+        </h3>
+        <p className="text-gray-500 dark:text-gray-500 text-sm">
+          Silakan kembali lagi nanti untuk membaca artikel terbaru.
+        </p>
+      </div>
     </div>
   );
 };
