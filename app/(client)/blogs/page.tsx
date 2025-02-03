@@ -9,7 +9,7 @@ const Blogs = () => {
         title="Blog"
         description="I write about software development, productivity, and other topics that interest me."
       />
-      <div className="btn mt-5 flex gap-3">
+      {/* <div className="btn mt-5 flex gap-3">
         <Button classname="text-sm border-2 border-zinc-600 rounded-sm shadow-sm px-3 py-1 dark:bg-gray-500 bg-neutral-200">
           ReactJS
         </Button>
@@ -19,7 +19,7 @@ const Blogs = () => {
         <Button classname="text-sm text-white dark:text-slate-700 rounded-sm shadow-sm px-3 py-1 dark:bg-zinc-300 bg-green-700">
           +9 More
         </Button>
-      </div>
+      </div> */}
       <hr className="border-1.5 border-black dark:border-white mt-7" />
       <div className="mt-10 md:mt-32 flex flex-col items-center justify-center text-center">
         <FaRegFolderOpen className="text-6xl text-gray-400 dark:text-gray-600" />
