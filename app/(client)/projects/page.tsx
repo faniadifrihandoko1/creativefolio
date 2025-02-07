@@ -67,9 +67,7 @@ const dummyProjects: Project[] = [
     url: "https://micro-feature-by-fani.vercel.app/",
   },
 
-  // ,
 
-  // Tambahkan lebih banyak proyek jika diperlukan
 ];
 
 const Projects: React.FC = () => {

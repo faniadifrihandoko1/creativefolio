@@ -98,9 +98,6 @@ const About = () => {
                   <li>
                     <div className="space-y-3">
                       <p className=" text-sm font-normal text-slate-500 dark:text-slate-400 lg:text-base">
-                        {/* I’m currently a Frontend Developer at PT Nizom Berkah
-                        Informasi, building intuitive and responsive web
-                        applications. */}
                         Hmm, I haven&#39;t worked anywhere yet :(
                       </p>
                     </div>
