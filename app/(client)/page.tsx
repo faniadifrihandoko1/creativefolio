@@ -1,12 +1,29 @@
+import { Metadata } from "next";
 import ContactInfo from "../components/Fragements/Content/ContactInfo";
 import Description from "../components/Fragements/Content/Description";
 import Header from "../components/Fragements/Content/HeaderContent";
 import Tittle from "../components/Fragements/Content/TittleContent";
-import Index from "../components/Pages/Home";
-import { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Fanidev",
-  description: "portofolio fani",
+  title: "Fani Dev",
+  description:
+    "Portofolio Fani, seorang Frontend Developer dengan pengalaman dalam React, Next.js, TypeScript, dan UI/UX Development.",
+  keywords: [
+    "Frontend Developer",
+    "React Developer",
+    "Next.js",
+    "TypeScript",
+    "UI/UX",
+    "Portofolio",
+    "Web Developer",
+  ],
+  openGraph: {
+    title: "Fani Dev | Frontend Developer Portfolio",
+    description:
+      "Portofolio Fani, seorang Frontend Developer dengan pengalaman dalam React, Next.js, TypeScript, dan UI/UX Development.",
+    url: "https://fanidev.vercel.app/",
+    siteName: "Fani Dev",
+  },
 };
 
 export default function Home() {

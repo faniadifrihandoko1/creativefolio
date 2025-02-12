@@ -12,6 +12,21 @@ import {
 import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
 import { SiRedux, SiTypescript } from "react-icons/si";
 import profile from "../../asset/profile.png";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About | Fani Adi Frihandoko",
+  description:
+    "Learn more about Fani Adi Frihandoko, a Frontend Developer from Depok, Indonesia.",
+  keywords:
+    "Frontend Developer, ReactJS, NextJS, TypeScript, TailwindCSS, Redux, Depok, Indonesia",
+  openGraph: {
+    title: "About | Fani Adi Frihandoko",
+    description:
+      "Learn more about Fani Adi Frihandoko, a Frontend Developer from Depok, Indonesia.",
+    type: "website",
+  },
+};
 
 const About = () => {
   return (
