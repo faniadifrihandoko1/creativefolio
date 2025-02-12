@@ -3,6 +3,7 @@ import { Silkscreen } from "next/font/google";
 import React from "react";
 
 import ProjectCard from "@/app/components/Fragements/ProjectCard";
+import { Metadata } from "next";
 
 const fontLogo = Silkscreen({ weight: "400", subsets: ["latin"] });
 
@@ -19,6 +20,37 @@ interface Project {
   technologies: Technology[];
   url: string;
 }
+
+export const metadata: Metadata = {
+  title: "Projects | Fani Adifrihandoko",
+  description:
+    "Explore a list of personal projects by Fani Adifrihandoko, including web applications, tools, and interactive experiences.",
+  keywords: [
+    "Fani Adifrihandoko",
+    "portfolio",
+    "projects",
+    "web development",
+    "ReactJS",
+    "TypeScript",
+    "TailwindCSS",
+  ],
+  authors: [{ name: "Fani Adifrihandoko" }],
+  openGraph: {
+    title: "Projects | Fani Adifrihandoko",
+    description:
+      "Explore a list of personal projects by Fani Adifrihandoko, including web applications, tools, and interactive experiences.",
+    images: "/images/portofolio.jpg",
+    type: "website",
+    url: "https://fanidev.vercel.app/projects",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects | Fani Adifrihandoko",
+    description:
+      "Explore a list of personal projects by Fani Adifrihandoko, including web applications, tools, and interactive experiences.",
+    images: "/images/portofolio.jpg",
+  },
+};
 
 const dummyProjects: Project[] = [
   {
@@ -66,8 +98,6 @@ const dummyProjects: Project[] = [
     ],
     url: "https://micro-feature-by-fani.vercel.app/",
   },
-
-
 ];
 
 const Projects: React.FC = () => {
