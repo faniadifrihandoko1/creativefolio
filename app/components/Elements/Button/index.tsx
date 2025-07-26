@@ -5,11 +5,31 @@ interface Props {
   onclick?: () => void;
   classname?: string;
   children?: React.ReactNode;
+  disabled?: boolean;
 }
 
-function Button({ type, onclick, classname, children }: Props) {
+function Button({
+  type = "button",
+  onclick,
+  classname,
+  children,
+  disabled = false,
+}: Props) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (onclick && !disabled) {
+      onclick();
+    }
+  };
+
   return (
-    <button type={type} onClick={onclick}  className={classname}>
+    <button
+      type={type}
+      onClick={handleClick}
+      className={classname}
+      disabled={disabled}
+      aria-label="Toggle navigation menu"
+    >
       {children}
     </button>
   );

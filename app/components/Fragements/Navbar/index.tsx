@@ -2,8 +2,8 @@
 import { Silkscreen } from "next/font/google";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Button from "../../Elements/Button";
 import ThemeSwitch from "../ThemeSwitch";
+import HamburgerButtonNoSSR from "./HamburgerButtonNoSSR";
 import NavList from "./NavList";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export const fontLogo = Silkscreen({ weight: "400", subsets: ["latin"] });
+
 const useMediaQuery = (width: number) => {
   const [targetReached, setTargetReached] = useState(false);
 
@@ -21,8 +22,6 @@ const useMediaQuery = (width: number) => {
     };
 
     window.addEventListener("resize", updateTarget);
-
-    // Set the initial value
     updateTarget();
 
     return () => window.removeEventListener("resize", updateTarget);
@@ -30,9 +29,10 @@ const useMediaQuery = (width: number) => {
 
   return targetReached;
 };
+
 const Navbar = ({ isOpen, setIsOpen }: Props) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const isMobile = useMediaQuery(768); // md breakpoint is typically 768px
+  const isMobile = useMediaQuery(768);
 
   const navItems = [
     { name: "About", path: "/about" },
@@ -54,6 +54,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Call immediately to set initial state
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -62,29 +63,29 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 py-5  right-0 z-10 transition-all w-full duration-300  ${
+      className={`fixed top-0 left-0 py-5 right-0 z-10 transition-all w-full duration-300 ${
         isScrolled
           ? "bg-white/10 backdrop-blur-2xl shadow-md"
           : "bg-transparent"
       } ${
         isOpen
-          ? "bg-bgBody backdrop-blur-3xl dark:bg-slate-950 shadow-lg  "
+          ? "bg-bgBody backdrop-blur-3xl dark:bg-slate-950 shadow-lg"
           : "h-auto"
       }`}
     >
       <div className="mx-auto w-full px-6 md:px-32 py-1">
-        <div className="flex justify-between items-center    w-full">
+        <div className="flex justify-between items-center w-full">
           <div className="">
             <Link href="/" onClick={() => setIsOpen(false)}>
               <h1
-                className={`${fontLogo.className} text-3xl  font-extrabold text-indigo-950 dark:text-bgBody`}
+                className={`${fontLogo.className} text-3xl font-extrabold text-indigo-950 dark:text-bgBody`}
               >
                 Fani<span className="text-green-500">Dev.</span>
               </h1>
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            {/* Navlist dekstop*/}
+            {/* Navlist desktop */}
             <NavList
               items={navItems}
               onItemClick={toggleMenu}
@@ -93,30 +94,13 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
               } md:block hidden`}
             />
             <ThemeSwitch />
-            <Button classname="md:hidden " onclick={toggleMenu}>
-              {/* Hamburger icon */}
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={
-                    isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
-                  }
-                ></path>
-              </svg>
-            </Button>
+            {/* Hamburger button - NoSSR to prevent hydration issues */}
+            <HamburgerButtonNoSSR isOpen={isOpen} onClick={toggleMenu} />
           </div>
         </div>
-        {/* Mobile  navbar */}
+        {/* Mobile navbar */}
         {isOpen && (
-          <div className="md:hidden my-4">
+          <div className="md:hidden my-4 animate-in slide-in-from-top-2 duration-200">
             <NavList
               items={navItems}
               onItemClick={() => setIsOpen(false)}
