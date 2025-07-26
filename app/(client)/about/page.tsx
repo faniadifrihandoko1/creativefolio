@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
+import { BiLogoPostgresql } from "react-icons/bi";
 import { CgMail } from "react-icons/cg";
 import {
   FaFacebook,
@@ -100,6 +101,11 @@ const About = () => {
                   <SiRedux
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
                     data-tooltip-id="Redux"
+                  />
+
+                  <BiLogoPostgresql
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tooltip-id="PostgreSQL"
                   />
                   <SiMui
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
