@@ -11,7 +11,7 @@ import {
   FaSpotify,
 } from "react-icons/fa";
 import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
-import { SiRedux, SiTypescript } from "react-icons/si";
+import { SiMui, SiRedux, SiTypescript } from "react-icons/si";
 import profile from "../../asset/profile.png";
 
 export const metadata: Metadata = {
@@ -100,6 +100,10 @@ const About = () => {
                   <SiRedux
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
                     data-tooltip-id="Redux"
+                  />
+                  <SiMui
+                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
+                    data-tooltip-id="MUI"
                   />
                 </Marquee>
               </div>
