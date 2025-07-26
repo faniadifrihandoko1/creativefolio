@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
@@ -12,7 +13,6 @@ import {
 import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
 import { SiRedux, SiTypescript } from "react-icons/si";
 import profile from "../../asset/profile.png";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About | Fani Adi Frihandoko",
@@ -105,21 +105,29 @@ const About = () => {
               </div>
             </div>
             <div className="pointer-events-auto transform-none">
-              <h2 className="mb-8 font-newsreader text-xl font-bold lg:mb-10 lg:text-2xl">
+              <h2 className="mb-4 font-newsreader text-xl font-bold lg:mb-6 lg:text-2xl">
                 Where have I worked?
               </h2>
               <div>
-                <ol className="py-8 md:py-12">
+                <ol className="py-4 md:py-6">
                   <li>
                     <div className="space-y-3">
-                      <p className=" text-sm font-normal text-slate-500 dark:text-slate-400 lg:text-base">
-                        Hmm, I haven&#39;t worked anywhere yet :(
+                      <p className="text-base font-medium text-slate-800 dark:text-slate-200">
+                        Frontend Developer at{" "}
+                        <span className="text-primary font-semibold">
+                          PT AG Indonesia
+                        </span>
+                      </p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 lg:text-base">
+                        Contributing to building modern web applications with a
+                        focus on performance, scalability, and user experience.
                       </p>
                     </div>
                   </li>
                 </ol>
               </div>
             </div>
+
             <div className="pointer-events-auto transform-none">
               <div className="rounded-lg transition-colors duration-500">
                 <div className="mb-4 flex items-center gap-2">
