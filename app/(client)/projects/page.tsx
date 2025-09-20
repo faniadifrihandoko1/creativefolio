@@ -108,7 +108,7 @@ const Projects: React.FC = () => {
         title="Project"
         description="A list of all my personal projects"
       />
-      <div className="flex flex-col h-full mt-5 gap-6 md:gap-4">
+      <div className="flex flex-col h-full my-5 gap-6 md:gap-4">
         {dummyProjects?.map((project, index) => (
           <ProjectCard
             key={index}
