@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="h-[calc(100vh-80px)] flex flex-col">
+    <div className="h-screen flex flex-col pt-20">
       <div className="flex-1 flex flex-col items-center justify-center font-extrabold">
         <Header />
         <Tittle />
