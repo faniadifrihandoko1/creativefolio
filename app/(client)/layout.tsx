@@ -18,18 +18,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} h-full bg-bgBody text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500 `}
+        className={`${inter.className} min-h-screen bg-bgBody text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500`}
       >
         <Provide>
           <NextTopLoader />
           <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
           <main
-            className={`mx-auto  ${
+            className={`mx-auto ${
               isOpen ? "backdrop-filter blur" : ""
-            }  max-w-5xl  `}
+            } max-w-5xl`}
           >
             {children}
-            <Footer />
           </main>
         </Provide>
       </body>

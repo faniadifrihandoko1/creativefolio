@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import ContactInfo from "../components/Fragements/Content/ContactInfo";
 import Description from "../components/Fragements/Content/Description";
+import Footer from "../components/Fragements/Footer";
 import Header from "../components/Fragements/Content/HeaderContent";
 import Tittle from "../components/Fragements/Content/TittleContent";
 
@@ -28,11 +29,14 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="font-extrabold flex flex-col h-screen items-center justify-center ">
-      <Header />
-      <Tittle />
-      <Description />
-      <ContactInfo />
+    <div className="h-[calc(100vh-80px)] flex flex-col">
+      <div className="flex-1 flex flex-col items-center justify-center font-extrabold">
+        <Header />
+        <Tittle />
+        <Description />
+        <ContactInfo />
+      </div>
+      <Footer />
     </div>
   );
 }
