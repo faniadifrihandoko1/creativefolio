@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/app/components/Elements/Button";
 import Image from "next/image";
 import Link from "next/link";
