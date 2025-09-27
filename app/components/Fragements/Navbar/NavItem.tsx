@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +13,6 @@ interface Props {
 const NavItem = ({ name, path, onClick, classname, isMobile }: Props) => {
   const currentPath = usePathname();
 
-  // Active Item Navbar
   const isActive = currentPath === path;
 
   return (
