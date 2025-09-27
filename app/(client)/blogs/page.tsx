@@ -18,6 +18,9 @@ const Blogs = () => {
         <Button classname="text-sm text-white dark:text-slate-700 rounded-sm shadow-sm px-3 py-1 dark:bg-zinc-300 bg-green-700">
           +9 More
         </Button>
+         <Button classname="text-sm text-white dark:text-slate-700 rounded-sm shadow-sm px-3 py-1 dark:bg-zinc-300 bg-green-700">
+          +9 More
+        </Button>
       </div> */}
       <hr className="border-1.5 border-black dark:border-white mt-7" />
       <div className="mt-10 md:mt-32 flex flex-col items-center justify-center text-center">
