@@ -9,9 +9,7 @@ const Blogs = () => {
         description="I write about software development, productivity, and other topics that interest me."
       />
       {/* <div className="btn mt-5 flex gap-3">
-        <Button classname="text-sm border-2 border-zinc-600 rounded-sm shadow-sm px-3 py-1 dark:bg-gray-500 bg-neutral-200">
-          ReactJS
-        </Button>
+        
          <Button classname="text-sm text-white dark:text-slate-700 rounded-sm shadow-sm px-3 py-1 dark:bg-zinc-300 bg-green-700">
           +9 More
         </Button>
