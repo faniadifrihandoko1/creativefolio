@@ -1,3 +1,4 @@
+"use client"
 import { Newsreader } from "next/font/google";
 import React from "react";
 
