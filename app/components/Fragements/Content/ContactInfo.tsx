@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import ContactItem from "./ContactItem";
 import { FaGithub } from "react-icons/fa";
