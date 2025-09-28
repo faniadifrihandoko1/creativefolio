@@ -1,3 +1,4 @@
+"use client"
 import { DM_Serif_Display } from "next/font/google";
 
 const bebas = DM_Serif_Display({ weight: "400", subsets: ["latin"] });
