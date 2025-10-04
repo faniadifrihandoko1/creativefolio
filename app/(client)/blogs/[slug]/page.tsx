@@ -10,7 +10,6 @@ interface BlogDetailProps {
 }
 
 const BlogDetail = ({ params }: BlogDetailProps) => {
-  // Mock data - in real app, you would fetch this based on the slug
   const blogPost = {
     title: "Getting Started with Next.js 14",
     description:
