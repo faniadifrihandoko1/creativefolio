@@ -9,7 +9,7 @@ import {
   FaArrowRight,
   FaSearch,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -80,6 +80,11 @@ const categories = [
 export const BlogsView = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredBlogs = sampleBlogs.filter((blog) => {
     const matchesCategory =
@@ -92,6 +97,17 @@ export const BlogsView = () => {
 
   const featuredBlogs = filteredBlogs.filter((blog) => blog.featured);
   const regularBlogs = filteredBlogs.filter((blog) => !blog.featured);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!isMounted) {
+    return (
+      <div className="w-full min-h-screen pt-28 px-6 md:px-0">
+        <div className="flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-screen pt-28 px-6 md:px-0">
@@ -169,7 +185,11 @@ export const BlogsView = () => {
                     </span>
                     <span className="flex items-center gap-1">
                       <FaCalendarAlt />
-                      {new Date(blog.date).toLocaleDateString()}
+                      {new Date(blog.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </span>
                     <span className="flex items-center gap-1">
                       <FaClock />
