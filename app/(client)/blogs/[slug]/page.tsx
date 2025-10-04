@@ -53,7 +53,6 @@ const BlogDetail = ({ params }: BlogDetailProps) => {
 
   return (
     <div className="w-full min-h-screen pt-28 px-6 md:px-0">
-      {/* Back Button */}
       <div className="mb-6">
         <Link href="/blogs">
           <Button
@@ -66,10 +65,8 @@ const BlogDetail = ({ params }: BlogDetailProps) => {
         </Link>
       </div>
 
-      {/* Header */}
       <Header title={blogPost.title} description={blogPost.description} />
 
-      {/* Blog Meta Information */}
       <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-2">
           <FaUser />
