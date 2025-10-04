@@ -87,7 +87,6 @@ const BlogDetail = ({ params }: BlogDetailProps) => {
         </div>
       </div>
 
-      {/* Tags */}
       <div className="mt-4 flex flex-wrap gap-2">
         {blogPost.tags.map((tag, index) => (
           <span
@@ -102,7 +101,6 @@ const BlogDetail = ({ params }: BlogDetailProps) => {
 
       <hr className="border-1.5 border-black dark:border-white mt-7" />
 
-      {/* Blog Content */}
       <article className="mt-10 max-w-4xl">
         <div
           className="prose prose-lg dark:prose-invert max-w-none
