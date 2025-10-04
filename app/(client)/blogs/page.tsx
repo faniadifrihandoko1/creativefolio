@@ -188,11 +188,12 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Link href={`/blogs/${blog.slug}`}>
-                      <Button classname="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
-                        Read More
-                        <FaArrowRight className="text-xs" />
-                      </Button>
+                    <Link
+                      href={`/blogs/${blog.slug}`}
+                      className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
+                    >
+                      Read More
+                      <FaArrowRight className="text-xs" />
                     </Link>
                   </div>
                 </div>
@@ -215,10 +216,11 @@ const Blogs = () => {
                 className="group bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700"
               >
                 <div className="relative h-40 overflow-hidden">
-                  <img
+                  <Image
                     src={blog.image}
                     alt={blog.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <div className="p-5">
@@ -243,10 +245,11 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Link href={`/blogs/${blog.slug}`}>
-                      <Button classname="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
-                        Read More
-                      </Button>
+                    <Link
+                      href={`/blogs/${blog.slug}`}
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200"
+                    >
+                      Read More
                     </Link>
                   </div>
                 </div>
