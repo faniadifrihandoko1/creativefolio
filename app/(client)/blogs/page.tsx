@@ -12,12 +12,14 @@ import {
 } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // Sample blog data
 const sampleBlogs = [
   {
     id: 1,
     title: "Building Modern Web Applications with Next.js 14",
+    slug: "building-modern-web-applications-with-nextjs-14",
     excerpt:
       "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
     author: "John Doe",
@@ -30,6 +32,7 @@ const sampleBlogs = [
   {
     id: 2,
     title: "The Art of Clean Code: Best Practices for Developers",
+    slug: "the-art-of-clean-code-best-practices-for-developers",
     excerpt:
       "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
     author: "Fani Adi Frihandoko",
@@ -42,6 +45,7 @@ const sampleBlogs = [
   {
     id: 3,
     title: "Design Systems: Creating Consistent User Experiences",
+    slug: "design-systems-creating-consistent-user-experiences",
     excerpt:
       "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
     author: "Fani Adi Frihandoko",
@@ -54,6 +58,7 @@ const sampleBlogs = [
   {
     id: 4,
     title: "Performance Optimization Techniques for React Applications",
+    slug: "performance-optimization-techniques-for-react-applications",
     excerpt:
       "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
     author: "Sarah Wilson",
@@ -183,10 +188,12 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Button classname="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
-                      Read More
-                      <FaArrowRight className="text-xs" />
-                    </Button>
+                    <Link href={`/blogs/${blog.slug}`}>
+                      <Button classname="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
+                        Read More
+                        <FaArrowRight className="text-xs" />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </article>
@@ -236,9 +243,11 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Button classname="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
-                      Read More
-                    </Button>
+                    <Link href={`/blogs/${blog.slug}`}>
+                      <Button classname="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
+                        Read More
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </article>
