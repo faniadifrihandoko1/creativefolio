@@ -1,14 +1,14 @@
 "use client";
 import Header from "@/app/components/Fragements/Header";
 import Button from "@/app/components/Elements/Button";
-import { 
-  FaCalendarAlt, 
-  FaClock, 
-  FaUser, 
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaUser,
   FaTag,
   FaArrowRight,
   FaSearch,
-  FaFilter
+  FaFilter,
 } from "react-icons/fa";
 import { useState } from "react";
 import Image from "next/image";
@@ -18,64 +18,76 @@ const sampleBlogs = [
   {
     id: 1,
     title: "Building Modern Web Applications with Next.js 14",
-    excerpt: "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
+    excerpt:
+      "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
     author: "John Doe",
     date: "2024-01-15",
     readTime: "8 min read",
     category: "Web Development",
     image: "/images/portofolio.jpg",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
     title: "The Art of Clean Code: Best Practices for Developers",
-    excerpt: "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
-    author: "Jane Smith",
+    excerpt:
+      "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
+    author: "Fani Adi Frihandoko",
     date: "2024-01-10",
     readTime: "6 min read",
     category: "Programming",
     image: "/images/circle.jpg",
-    featured: false
+    featured: false,
   },
   {
     id: 3,
     title: "Design Systems: Creating Consistent User Experiences",
-    excerpt: "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
-    author: "Mike Johnson",
+    excerpt:
+      "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
+    author: "Fani Adi Frihandoko",
     date: "2024-01-05",
     readTime: "10 min read",
     category: "Design",
     image: "/images/micro-feature.jpg",
-    featured: false
+    featured: false,
   },
   {
     id: 4,
     title: "Performance Optimization Techniques for React Applications",
-    excerpt: "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
+    excerpt:
+      "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
     author: "Sarah Wilson",
     date: "2024-01-01",
     readTime: "12 min read",
     category: "Web Development",
     image: "/images/the-scientis.jpg",
-    featured: true
-  }
+    featured: true,
+  },
 ];
 
-const categories = ["All", "Web Development", "Programming", "Design", "Productivity"];
+const categories = [
+  "All",
+  "Web Development",
+  "Programming",
+  "Design",
+  "Productivity",
+];
 
 const Blogs = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredBlogs = sampleBlogs.filter(blog => {
-    const matchesCategory = selectedCategory === "All" || blog.category === selectedCategory;
-    const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredBlogs = sampleBlogs.filter((blog) => {
+    const matchesCategory =
+      selectedCategory === "All" || blog.category === selectedCategory;
+    const matchesSearch =
+      blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const featuredBlogs = filteredBlogs.filter(blog => blog.featured);
-  const regularBlogs = filteredBlogs.filter(blog => !blog.featured);
+  const featuredBlogs = filteredBlogs.filter((blog) => blog.featured);
+  const regularBlogs = filteredBlogs.filter((blog) => !blog.featured);
 
   return (
     <div className="w-full min-h-screen pt-28 px-6 md:px-0">
@@ -83,7 +95,7 @@ const Blogs = () => {
         title="Blog"
         description="I write about software development, productivity, and other topics that interest me."
       />
-      
+
       {/* Search and Filter Section */}
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -98,7 +110,7 @@ const Blogs = () => {
               className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             />
           </div>
-          
+
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
@@ -171,9 +183,7 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Button
-                      classname="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
-                    >
+                    <Button classname="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200">
                       Read More
                       <FaArrowRight className="text-xs" />
                     </Button>
@@ -226,9 +236,7 @@ const Blogs = () => {
                       <FaUser />
                       <span>{blog.author}</span>
                     </div>
-                    <Button
-                      classname="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200"
-                    >
+                    <Button classname="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
                       Read More
                     </Button>
                   </div>
@@ -257,9 +265,7 @@ const Blogs = () => {
       {/* Load More Button */}
       {filteredBlogs.length > 0 && (
         <div className="flex justify-center mt-12">
-          <Button
-            classname="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
-          >
+          <Button classname="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl">
             Load More Articles
           </Button>
         </div>
