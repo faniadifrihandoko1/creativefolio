@@ -118,7 +118,6 @@ const BlogDetail = ({ params }: BlogDetailProps) => {
         />
       </article>
 
-      {/* Navigation */}
       <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center">
           <Link href="/blogs">
