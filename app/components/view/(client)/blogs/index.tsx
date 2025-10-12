@@ -115,7 +115,6 @@ export const BlogsView = () => {
         title="Blog"
         description="I write about software development, productivity, and other topics that interest me."
       />
-
       {/* Search and Filter Section */}
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -149,9 +148,7 @@ export const BlogsView = () => {
           </div>
         </div>
       </div>
-
       <hr className="border-1.5 border-black dark:border-white mb-12" />
-
       {/* Featured Articles Section */}
       {featuredBlogs.length > 0 && (
         <section className="mb-16">
@@ -221,7 +218,6 @@ export const BlogsView = () => {
           </div>
         </section>
       )}
-
       Regular Articles Section
       {regularBlogs.length > 0 && (
         <section>
@@ -277,8 +273,6 @@ export const BlogsView = () => {
           </div>
         </section>
       )}
-
-      {/* No Results State */}
       {filteredBlogs.length === 0 && (
         <div className="flex flex-col items-center justify-center text-center py-16">
           <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-6 mb-6">
@@ -292,7 +286,6 @@ export const BlogsView = () => {
           </p>
         </div>
       )}
-
       {/* Load More Button */}
       {filteredBlogs.length > 0 && (
         <div className="flex justify-center mt-12">
