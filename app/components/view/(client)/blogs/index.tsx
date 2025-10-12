@@ -222,7 +222,7 @@ export const BlogsView = () => {
         </section>
       )}
 
-      {/* Regular Articles Section */}
+      Regular Articles Section
       {regularBlogs.length > 0 && (
         <section>
           <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-gray-100">
