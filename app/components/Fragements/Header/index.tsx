@@ -10,7 +10,6 @@ const newsreader = Newsreader({ weight: "700", subsets: ["latin"] });
 const Header = ({ title, description }: PropsHeader) => {
   return (
     <header>
-      {/* Header */}
       <h1 className={`${newsreader.className} text-4xl font-bold`}>{title}</h1>
       <p className="mt-2">{description}</p>
     </header>

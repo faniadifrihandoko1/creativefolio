@@ -54,7 +54,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Call immediately to set initial state
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
