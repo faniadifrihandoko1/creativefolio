@@ -38,7 +38,6 @@ const ProjectCard = ({
           className="w-full h-full"
         />
       </div>
-      {/* Card Body */}
       <div className="body flex flex-col gap-1 md:gap-2 p-4 md:w-1/2">
         <h1
           className={`text-3xl md:text-4xl font-extrabold text-indigo-950 dark:text-bgBody`}
@@ -61,7 +60,10 @@ const ProjectCard = ({
         </div>
         <div className="visit flex gap-5 mt-3">
           <Link href={url} target="_blank" rel="noopener noreferrer">
-            <FaLink size={25} className="cursor-pointer hover:text-green-500 hover:dark:text-green-400" />
+            <FaLink
+              size={25}
+              className="cursor-pointer hover:text-green-500 hover:dark:text-green-400"
+            />
           </Link>
         </div>
       </div>
