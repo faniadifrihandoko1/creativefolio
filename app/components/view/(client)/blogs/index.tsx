@@ -286,7 +286,6 @@ export const BlogsView = () => {
           </p>
         </div>
       )}
-      {/* Load More Button */}
       {filteredBlogs.length > 0 && (
         <div className="flex justify-center mt-12">
           <Button classname="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl">
