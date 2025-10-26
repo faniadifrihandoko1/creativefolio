@@ -158,7 +158,7 @@ export const AboutView = () => {
                           decoding="async"
                           data-nimg="1"
                           className="bg-transparent rounded-lg shadow-lg filter transition-all duration-300 hover:shadow-xl hover:brightness-75 hover:saturated-125 hover:drop-shadow-md"
-                          src="/images/the-scientis.jpg" // Corrected path
+                          src="/images/the-scientis.jpg" 
                         />
                       </a>
                     </div>
