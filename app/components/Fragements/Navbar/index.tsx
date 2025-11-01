@@ -62,6 +62,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
   }, []);
 
   return (
+    // navbar dengan background color dan shadow
     <div
       className={`fixed top-0 left-0 py-5 right-0 z-10 transition-all w-full duration-300 ${
         isScrolled
