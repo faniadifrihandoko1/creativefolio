@@ -1,6 +1,7 @@
 "use client";
 const Description = () => {
   return (
+    // description dengan teks dan teks dibawahnya
     <div className="mt-5 text-center px-4 lg:max-w-4xl md:max-w-2xl max-w-lg">
       <p className="text-base md:text-lg">
         As a digital architect, I’m ready to transform my imagination into
