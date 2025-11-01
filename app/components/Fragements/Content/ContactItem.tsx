@@ -9,6 +9,7 @@ interface Props {
 }
 const ContactItem = ({ icon, text, link }: Props) => {
   return (
+    // link dengan icon dan text
     <Link
       href={link}
       className="border flex gap-1 justify-center items-center border-slate-950 dark:border-bgBody p-1 hover:bg-neutral-400"
