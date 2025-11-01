@@ -5,6 +5,7 @@ import { TiArrowBack } from "react-icons/ti";
 
 const NavbarCMS = () => {
   return (
+    // navbar cms dengan link dan text
     <div className=" flex  flex-row md:justify-between md:items-center px-5 py-3 w-full transition-all duration-300 backdrop-blur-3xl bg-white/10">
       <Link href={"/"}>
         <TiArrowBack size={25} className="hover:text-green-500" />
