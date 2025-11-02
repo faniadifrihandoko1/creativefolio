@@ -93,7 +93,6 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
               } md:block hidden`}
             />
             <ThemeSwitch />
-            {/* Hamburger button - NoSSR to prevent hydration issues */}
             <HamburgerButtonNoSSR isOpen={isOpen} onClick={toggleMenu} />
           </div>
         </div>
