@@ -11,7 +11,6 @@ interface Props {
 
 const NavList = ({ items, onItemClick, className, isMobile }: Props) => {
   return (
-    // navbar list dengan items
     <ul className={className}>
       {items.map((item) => (
         <NavItem
