@@ -66,7 +66,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
       className={`fixed top-0 left-0 py-5 right-0 z-10 transition-all w-full duration-300 ${
         isScrolled
           ? "bg-white/10 backdrop-blur-2xl shadow-md"
-          : "bg-transparent" /* background color transparent */
+          : "bg-transparent"
       } ${
         isOpen
           ? "bg-bgBody backdrop-blur-3xl dark:bg-slate-950 shadow-lg" /* background color body dan shadow */
