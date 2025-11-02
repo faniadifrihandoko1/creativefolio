@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 const ContactInfo = () => {
   return (
     <div className="mt-5 flex flex-col gap-2 justify-center items-center">
-      <p>Find me on</p> {/* text dengan font size 14 */}
+      <p>Find me on</p>
       <div className="flex  md:flex-row gap-2 justify-center items-center">
         {" "}
         {/* flex container dengan gap 2 */}
