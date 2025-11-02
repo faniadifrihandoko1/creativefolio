@@ -69,7 +69,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
           : "bg-transparent"
       } ${
         isOpen
-          ? "bg-bgBody backdrop-blur-3xl dark:bg-slate-950 shadow-lg" /* background color body dan shadow */
+          ? "bg-bgBody backdrop-blur-3xl dark:bg-slate-950 shadow-lg"
           : "h-auto"
       }`}
     >
