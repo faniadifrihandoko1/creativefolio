@@ -19,7 +19,6 @@ const NavItem = ({ name, path, onClick, classname, isMobile }: Props) => {
     <li className={classname}>
       <Link href={path}>
         {" "}
-        {/* link dengan path */}
         <div
           className={`block pb-1 md:relative md:group font-medium  rounded-md  hover:bg-gray-100 hover:text-gray-900 md:hover:bg-transparent md:hover:text-indigo-600 md:dark:hover:text-indigo-500`}
           onClick={isMobile ? onClick : undefined}
