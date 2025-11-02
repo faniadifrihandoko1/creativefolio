@@ -85,7 +85,6 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            {/* Navlist desktop */}
             <NavList
               items={navItems}
               onItemClick={toggleMenu}
