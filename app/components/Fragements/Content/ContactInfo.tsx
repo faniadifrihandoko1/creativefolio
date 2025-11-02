@@ -10,7 +10,6 @@ const ContactInfo = () => {
       <p>Find me on</p>
       <div className="flex  md:flex-row gap-2 justify-center items-center">
         {" "}
-        {/* flex container dengan gap 2 */}
         <ContactItem
           icon={<FaGithub size={25} />} /* icon github dengan size 25 */
           text="github" /* text dengan font size 14 */
