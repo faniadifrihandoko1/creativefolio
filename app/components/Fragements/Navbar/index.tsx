@@ -96,7 +96,6 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             <HamburgerButtonNoSSR isOpen={isOpen} onClick={toggleMenu} />
           </div>
         </div>
-        {/* Mobile navbar */}
         {isOpen && (
           <div className="md:hidden my-4 animate-in slide-in-from-top-2 duration-200">
             <NavList
