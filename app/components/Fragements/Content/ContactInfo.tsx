@@ -11,7 +11,7 @@ const ContactInfo = () => {
       <div className="flex  md:flex-row gap-2 justify-center items-center">
         {" "}
         <ContactItem
-          icon={<FaGithub size={25} />} /* icon github dengan size 25 */
+          icon={<FaGithub size={25} />}
           text="github" /* text dengan font size 14 */
           link="https://github.com/faniadifrihandoko1" /* link github */
         />
