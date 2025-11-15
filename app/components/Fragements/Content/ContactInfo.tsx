@@ -16,7 +16,7 @@ const ContactInfo = () => {
           link="https://github.com/faniadifrihandoko1" /* link github */
         />
         <ContactItem
-          icon={<MdEmail size={25} />} /* icon email dengan size 25 */
+          icon={<MdEmail size={25} />}
           text="email"
           link="mailto:faniadifrihandoko1@gmail.com"
         />
