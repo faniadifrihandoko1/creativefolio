@@ -18,7 +18,7 @@ const ContactInfo = () => {
         <ContactItem
           icon={<MdEmail size={25} />} /* icon email dengan size 25 */
           text="email" /* text dengan font size 14 */
-          link="mailto:faniadifrihandoko1@gmail.com" /* link email */
+          link="mailto:faniadifrihandoko1@gmail.com"
         />
       </div>
     </div>
