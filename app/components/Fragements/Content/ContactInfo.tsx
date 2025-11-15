@@ -13,7 +13,7 @@ const ContactInfo = () => {
         <ContactItem
           icon={<FaGithub size={25} />}
           text="github" /* text dengan font size 14 */
-          link="https://github.com/faniadifrihandoko1" /* link github */
+          link="https://github.com/faniadifrihandoko1"
         />
         <ContactItem
           icon={<MdEmail size={25} />}
