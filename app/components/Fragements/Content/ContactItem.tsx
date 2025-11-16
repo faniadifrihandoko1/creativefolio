@@ -16,6 +16,7 @@ const ContactItem = ({ icon, text, link }: Props) => {
     >
       {/* icon and text */}
       {icon}
+      {/* text */}
       <p>{text}</p>
     </Link>
   );
