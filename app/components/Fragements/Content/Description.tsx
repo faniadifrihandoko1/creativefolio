@@ -3,6 +3,7 @@ const Description = () => {
   return (
     // description with text and text hidden on mobile
     <div className="mt-5 text-center px-4 lg:max-w-4xl md:max-w-2xl max-w-lg">
+      {/* text */}
       <p className="text-base md:text-lg">
         As a digital architect, I’m ready to transform my imagination into
         virtual worlds. With my skills, I’ve crafted a variety of web projects
