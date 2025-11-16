@@ -3,6 +3,7 @@ const HeaderContent = () => {
   return (
     // header content with text and icon
     <div className="flex flex-col justify-center gap-3 items-center text-center">
+      {/* icon */}
       <p
         className="text-3xl md:text-5xl inline-block animate-wave"
         style={{ transformOrigin: "70% 70%" }}
