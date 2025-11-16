@@ -10,6 +10,7 @@ const Description = () => {
         sea of technology, tackle new challenges, and contribute to dynamic
         development teams with a fiery spirit and insatiable curiosity.
       </p>
+      {/* text hidden on mobile */}
       <p className="text-base md:text-lg mt-2 hidden md:block">
         Let&apos;s bring your ideas to life with captivating digital
         experiences!
