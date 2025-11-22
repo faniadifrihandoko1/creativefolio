@@ -11,7 +11,6 @@ const HeaderContent = () => {
         {/* icon */}
         👋
       </p>
-      {/* text */}
       <h1 className="text-lg md:text-xl">Holla! I am Fani Adi Frihandoko,</h1>
     </div>
   );
