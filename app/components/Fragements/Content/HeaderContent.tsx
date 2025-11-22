@@ -8,7 +8,6 @@ const HeaderContent = () => {
         className="text-3xl md:text-5xl inline-block animate-wave"
         style={{ transformOrigin: "70% 70%" }}
       >
-        {/* icon */}
         👋
       </p>
       <h1 className="text-lg md:text-xl">Holla! I am Fani Adi Frihandoko,</h1>
