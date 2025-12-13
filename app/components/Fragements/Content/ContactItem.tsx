@@ -14,9 +14,7 @@ const ContactItem = ({ icon, text, link }: Props) => {
       className="border flex gap-1 justify-center items-center border-slate-950 dark:border-bgBody p-1 hover:bg-neutral-400"
     >
       {icon}
-      {/* text */}
       <p>{text}</p>
-      {/* link */}
     </Link>
   );
 };
