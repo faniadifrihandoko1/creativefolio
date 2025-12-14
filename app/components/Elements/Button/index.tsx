@@ -24,7 +24,6 @@ function Button({
   };
 
   return (
-    // dsakmdkasdasdsa
     <button
       type={type}
       onClick={handleClick}
@@ -32,8 +31,6 @@ function Button({
       disabled={disabled}
       aria-label="Toggle navigation menu"
     >
-      {/* // dsakmdkasdasdsa */}
-    
       {children}
     </button>
   );
