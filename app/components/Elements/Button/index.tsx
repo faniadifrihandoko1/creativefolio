@@ -16,16 +16,12 @@ function Button({
   children,
   disabled = false,
 }: Props) {
-  // dsakmdkasdasdsa
-  // dsakmdkasdasdsa
-  // dsakmdkasdasdsa
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (onclick && !disabled) {
       onclick();
     }
   };
-  // Button Component
 
   return (
     <button
