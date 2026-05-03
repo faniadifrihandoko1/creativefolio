@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-// start button
 interface Props {
   type?: "button" | "submit" | "reset";
   onclick?: () => void;
@@ -9,8 +8,6 @@ interface Props {
   children?: React.ReactNode;
   disabled?: boolean;
 }
-
-// end button
 
 function Button({
   type = "button",
