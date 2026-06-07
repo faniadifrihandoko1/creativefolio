@@ -1,6 +1,6 @@
 import { BlogsView } from "@/app/components/view/(client)/blogs";
 
-export const BlogsPage = () => {
+const BlogsPage = () => {
   return <BlogsView />;
 };
 
