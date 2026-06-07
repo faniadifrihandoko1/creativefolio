@@ -1,5 +1,7 @@
 "use client";
 
+import iconTanstack from "@/images/icon/icon-tanstack.svg";
+import profile from "@/images/profile.png";
 import Image from "next/image";
 import Link from "next/link";
 import Marquee from "react-fast-marquee";
@@ -14,7 +16,6 @@ import {
 } from "react-icons/fa";
 import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
 import { SiMui, SiRedux, SiTypescript } from "react-icons/si";
-import profile from "../../asset/profile.png";
 
 export const AboutView = () => {
   return (
@@ -55,7 +56,7 @@ export const AboutView = () => {
                 application development.
               </p>
               <p className="font-normal lg:text-lg">
-                With expertise in <b>ReactJS</b>, <b>NextJS</b>, and{" "}
+                With expertise in <b>ReactJS</b>, <b>NextJS</b>, <b>TanStack Start</b> and{" "}
                 <b>ExpressJS</b>, I am skilled in building innovative, reliable,
                 scalable, and efficient applications that deliver exceptional
                 user experiences.
@@ -98,6 +99,12 @@ export const AboutView = () => {
                   <SiMui
                     className="text-5xl hover:text-green-800 cursor-pointer mx-7"
                     data-tooltip-id="MUI"
+                  />
+                  <Image
+                    src={iconTanstack}
+                    alt="Tanstack"
+                    width={50}
+                    className="mx-7"
                   />
                 </Marquee>
               </div>
@@ -158,7 +165,7 @@ export const AboutView = () => {
                           decoding="async"
                           data-nimg="1"
                           className="bg-transparent rounded-lg shadow-lg filter transition-all duration-300 hover:shadow-xl hover:brightness-75 hover:saturated-125 hover:drop-shadow-md"
-                          src="/images/the-scientis.jpg" 
+                          src="/images/the-scientis.jpg"
                         />
                       </a>
                     </div>
