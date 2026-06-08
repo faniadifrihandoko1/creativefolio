@@ -16,6 +16,8 @@ import {
 } from "react-icons/fa";
 import { RiNextjsFill, RiTailwindCssFill } from "react-icons/ri";
 import { SiMui, SiRedux, SiTypescript } from "react-icons/si";
+import { TbBrandReactNative } from "react-icons/tb";
+import { Tooltip } from "react-tooltip";
 
 export const AboutView = () => {
   return (
@@ -56,10 +58,10 @@ export const AboutView = () => {
                 application development.
               </p>
               <p className="font-normal lg:text-lg">
-                With expertise in <b>ReactJS</b>, <b>NextJS</b>, <b>TanStack Start</b> and{" "}
-                <b>ExpressJS</b>, I am skilled in building innovative, reliable,
-                scalable, and efficient applications that deliver exceptional
-                user experiences.
+                With expertise in <b>ReactJS</b>, <b>React Native</b>, <b>NextJS</b>,{" "}
+                <b>TanStack Start</b>, and <b>ExpressJS</b>, I am skilled in building
+                innovative, reliable, scalable, and efficient applications that deliver
+                exceptional user experiences.
               </p>
             </div>
 
@@ -70,43 +72,61 @@ export const AboutView = () => {
               <div className="mx-2 inline-flex  w-full flex-nowrap overflow-hidden py-8 [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
                 <Marquee gradient={false} pauseOnHover>
                   <FaReact
-                    href="https://react.dev/"
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="my-tooltip"
-                    data-tooltip-content="Hello to you too!"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="React"
+                  />
+                  <TbBrandReactNative
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="React Native"
                   />
                   <SiTypescript
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="TypeScript"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="TypeScript"
                   />
                   <RiTailwindCssFill
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="TailwindCSS"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="TailwindCSS"
                   />
                   <RiNextjsFill
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="NextJS"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="Next.js"
                   />
                   <SiRedux
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="Redux"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="Redux"
                   />
 
                   <BiLogoPostgresql
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="PostgreSQL"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="PostgreSQL"
                   />
                   <SiMui
-                    className="text-5xl hover:text-green-800 cursor-pointer mx-7"
-                    data-tooltip-id="MUI"
+                    className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="Material-UI"
                   />
                   <Image
                     src={iconTanstack}
                     alt="Tanstack"
                     width={50}
-                    className="mx-7"
+                    className="mx-7 cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
+                    data-tooltip-id="tech-tooltip"
+                    data-tooltip-content="TanStack"
                   />
                 </Marquee>
+                <Tooltip
+                  id="tech-tooltip"
+                  className="z-50 !bg-teal-700 !text-white !font-semibold !rounded-lg !px-4 !py-2 !text-sm dark:!bg-teal-600 shadow-xl"
+                  border="1px solid rgba(255, 255, 255, 0.1)"
+                  opacity={1}
+                />
               </div>
             </div>
             <div className="pointer-events-auto transform-none">
