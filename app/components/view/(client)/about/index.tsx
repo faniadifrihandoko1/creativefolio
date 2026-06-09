@@ -1,9 +1,12 @@
 "use client";
 
+import iconTanstackLight from "@/images/icon/icon-tanstack-black.svg";
 import iconTanstack from "@/images/icon/icon-tanstack.svg";
 import profile from "@/images/profile.png";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { BiLogoPostgresql } from "react-icons/bi";
 import { CgMail } from "react-icons/cg";
@@ -20,6 +23,13 @@ import { TbBrandReactNative } from "react-icons/tb";
 import { Tooltip } from "react-tooltip";
 
 export const AboutView = () => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="mx-auto mb-12 pt-28  px-6 md:px-0  grid w-full grid-cols-1 justify-center gap-y-8 space-y-10  lg:max-w-5xl lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-20">
       <div className="lg:pl-32 xl:pl-36 max-w-xs mx-auto px-2.5  lg:max-w-none pr-10">
@@ -69,7 +79,7 @@ export const AboutView = () => {
               <h2 className="mb-8 font-newsreader text-xl font-bold lg:mb-10 lg:text-2xl">
                 What am I using?
               </h2>
-              <div className="mx-2 inline-flex  w-full flex-nowrap overflow-hidden py-8 [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
+              <div className="mx-2 inline-flex  w-full flex-nowrap overflow-hidden py-16 [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
                 <Marquee gradient={false} pauseOnHover>
                   <FaReact
                     className="text-5xl hover:text-teal-600 cursor-pointer mx-7 transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
@@ -113,7 +123,7 @@ export const AboutView = () => {
                     data-tooltip-content="Material-UI"
                   />
                   <Image
-                    src={iconTanstack}
+                    src={mounted && resolvedTheme === "light" ? iconTanstackLight : iconTanstack}
                     alt="Tanstack"
                     width={50}
                     className="mx-7 cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-1 drop-shadow-md"
