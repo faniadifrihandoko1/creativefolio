@@ -227,6 +227,7 @@ export const AboutView = () => {
           <p>Facebook</p>
         </div>
         <div className="flex r items-center gap-5 hover:text-green-600 cursor-pointer">
+          {/* Email */}
           <CgMail size={25} />
           <p>Email</p>
         </div>
