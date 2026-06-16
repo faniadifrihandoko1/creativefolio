@@ -212,6 +212,7 @@ export const AboutView = () => {
           href={"https://linkedin.com/in/faniadifrihandoko"}
           className="flex r items-center gap-5 hover:text-green-600 cursor-pointer"
         >
+          {/* Linkedin */}
           <FaLinkedin size={25} />
           <p>LinkedIn</p>
         </Link>
