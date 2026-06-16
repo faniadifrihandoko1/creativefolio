@@ -207,6 +207,7 @@ export const AboutView = () => {
         </div>
       </div>
       <div className="lg:pl-32 flex flex-col gap-7">
+        {/*  */}
         <Link
           href={"https://linkedin.com/in/faniadifrihandoko"}
           className="flex r items-center gap-5 hover:text-green-600 cursor-pointer"
