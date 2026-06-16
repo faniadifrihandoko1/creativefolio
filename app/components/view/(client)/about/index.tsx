@@ -148,6 +148,7 @@ export const AboutView = () => {
                   <li>
                     <div className="space-y-3">
                       <p className="text-base font-medium text-slate-800 dark:text-slate-200">
+                        {/* Position */}
                         Frontend Developer at{" "}
                         <span className="text-primary font-semibold">
                           PT AG Indonesia
