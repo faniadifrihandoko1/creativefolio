@@ -217,6 +217,7 @@ export const AboutView = () => {
           <p>LinkedIn</p>
         </Link>
         <div className="flex r items-center gap-5 hover:text-green-600 cursor-pointer">
+          {/* Github */}
           <FaGithub size={25} />
           <p>Github</p>
         </div>
