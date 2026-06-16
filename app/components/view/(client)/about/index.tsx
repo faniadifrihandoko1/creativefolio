@@ -222,6 +222,7 @@ export const AboutView = () => {
           <p>Github</p>
         </div>
         <div className="flex r items-center gap-5 hover:text-green-600 cursor-pointer">
+          {/* Facebook */}
           <FaFacebook size={25} />
           <p>Facebook</p>
         </div>
