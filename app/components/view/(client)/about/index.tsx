@@ -153,6 +153,7 @@ export const AboutView = () => {
                           PT AG Indonesia
                         </span>
                       </p>
+                      {/* Desc Work */}
                       <p className="text-sm text-slate-500 dark:text-slate-400 lg:text-base">
                         Contributing to building modern web applications with a
                         focus on performance, scalability, and user experience.
