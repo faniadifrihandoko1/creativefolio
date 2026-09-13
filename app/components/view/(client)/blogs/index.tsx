@@ -1,19 +1,18 @@
 "use client";
-import Header from "@/app/components/Fragements/Header";
 import Button from "@/app/components/Elements/Button";
-import {
-  FaCalendarAlt,
-  FaClock,
-  FaUser,
-  FaTag,
-  FaArrowRight,
-  FaSearch,
-} from "react-icons/fa";
-import { useState, useEffect } from "react";
+import Header from "@/app/components/Fragements/Header";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import {
+  FaArrowRight,
+  FaCalendarAlt,
+  FaClock,
+  FaSearch,
+  FaTag,
+  FaUser,
+} from "react-icons/fa";
 
-// Sample blog data
 const sampleBlogs = [
   {
     id: 1,
@@ -136,11 +135,10 @@ export const BlogsView = () => {
               <Button
                 key={category}
                 onclick={() => setSelectedCategory(category)}
-                classname={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  selectedCategory === category
+                classname={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
                     ? "bg-blue-600 text-white shadow-lg"
                     : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-                }`}
+                  }`}
               >
                 {category}
               </Button>
