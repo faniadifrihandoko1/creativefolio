@@ -32,7 +32,6 @@ function Button({
       aria-label="Toggle navigation menu"
     >
       {children}
-      {/* end button */}
     </button>
   );
 }
