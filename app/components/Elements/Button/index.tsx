@@ -24,7 +24,6 @@ function Button({
   };
 
   return (
-    //  button
     <button
       type={type}
       onClick={handleClick}
