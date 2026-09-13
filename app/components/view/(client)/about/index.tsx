@@ -50,6 +50,7 @@ export const AboutView = () => {
             , a Frontend Developer from Depok, Indonesia.
           </h1>
         </div>
+
         <div className="pt-12 text-base">
           <section className="space-y-12 md:space-y-16">
             <div className="pointer-events-auto transform-none">
