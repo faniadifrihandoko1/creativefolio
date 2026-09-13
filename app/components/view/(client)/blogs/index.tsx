@@ -127,7 +127,6 @@ export const BlogsView = () => {
             />
           </div>
 
-          {/* Category Filter */}
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <Button
