@@ -144,7 +144,6 @@ export const BlogsView = () => {
         </div>
       </div>
       <hr className="border-1.5 border-black dark:border-white mb-12" />
-      {/* Featured Articles Section */}
       {featuredBlogs.length > 0 && (
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-gray-100">
