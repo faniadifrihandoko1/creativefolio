@@ -206,6 +206,7 @@ export const AboutView = () => {
           </section>
         </div>
       </div>
+
       <div className="lg:pl-32 flex flex-col gap-7">
         <Link
           href={"https://linkedin.com/in/faniadifrihandoko"}
