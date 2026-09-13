@@ -114,7 +114,6 @@ export const BlogsView = () => {
         title="Blog"
         description="I write about software development, productivity, and other topics that interest me."
       />
-      {/* Search and Filter Section */}
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           {/* Search Bar */}
@@ -136,8 +135,8 @@ export const BlogsView = () => {
                 key={category}
                 onclick={() => setSelectedCategory(category)}
                 classname={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
               >
                 {category}
