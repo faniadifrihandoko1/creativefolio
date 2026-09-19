@@ -8,6 +8,7 @@ interface Props {
   link: string;
 }
 const ContactItem = ({ icon, text, link }: Props) => {
+
   return (
     <Link
       href={link}
