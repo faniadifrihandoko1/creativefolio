@@ -14,6 +14,7 @@ const HamburgerButtonComponent: React.FC<HamburgerButtonProps> = ({
   onClick,
   className = "md:hidden flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200",
 }) => {
+
   return (
     <Button classname={className} onclick={onClick}>
       <svg
