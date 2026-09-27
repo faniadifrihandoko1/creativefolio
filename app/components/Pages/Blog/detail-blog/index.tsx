@@ -1,8 +1,8 @@
 "use client";
 import Header from "@/app/components/Fragements/Header";
-import { FaArrowLeft, FaCalendarAlt, FaUser, FaTag } from "react-icons/fa";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaArrowLeft, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 
 interface BlogDetailProps {
   params: {
@@ -10,7 +10,6 @@ interface BlogDetailProps {
   };
 }
 
-// Sample blog data - in a real app, this would come from a CMS or database
 const sampleBlogs = [
   {
     id: 1,
