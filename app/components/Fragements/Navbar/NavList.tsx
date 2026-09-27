@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import NavItem from "./NavItem";
 
 interface Props {
@@ -10,6 +9,7 @@ interface Props {
 }
 
 const NavList = ({ items, onItemClick, className, isMobile }: Props) => {
+
   return (
     <ul className={className}>
       {items.map((item) => (
