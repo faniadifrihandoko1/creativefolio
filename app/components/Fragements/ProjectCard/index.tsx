@@ -29,7 +29,6 @@ const ProjectCard = ({
 
   return (
     <div className="card flex flex-col md:flex-row gap-1 md:gap-3 shadow-md border-[1px] z-1 rounded-md border-gray-400 md:max-h-[500px] lg:max-h-[600px] overflow-hidden">
-      {/* Card Image */}
       <div className="image md:w-1/2 z-0">
         <Image
           src={image}
