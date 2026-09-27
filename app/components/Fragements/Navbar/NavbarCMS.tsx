@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import React from "react";
 import { TiArrowBack } from "react-icons/ti";
 
 const NavbarCMS = () => {
+
   return (
     <div className=" flex  flex-row md:justify-between md:items-center px-5 py-3 w-full transition-all duration-300 backdrop-blur-3xl bg-white/10">
       <Link href={"/"}>
