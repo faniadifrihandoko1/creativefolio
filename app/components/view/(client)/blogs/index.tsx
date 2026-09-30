@@ -66,6 +66,19 @@ const sampleBlogs = [
     image: "/images/the-scientis.jpg",
     featured: true,
   },
+  {
+    id: 5,
+    title: "UI Design Principles: Crafting Intuitive Interfaces",
+    slug: "ui-design-principles-crafting-intuitive-interfaces",
+    excerpt:
+      "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
+    author: "Fani Adi Frihandoko",
+    date: "2024-01-20",
+    readTime: "7 min read",
+    category: "Design",
+    image: "/images/circle.jpg",
+    featured: false,
+  },
 ];
 
 const categories = [
