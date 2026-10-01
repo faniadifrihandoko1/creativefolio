@@ -76,11 +76,12 @@ const sampleBlogs = [
     date: "2024-01-25",
     readTime: "8 min read",
     category: "Design",
-    image: "/images/portofolio.jpg",
+    image: "/images/typography-fundamentals.jpg",
+    featured: false,
   },
   {
-id: 6,
-title: "UI Design Principles: Crafting Intuitive Interfaces",
+    id: 6,
+    title: "UI Design Principles: Crafting Intuitive Interfaces",
     slug: "ui-design-principles-crafting-intuitive-interfaces",
     excerpt:
       "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
@@ -88,8 +89,9 @@ title: "UI Design Principles: Crafting Intuitive Interfaces",
     date: "2024-01-20",
     readTime: "7 min read",
     category: "Design",
-    image: "/images/circle.jpg",
-    featured: false,}
+    image: "/images/ui-design-principles.jpg",
+    featured: false,
+  },
 ];
 
 const categories = [
