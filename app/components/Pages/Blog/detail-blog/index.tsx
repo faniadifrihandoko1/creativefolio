@@ -217,7 +217,7 @@ export const config = {
       <p>Next.js 14 rewards a simple mental shift: <strong>the server is the default, the client is the exception</strong>. Let Server Components fetch and render, stream the slow parts with Suspense, mutate with Server Actions, and reserve client JavaScript for genuine interactivity. Master these eight primitives — App Router, Server Components, Streaming, caching, Server Actions, Metadata, Route Handlers, and Middleware — and you have the complete toolkit for building fast, scalable web applications with Next.js 14.</p>
     `,
     author: "John Doe",
-    publishedAt: "2024-01-15",
+    publishedAt: "2026-10-01",
     tags: ["Next.js", "React", "Web Development", "Tutorial"],
     readTime: "15 min read",
   },
@@ -359,7 +359,7 @@ try {
       <p>Writing clean code is an investment with compound interest. Meaningful names, small focused functions, honest error handling, and automated formatting don't just make code prettier — they make it <strong>cheaper to change</strong>, and software's whole game is changing. Start with one habit: the next time you write a function, read it back and ask whether a stranger could understand it in thirty seconds. That single question, applied consistently, will transform your code more than any tool or framework.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-10",
+    publishedAt: "2026-10-01",
     tags: ["Programming", "Best Practices", "Code Quality"],
     readTime: "14 min read",
   },
@@ -504,7 +504,7 @@ npx changeset version</code></pre>
       <p>A design system is a long-term investment in how your organization builds interfaces. Tokens give you a single source of truth; components turn that truth into reusable interface; patterns guide composition; documentation makes it all usable. Adoption, versioning, and governance keep it alive. Start small — one pilot team, a handful of tokens, your most-used components — and grow the system from real demand rather than speculation. The systems that survive aren't the most complete on day one; they're the ones teams actually want to use on day one hundred.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-05",
+    publishedAt: "2026-10-01",
     tags: ["Design", "UI/UX", "Design Systems"],
     readTime: "15 min read",
   },
@@ -705,7 +705,7 @@ async function getDashboardData(userId) {
       <p>React performance is a pipeline: ship less JavaScript (code splitting, bundle diet), defer what isn't needed yet (lazy loading), render less often (memoization, render hygiene, virtualization), and wait less on the network (parallel fetching). But the pipeline only works when it's driven by measurement. Profile in the lab, monitor in the field, fix the biggest bar, and stop when the metrics say your users are happy. Performance optimization isn't a phase you finish — it's a budget you defend, one PR at a time.</p>
     `,
     author: "Sarah Wilson",
-    publishedAt: "2024-01-01",
+    publishedAt: "2026-10-01",
     tags: ["React", "Performance", "Optimization"],
     readTime: "15 min read",
   },
@@ -845,7 +845,7 @@ h1 { font-weight: 780; }   /* any value, not just presets */
       <p>Good typography is invisible — readers notice the message, not the letters. That invisibility is engineered, not accidental: a pairing method that assigns clear roles, a modular scale that gives every size a job, hierarchy levers applied deliberately, readability guarded by measurable rules, and web implementation that respects both performance and real screens. Master these fundamentals and your interfaces won't just look considered — they'll <em>read</em> effortlessly, which is the whole point of putting words on a screen.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-25",
+    publishedAt: "2026-10-01",
     tags: ["Typography", "Web Design", "Design Fundamentals"],
     readTime: "14 min read",
   },
@@ -958,7 +958,7 @@ h1 { font-weight: 780; }   /* any value, not just presets */
       <p>Intuitive interfaces are designed, not accidental — but "designed" doesn't mean decorated. It means every hierarchy decision guides the eye, every repeated pattern builds trust, every interaction answers back, every clickable thing looks clickable, every group breathes, every screen shows only what's needed, and every mistake is survivable. Apply these seven principles deliberately, encode them in tokens and components so they survive implementation, and test them against real users and real content. Do that, and your UI won't just look good — it will feel inevitable.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-20",
+    publishedAt: "2026-10-01",
     tags: ["UI Design", "UX", "Design Principles"],
     readTime: "14 min read",
   },

@@ -21,7 +21,7 @@ const sampleBlogs = [
     excerpt:
       "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
     author: "John Doe",
-    date: "2024-01-15",
+    date: "2026-10-01",
     readTime: "15 min read",
     category: "Web Development",
     image: "/images/nextjs-14-web-apps.jpg",
@@ -34,7 +34,7 @@ const sampleBlogs = [
     excerpt:
       "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
     author: "Fani Adi Frihandoko",
-    date: "2024-01-10",
+    date: "2026-10-01",
     readTime: "14 min read",
     category: "Programming",
     image: "/images/clean-code.jpg",
@@ -47,7 +47,7 @@ const sampleBlogs = [
     excerpt:
       "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
     author: "Fani Adi Frihandoko",
-    date: "2024-01-05",
+    date: "2026-10-01",
     readTime: "15 min read",
     category: "Design",
     image: "/images/design-systems.jpg",
@@ -60,7 +60,7 @@ const sampleBlogs = [
     excerpt:
       "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
     author: "Sarah Wilson",
-    date: "2024-01-01",
+    date: "2026-10-01",
     readTime: "15 min read",
     category: "Web Development",
     image: "/images/performance-optimization.jpg",
@@ -73,7 +73,7 @@ const sampleBlogs = [
     excerpt:
       "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
     author: "Fani Adi Frihandoko",
-    date: "2024-01-25",
+    date: "2026-10-01",
     readTime: "14 min read",
     category: "Design",
     image: "/images/typography-fundamentals.jpg",
@@ -85,7 +85,7 @@ title: "UI Design Principles: Crafting Intuitive Interfaces",
     excerpt:
       "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
     author: "Fani Adi Frihandoko",
-    date: "2024-01-20",
+    date: "2026-10-01",
     readTime: "14 min read",
     category: "Design",
     image: "/images/ui-design-principles.jpg",
