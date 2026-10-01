@@ -6,6 +6,7 @@ export const generateStaticParams = async () => {
     { slug: "the-art-of-clean-code-best-practices-for-developers" },
     { slug: "design-systems-creating-consistent-user-experiences" },
     { slug: "performance-optimization-techniques-for-react-applications" },
+    { slug: "typography-fundamentals-pairing-type-for-the-web" },
   ];
 };
 

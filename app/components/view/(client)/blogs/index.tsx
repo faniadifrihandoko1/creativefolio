@@ -66,6 +66,19 @@ const sampleBlogs = [
     image: "/images/the-scientis.jpg",
     featured: true,
   },
+  {
+    id: 5,
+    title: "Typography Fundamentals: Pairing Type for the Web",
+    slug: "typography-fundamentals-pairing-type-for-the-web",
+    excerpt:
+      "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
+    author: "Fani Adi Frihandoko",
+    date: "2024-01-25",
+    readTime: "8 min read",
+    category: "Design",
+    image: "/images/portofolio.jpg",
+    featured: false,
+  },
 ];
 
 const categories = [
