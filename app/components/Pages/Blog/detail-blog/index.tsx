@@ -416,60 +416,199 @@ npx changeset version</code></pre>
     description:
       "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
     content: `
-      <p>Performance is crucial for user experience. In this comprehensive guide, we'll explore advanced techniques to optimize your React applications for speed and efficiency.</p>
-      
-      <h2>Why Performance Matters</h2>
-      <p>Fast applications lead to better user engagement, higher conversion rates, and improved SEO rankings. Every millisecond counts in today's competitive digital landscape.</p>
-      
-      <h3>Key Optimization Areas</h3>
-      <ul>
-        <li><strong>Bundle Size:</strong> Minimize JavaScript bundle size</li>
-        <li><strong>Rendering:</strong> Optimize component rendering</li>
-        <li><strong>Network:</strong> Reduce network requests and data transfer</li>
-        <li><strong>Memory:</strong> Prevent memory leaks and optimize memory usage</li>
-      </ul>
-      
-      <h2>React Optimization Techniques</h2>
-      
-      <h3>1. Memoization</h3>
-      <p>Use React.memo, useMemo, and useCallback to prevent unnecessary re-renders:</p>
-      
-      <pre><code>const ExpensiveComponent = React.memo(({ data }) => {
-  const processedData = useMemo(() => {
-    return expensiveCalculation(data);
-  }, [data]);
-  
-  return <div>{processedData}</div>;
-});</code></pre>
-      
-      <h3>2. Code Splitting</h3>
-      <p>Split your code into smaller chunks that can be loaded on demand:</p>
-      
-      <pre><code>const LazyComponent = React.lazy(() => import('./LazyComponent'));
+      <p>Performance is a feature — and unlike most features, users notice it only when it's missing. A page that takes three seconds to become interactive doesn't just feel slow; it converts worse, ranks worse, and retains worse. Google's Core Web Vitals made this explicit: <strong>INP</strong> (responsiveness), <strong>LCP</strong> (loading), and <strong>CLS</strong> (visual stability) now directly influence search ranking. But here's the uncomfortable truth most optimization guides skip: most React apps aren't slow because of React. They're slow because of decisions — fetching waterfalls, megabyte bundles, and re-renders nobody measured.</p>
+      <p>This guide is structured around a discipline, not a trick list. We start with <strong>measuring</strong>, because unmeasured optimization is superstition. Then we work through each technique — memoization, code splitting, lazy loading, virtualization, render hygiene, bundle diet, and data-fetching patterns — with concrete before-and-after code and an honest account of what each technique costs. We close with the trap that catches even senior engineers: premature optimization.</p>
+
+      <h2>Measure First: Profiling Before Optimizing</h2>
+      <p>Never optimize on intuition. React DevTools' <strong>Profiler</strong> tab records exactly which components rendered, how long each took, and why they re-rendered (props change? state change? parent re-render?). The workflow is always the same: record an interaction, find the longest bars, fix those, re-measure. If a component renders in 2ms, memoizing it is theater — your time is better spent on the 200ms bar next to it.</p>
+      <p>For production reality, instrument the field, not just your laptop. Core Web Vitals from real users (via the <code>web-vitals</code> library or your analytics) tell you what lab tests can't: slow networks, weak devices, and long sessions. A good target: <strong>LCP under 2.5s, INP under 200ms, CLS under 0.1</strong> for the 75th percentile of users. Optimize the metric your users actually fail, not the one that's easiest to demo.</p>
+
+      <h2>1. Memoization: Skip Work You've Already Done</h2>
+      <p>React re-renders a component whenever its parent re-renders, even if nothing relevant changed. Memoization breaks that chain at three levels: <code>React.memo</code> skips re-rendering a component when props are shallow-equal, <code>useMemo</code> caches an expensive computed value, and <code>useCallback</code> keeps a function reference stable so memoized children don't see a "new" prop every render.</p>
+      <pre><code>// Before: every keystroke in the search box re-renders the whole list
+function ProductPage({ products }) {
+  const [query, setQuery] = useState("");
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(query.toLowerCase()) // runs on EVERY render
+  );
+  return (
+    &lt;&gt;
+      &lt;SearchInput value={query} onChange={setQuery} /&gt;
+      &lt;ProductGrid items={filtered} onSelect={(p) => showDetail(p)} /&gt;
+    &lt;/&gt;
+  );
+}
+
+// After: filter only when inputs change; grid only re-renders when items change
+const ProductGrid = React.memo(function ProductGrid({ items, onSelect }) {
+  return items.map(p => &lt;ProductCard key={p.id} product={p} onSelect={onSelect} /&gt;);
+});
+
+function ProductPage({ products }) {
+  const [query, setQuery] = useState("");
+  const filtered = useMemo(() =>
+    products.filter(p => p.name.toLowerCase().includes(query.toLowerCase())),
+    [products, query]
+  );
+  const showDetail = useCallback((p) => openModal(p.id), []);
+  return (
+    &lt;&gt;
+      &lt;SearchInput value={query} onChange={setQuery} /&gt;
+      &lt;ProductGrid items={filtered} onSelect={showDetail} /&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+      <p><strong>Impact:</strong> typing in the search box no longer re-renders hundreds of product cards — only the input updates until the query actually changes the filtered list. On a 500-item grid this routinely turns a janky 300ms keystroke into a smooth 16ms one.</p>
+      <p><strong>When to use it:</strong> expensive computations derived from props/state, large lists re-rendered by unrelated parent state, and components deep in a tree that re-render often. <strong>When NOT to:</strong> cheap components (memoization itself costs memory and comparison time), and unstable dependencies — a <code>useMemo</code> with an object recreated every render never hits its cache and just adds overhead. Measure first; memoize the hot path.</p>
+
+      <h2>2. Code Splitting: Ship Less, Then Ship the Rest Later</h2>
+      <p>Every byte of JavaScript you ship must be downloaded, parsed, and executed before the page becomes interactive. Code splitting breaks the bundle into chunks loaded on demand, so the user pays only for the code of the route they're actually on. Route-level splitting is the highest-leverage split you can make — most users visit a fraction of your routes.</p>
+      <pre><code>// Before: one giant bundle — admin panel ships to every visitor
+import AdminPanel from "./AdminPanel";
+import SettingsPage from "./SettingsPage";
 
 function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LazyComponent />
-    </Suspense>
+    &lt;Routes&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      &lt;Route path="/admin" element={&lt;AdminPanel /&gt;} /&gt;
+      &lt;Route path="/settings" element={&lt;SettingsPage /&gt;} /&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// After: each route loads only when visited
+const AdminPanel = React.lazy(() => import("./AdminPanel"));
+const SettingsPage = React.lazy(() => import("./SettingsPage"));
+
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      &lt;Route
+        path="/admin"
+        element={
+          &lt;Suspense fallback={&lt;PageSkeleton /&gt;}&gt;
+            &lt;AdminPanel /&gt;
+          &lt;/Suspense&gt;
+        }
+      /&gt;
+      {/* ... */}
+    &lt;/Routes&gt;
   );
 }</code></pre>
-      
-      <h3>3. Virtual Scrolling</h3>
-      <p>For large lists, implement virtual scrolling to render only visible items:</p>
-      
-      <h2>Bundle Analysis</h2>
-      <p>Regularly analyze your bundle to identify optimization opportunities:</p>
-      
-      <pre><code>npm install --save-dev webpack-bundle-analyzer</code></pre>
-      
+      <p><strong>Impact:</strong> the initial bundle drops by everything the admin and settings routes pulled in — often 30–60% of a dashboard app's JavaScript. LCP and time-to-interactive improve directly because there's less to download and parse. In Next.js, this is automatic per route via the App Router; use <code>next/dynamic</code> for component-level splits.</p>
+      <p><strong>When to use it:</strong> routes visited by a minority of users, heavy features (charts, rich text editors, PDF viewers), and anything below a user interaction (modals, drawers). <strong>Watch out:</strong> splitting too aggressively creates waterfall loading — a chunk that imports another chunk that imports another. Keep shared dependencies in the main chunk and prefetch routes on hover/link visibility for instant navigation.</p>
+
+      <h2>3. Lazy Loading: Defer What's Below the Fold</h2>
+      <p>Images are usually the largest bytes on a page, and most of them start below the fold where nobody sees them yet. Native lazy loading costs one attribute; for framework images, use the optimized component.</p>
+      <pre><code>// Before: 2MB of images download before the hero is even visible
+&lt;img src="/team-photo.jpg" alt="Team" /&gt;
+&lt;img src="/office-1.jpg" alt="Office" /&gt;
+&lt;img src="/office-2.jpg" alt="Office" /&gt;
+
+// After: below-fold images wait their turn; hero loads fast and stable
+&lt;Image
+  src="/hero.jpg" alt="Hero"
+  priority                    // LCP image: load eagerly...
+  sizes="100vw"               // ...at the right resolution
+/&gt;
+&lt;Image src="/team-photo.jpg" alt="Team" loading="lazy" placeholder="blur" /&gt;</code></pre>
+      <p><strong>Impact:</strong> initial page weight can drop by megabytes, LCP improves because the browser prioritizes the hero image instead of competing with ten offscreen ones, and <code>placeholder="blur"</code> plus explicit dimensions prevent layout shift (CLS). <strong>When to use it:</strong> any image not visible on first paint, infinite-scroll feeds, and heavy embeds (videos, maps, iframes) — defer the embed until the user scrolls near or clicks.</p>
+
+      <h2>4. Virtualization: Render the Visible, Skip the Rest</h2>
+      <p>A list of 10,000 rows creates 10,000 DOM nodes — and DOM nodes are expensive. Virtualization renders only the rows in (and slightly around) the viewport, recycling nodes as the user scrolls. The user can't tell the difference; the browser absolutely can.</p>
+      <pre><code>// Before: 10,000 rows in the DOM — scroll jank, huge memory
+function BigTable({ rows }) {
+  return (
+    &lt;div&gt;{rows.map(r => &lt;Row key={r.id} data={r} /&gt;)}&lt;/div&gt;
+  );
+}
+
+// After: only ~30 rows exist in the DOM at any moment
+import { FixedSizeList } from "react-window";
+
+function BigTable({ rows }) {
+  return (
+    &lt;FixedSizeList height={600} itemCount={rows.length} itemSize={48} width="100%"&gt;
+      {({ index, style }) => &lt;Row style={style} data={rows[index]} /&gt;}
+    &lt;/FixedSizeList&gt;
+  );
+}</code></pre>
+      <p><strong>Impact:</strong> DOM node count drops from tens of thousands to dozens — scroll goes from stuttering to 60fps and memory usage collapses. <strong>When to use it:</strong> lists beyond a few hundred rows, chat histories, logs, data tables. Below ~100 simple rows, plain rendering is fine and simpler.</p>
+
+      <h2>5. Render Hygiene: Stop Re-renders at the Source</h2>
+      <p>Memoization treats the symptom; render hygiene treats the cause. The most common cause is <strong>state placed too high</strong>: a single state atom at the page root re-renders the entire page on every change. Colocate state with the component that uses it, and split components so expensive subtrees aren't children of frequently-updating parents.</p>
+      <pre><code>// Before: typing re-renders the entire dashboard, including heavy charts
+function Dashboard() {
+  const [filter, setFilter] = useState("");
+  return (
+    &lt;&gt;
+      &lt;FilterBar value={filter} onChange={setFilter} /&gt;
+      &lt;ExpensiveCharts /&gt;   // re-renders on every keystroke!
+      &lt;DataTable filter={filter} /&gt;
+    &lt;/&gt;
+  );
+}
+
+// After: charts are siblings of the stateful subtree, untouched by typing
+function Dashboard() {
+  return (
+    &lt;&gt;
+      &lt;FilterableSection /&gt;  // owns filter state internally
+      &lt;ExpensiveCharts /&gt;    // never re-renders from typing
+    &lt;/&gt;
+  );
+}</code></pre>
+      <p><strong>Impact:</strong> keystrokes update only the filter subtree — charts and other heavy siblings stay put. This single restructuring often beats a dozen <code>React.memo</code> wrappers. Related habits: give lists stable <code>key</code> props (never array indices for reorderable data — wrong keys cause full re-mounts), and lift content that doesn't depend on state out of the render path entirely.</p>
+
+      <h2>6. The Bundle Diet: Audit What You Ship</h2>
+      <p>You can't fix what you can't see. Run <code>webpack-bundle-analyzer</code> (or Next.js's <code>@next/bundle-analyzer</code>) and look at the biggest rectangles: they're usually a date library imported wholesale, an icon pack pulling 2,000 icons for 12 used, or two versions of the same dependency.</p>
+      <pre><code># visualize what's actually in your bundle
+npm install --save-dev @next/bundle-analyzer
+# then: ANALYZE=true npm run build
+
+// Before: 70KB of date library for one format call
+import moment from "moment";
+moment(date).format("MMM D");
+
+// After: tree-shaken import, ~2KB
+import { format } from "date-fns";
+format(date, "MMM d");</code></pre>
+      <p><strong>Impact:</strong> these swaps are pure win — same behavior, a fraction of the bytes, no runtime cost at all. Make bundle analysis part of CI: fail the build when the bundle grows past a budget, so regressions get caught at PR time instead of discovered by users months later.</p>
+
+      <h2>7. Data Fetching: Kill the Waterfall</h2>
+      <p>The slowest pattern in React apps isn't rendering — it's <strong>sequential network requests</strong>. Component A fetches, renders, then child B fetches, renders, then child C fetches. Three 200ms requests become 600ms+ of blank or skeleton UI. Fetch in parallel where data is independent, and fetch as high (as early) as the data is known.</p>
+      <pre><code>// Before: waterfall — each await blocks the next
+async function getDashboardData(userId) {
+  const user = await fetchUser(userId);        // 200ms
+  const orders = await fetchOrders(user.id);   // +200ms
+  const prefs = await fetchPrefs(user.id);     // +200ms = 600ms total
+  return { user, orders, prefs };
+}
+
+// After: independent requests fly together
+async function getDashboardData(userId) {
+  const user = await fetchUser(userId);        // 200ms
+  const [orders, prefs] = await Promise.all([ // +200ms = 400ms total
+    fetchOrders(user.id),
+    fetchPrefs(user.id),
+  ]);
+  return { user, orders, prefs };
+}</code></pre>
+      <p><strong>Impact:</strong> wall-clock latency drops from the <em>sum</em> of requests to the <em>maximum</em> of the parallel ones. In frameworks with server components, colocate data fetching with the component that needs it and let the framework parallelize and stream — but keep the mental model: draw your request timeline, and eliminate the stairs.</p>
+
+      <h2>The Premature Optimization Trap</h2>
+      <p>Every technique above has a cost: memoization adds comparison overhead and stale-closure bugs, code splitting adds loading states and waterfall risk, virtualization adds complexity and breaks find-in-page. Optimizing without measuring means paying real complexity costs for imaginary performance gains — and the resulting "optimized" code is harder to change, which makes the <em>next</em> optimization harder too.</p>
+      <p>The discipline is simple and non-negotiable: <strong>measure → fix the biggest bottleneck → re-measure → stop when it's fast enough</strong>. "Fast enough" is defined by your users' metrics, not by engineering pride. A page with INP of 80ms doesn't need memoization, no matter how satisfying it feels to add. Save the cleverness for the profiler's longest bar.</p>
+
       <h2>Conclusion</h2>
-      <p>Performance optimization is an ongoing process. Monitor your application's performance regularly and implement these techniques to create lightning-fast user experiences.</p>
+      <p>React performance is a pipeline: ship less JavaScript (code splitting, bundle diet), defer what isn't needed yet (lazy loading), render less often (memoization, render hygiene, virtualization), and wait less on the network (parallel fetching). But the pipeline only works when it's driven by measurement. Profile in the lab, monitor in the field, fix the biggest bar, and stop when the metrics say your users are happy. Performance optimization isn't a phase you finish — it's a budget you defend, one PR at a time.</p>
     `,
     author: "Sarah Wilson",
     publishedAt: "2024-01-01",
     tags: ["React", "Performance", "Optimization"],
-    readTime: "12 min read",
+    readTime: "15 min read",
   },
   {
     id: 5,

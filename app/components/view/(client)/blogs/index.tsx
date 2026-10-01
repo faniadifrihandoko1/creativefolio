@@ -61,7 +61,7 @@ const sampleBlogs = [
       "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
     author: "Sarah Wilson",
     date: "2024-01-01",
-    readTime: "12 min read",
+    readTime: "15 min read",
     category: "Web Development",
     image: "/images/performance-optimization.jpg",
     featured: true,
