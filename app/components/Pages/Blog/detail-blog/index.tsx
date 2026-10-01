@@ -18,40 +18,208 @@ const sampleBlogs = [
     description:
       "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
     content: `
-      <p>Next.js 14 brings exciting new features and improvements that make building React applications even more powerful and efficient. In this comprehensive guide, we'll explore the key features and how to get started.</p>
-      
-      <h2>What's New in Next.js 14</h2>
-      <p>One of the most significant updates is the introduction of the App Router, which provides a more intuitive and flexible way to organize your application structure. The App Router uses a file-system based routing approach that makes it easier to create nested layouts and handle complex routing scenarios.</p>
-      
-      <h3>Key Features</h3>
+      <p>Next.js 14 is more than an incremental upgrade — it is the release where the App Router, React Server Components, and a server-first mental model became the default way to build React applications. If you learned Next.js in the <strong>pages/</strong> era, much of what you know still works, but the idiomatic way to build has changed. This guide rebuilds your mental model from the ground up: what each new primitive does, when to reach for it, and the traps that catch even experienced developers.</p>
+
+      <h2>1. The App Router: routes as a folder tree</h2>
+      <p>The App Router replaces the <strong>pages/</strong> directory with <strong>app/</strong>. Every folder under <strong>app/</strong> is a route segment, and each route is defined by special files inside it:</p>
       <ul>
-        <li><strong>App Router:</strong> A new routing system that provides better performance and developer experience</li>
-        <li><strong>Server Components:</strong> Run components on the server for improved performance</li>
-        <li><strong>Streaming:</strong> Progressive loading of page content</li>
-        <li><strong>Turbopack:</strong> Faster bundler for development</li>
+        <li><strong>page.tsx</strong> — the UI of the route (required for the route to be public)</li>
+        <li><strong>layout.tsx</strong> — shared UI wrapping all child routes; it persists across navigation and preserves state</li>
+        <li><strong>loading.tsx</strong> — instant loading UI, automatically wrapped in a Suspense boundary</li>
+        <li><strong>error.tsx</strong> — error UI for the segment, automatically wrapped in an error boundary</li>
+        <li><strong>not-found.tsx</strong> — UI rendered when a route calls notFound()</li>
       </ul>
-      
-      <h2>Getting Started</h2>
-      <p>To create a new Next.js 14 project, you can use the create-next-app command with the latest template:</p>
-      
-      <pre><code>npx create-next-app@latest my-app</code></pre>
-      
-      <p>This will create a new Next.js project with all the latest features and configurations. The project structure will include the new app directory, which is where you'll organize your routes and layouts.</p>
-      
-      <h2>Building Your First Page</h2>
-      <p>With the App Router, creating pages is as simple as adding a page.tsx file to your app directory. For example, to create a blog page, you would create:</p>
-      
-      <pre><code>app/blog/page.tsx</code></pre>
-      
-      <p>This approach makes it easy to organize your application and understand the routing structure at a glance.</p>
-      
+
+      <pre><code>app/
+  layout.tsx          -&gt; root layout (the html and body tags live here)
+  page.tsx            -&gt; /
+  blog/
+    page.tsx          -&gt; /blog
+    [slug]/
+      page.tsx        -&gt; /blog/hello-world
+  (marketing)/
+    about/page.tsx    -&gt; /about (route group: no URL segment)
+  _lib/
+    format.ts         -&gt; private folder: never becomes a route</code></pre>
+
+      <p>Two folder conventions deserve special attention. <strong>Route groups</strong> — folders wrapped in parentheses like <strong>(marketing)</strong> — let you organize code and apply different layouts without affecting the URL. <strong>Private folders</strong> — prefixed with an underscore like <strong>_lib</strong> — are excluded from routing entirely, which is where helpers and components that must never be reachable as URLs should live.</p>
+      <p>Unlike the pages router, layouts do <strong>not</strong> re-render when you navigate between sibling pages. That is usually what you want (persistent sidebar, preserved form state), but it also means data fetched in a layout is not refetched on navigation. If a layout shows user-specific data, pair it with on-demand revalidation (see section 5) instead of expecting a fresh fetch per navigation.</p>
+
+      <h2>2. React Server Components: the new default</h2>
+      <p>Every component in the App Router is a <strong>Server Component</strong> unless you opt out with the <strong>"use client"</strong> directive. Server Components render on the server and ship <strong>zero JavaScript</strong> to the browser. That unlocks three things that were awkward before:</p>
+      <ul>
+        <li>Direct access to backend resources — databases, the file system, internal services — with no API layer in between</li>
+        <li>Heavy dependencies (a markdown parser, a syntax highlighter) that never bloat the client bundle</li>
+        <li>Automatic code splitting: the client only downloads JavaScript for the interactive parts of the page</li>
+      </ul>
+
+      <pre><code>// app/blog/[slug]/page.tsx — a Server Component (no directive needed)
+import { getPost } from "@/lib/posts";
+
+export default async function BlogPost({ params }) {
+  // Direct data access: no fetch(), no useEffect, no loading-state boilerplate
+  const post = await getPost(params.slug);
+  return (
+    &lt;article&gt;
+      &lt;h1&gt;{post.title}&lt;/h1&gt;
+      &lt;div dangerouslySetInnerHTML={{ __html: post.html }} /&gt;
+    &lt;/article&gt;
+  );
+}</code></pre>
+
+      <p>Notice the component is <strong>async</strong> — Server Components can await data directly in the component body. Client Components (<strong>"use client"</strong>) are still needed for interactivity: event handlers, useState, useEffect, and browser APIs. The golden rule is to <strong>push "use client" as far down the tree as possible</strong>: keep the page itself a Server Component and make only the interactive widget a Client Component, so the static shell around it ships no JavaScript.</p>
+      <p><strong>Common pitfall:</strong> props passed from a Server Component to a Client Component must be serializable. You cannot pass functions (except Server Actions), class instances, or Date objects across the boundary — they fail at runtime. Pass plain data down, and create callbacks inside the Client Component.</p>
+
+      <h2>3. Streaming and Suspense: render before the data arrives</h2>
+      <p>Traditionally, a slow database query blocks the entire page. <strong>Streaming</strong> lets the server send HTML in chunks: the shell renders instantly and slow sections stream in as they resolve. You opt in with <strong>Suspense boundaries</strong> — or the <strong>loading.tsx</strong> convention, which is just a Suspense boundary around the whole segment.</p>
+
+      <pre><code>// app/dashboard/page.tsx
+import { Suspense } from "react";
+import { RevenueChart, RecentOrders } from "./widgets";
+
+export default function DashboardPage() {
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Dashboard&lt;/h1&gt;
+      {/* Slow widgets stream in independently — the rest is instant */}
+      &lt;Suspense fallback={&lt;ChartSkeleton /&gt;}&gt;
+        &lt;RevenueChart /&gt;
+      &lt;/Suspense&gt;
+      &lt;Suspense fallback={&lt;OrdersSkeleton /&gt;}&gt;
+        &lt;RecentOrders /&gt;
+      &lt;/Suspense&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+
+      <p><strong>Real-world use case:</strong> an analytics dashboard where the revenue chart takes 2 seconds but the KPI cards take 200ms. Without streaming, the user stares at a blank page for 2 seconds. With per-widget Suspense boundaries, the KPIs appear immediately and each slow widget pops in when ready.</p>
+      <p><strong>Common pitfall:</strong> wrapping the entire page in one Suspense boundary (or relying only on loading.tsx) recreates the all-or-nothing problem. Place boundaries around the slow units, not around the page.</p>
+
+      <h2>4. Data fetching and caching: fetch() with superpowers</h2>
+      <p>In Server Components, the native <strong>fetch()</strong> is extended with caching semantics. Next.js automatically <strong>memoizes</strong> identical fetch calls within a single render pass (request memoization), and caches the result across requests (data cache):</p>
+
+      <pre><code>// Cached for 1 hour (time-based revalidation)
+const res = await fetch("https://api.example.com/posts", {
+  next: { revalidate: 3600 },
+});
+
+// Never cached — always fresh (e.g. personalized data)
+const user = await fetch("https://api.example.com/me", {
+  cache: "no-store",
+});</code></pre>
+
+      <p>For data that changes on user actions rather than on a timer, use <strong>on-demand revalidation</strong>: tag your fetches and invalidate them when a mutation happens.</p>
+
+      <pre><code>// Tag the fetch...
+await fetch("https://api.example.com/posts", {
+  next: { tags: ["posts"] },
+});
+
+// ...then invalidate from anywhere (e.g. after creating a post)
+import { revalidateTag } from "next/cache";
+revalidateTag("posts");</code></pre>
+
+      <p><strong>Best practice:</strong> fetch data in the component that needs it, not at the top of the tree. Request memoization deduplicates identical calls automatically, so colocating fetches keeps components self-contained without extra network requests.</p>
+      <p><strong>Common pitfall:</strong> fetch() inside a Client Component does not participate in any of this — no memoization, no data cache. If a Client Component needs server data, fetch it in the parent Server Component and pass it down as props.</p>
+
+      <h2>5. Server Actions: mutations without an API route</h2>
+      <p><strong>Server Actions</strong> are async functions that run on the server but are called directly from the client — typically from forms. They eliminate the boilerplate API route for simple mutations, and they work with <strong>progressive enhancement</strong>: the form still submits if JavaScript is disabled.</p>
+
+      <pre><code>// app/comments/actions.ts
+"use server";
+import { revalidatePath } from "next/cache";
+
+export async function addComment(formData: FormData) {
+  const text = formData.get("text");
+  await db.comment.create({ data: { text: String(text) } });
+  revalidatePath("/blog/my-post"); // refresh the cached page
+}
+
+// app/comments/form.tsx
+import { addComment } from "./actions";
+
+export function CommentForm() {
+  return (
+    &lt;form action={addComment}&gt;
+      &lt;input name="text" placeholder="Write a comment..." /&gt;
+      &lt;button type="submit"&gt;Post&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+
+      <p><strong>Real-world use case:</strong> newsletter signup, contact forms, like buttons, and admin CRUD screens — any mutation that does not need a public REST API. Pair the action with <strong>useFormStatus</strong> (from react-dom) to show a pending state on the submit button.</p>
+      <p><strong>Common pitfall:</strong> Server Actions must be async functions defined in a file with the <strong>"use server"</strong> directive (or inline in a Server Component). They cannot be defined inside a Client Component — importing them into one is fine, defining them there is not.</p>
+
+      <h2>6. Metadata and SEO: configuration, not components</h2>
+      <p>SEO moved from the <strong>&lt;Head&gt;</strong> component to a static <strong>metadata</strong> export (or the async <strong>generateMetadata</strong> function for dynamic values). Next.js renders it into proper head tags, handles deduplication across nested layouts, and even generates Open Graph images at request time.</p>
+
+      <pre><code>// app/blog/[slug]/page.tsx
+export async function generateMetadata({ params }) {
+  const post = await getPost(params.slug);
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: { images: ["/og/" + params.slug + ".png"] },
+  };
+}</code></pre>
+
+      <p><strong>Best practice:</strong> define shared metadata (site name, default description, theme color) once in the root layout, and let each page override only what is specific. Metadata defined deeper in the tree merges with — rather than replaces — the parent's.</p>
+
+      <h2>7. Route Handlers: API endpoints in the app directory</h2>
+      <p>When you genuinely need an HTTP endpoint — webhooks, third-party callbacks, or proxying a request — <strong>Route Handlers</strong> (a <strong>route.ts</strong> file) replace the old API routes. They support the full Request/Response API and run on the Node.js runtime by default.</p>
+
+      <pre><code>// app/api/newsletter/route.ts
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  const { email } = await request.json();
+  await subscribe(email);
+  return NextResponse.json({ ok: true }, { status: 201 });
+}</code></pre>
+
+      <p><strong>Common pitfall:</strong> Route Handlers are cached by default for GET requests. For endpoints that must always run (a webhook receiver, a search proxy), export <strong>const dynamic = "force-dynamic"</strong> at the top of the file to opt out of static rendering.</p>
+
+      <h2>8. Middleware: code that runs before the route</h2>
+      <p><strong>Middleware</strong> (<strong>middleware.ts</strong> at the project root) runs before a request completes — ideal for authentication checks, internationalization redirects, and A/B testing. It runs on the Edge Runtime, so it starts fast worldwide, but it cannot use Node.js APIs.</p>
+
+      <pre><code>// middleware.ts
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  const token = request.cookies.get("session");
+  if (!token &amp;&amp; request.nextUrl.pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/admin/:path*"], // only run where needed
+};</code></pre>
+
+      <p><strong>Common pitfall:</strong> middleware without a <strong>matcher</strong> runs on every request — including static assets — adding latency everywhere. Always scope it with a matcher, and keep it lean: no database calls, no heavy computation.</p>
+
+      <h2>9. Putting it together: a real-world product page</h2>
+      <p>Consider an e-commerce product page. The shell — title, images, description — is a Server Component that fetches product data with a 60-second revalidation. Below it, reviews stream in inside a Suspense boundary because the review service is slow. The "add to cart" button is a tiny Client Component; the review form posts through a Server Action that calls <strong>revalidateTag("reviews")</strong>. Metadata comes from generateMetadata for rich social previews, and a Route Handler receives the payment webhook. Six primitives, one coherent page — and only the cart button and review form ship JavaScript.</p>
+
+      <h2>10. Best practices and traps, summarized</h2>
+      <ul>
+        <li><strong>Default to Server Components.</strong> Add "use client" only where interactivity demands it, and push the boundary down to the smallest component possible.</li>
+        <li><strong>Colocate data fetching</strong> with the component that renders the data; memoization makes it free.</li>
+        <li><strong>Choose the right revalidation:</strong> revalidate timers for slowly changing content, revalidateTag/revalidatePath for content that changes on user actions.</li>
+        <li><strong>Keep Server Components serializable-safe:</strong> only plain data crosses into Client Components.</li>
+        <li><strong>Scope middleware with a matcher</strong> and remember it runs on the Edge — no Node APIs.</li>
+        <li><strong>Do not fetch secrets client-side.</strong> API keys and database credentials belong in Server Components, Server Actions, and Route Handlers — never in "use client" code.</li>
+        <li><strong>Trap:</strong> async/await in a Client Component body is not supported — data fetching with await belongs in Server Components; Client Components still use useEffect or libraries like SWR.</li>
+      </ul>
+
       <h2>Conclusion</h2>
-      <p>Next.js 14 represents a significant step forward in React application development. With its improved performance, better developer experience, and powerful new features, it's an excellent choice for building modern web applications.</p>
+      <p>Next.js 14 rewards a simple mental shift: <strong>the server is the default, the client is the exception</strong>. Let Server Components fetch and render, stream the slow parts with Suspense, mutate with Server Actions, and reserve client JavaScript for genuine interactivity. Master these eight primitives — App Router, Server Components, Streaming, caching, Server Actions, Metadata, Route Handlers, and Middleware — and you have the complete toolkit for building fast, scalable web applications with Next.js 14.</p>
     `,
     author: "John Doe",
     publishedAt: "2024-01-15",
     tags: ["Next.js", "React", "Web Development", "Tutorial"],
-    readTime: "8 min read",
+    readTime: "15 min read",
   },
   {
     id: 2,
