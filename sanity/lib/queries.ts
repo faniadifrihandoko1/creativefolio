@@ -12,7 +12,9 @@ export const postFields = groq`
   featured,
   "coverUrl": cover.asset->url,
   "coverAlt": cover.alt,
-  "tags": tag[]->name
+  "tags": tag[]->name,
+  seoTitle,
+  seoDescription
 `;
 
 export const postsQuery = groq`
@@ -47,5 +49,7 @@ export interface SanityPost {
   coverUrl: string | null;
   coverAlt: string | null;
   tags: string[];
+  seoTitle?: string | null;
+  seoDescription?: string | null;
   body?: unknown;
 }

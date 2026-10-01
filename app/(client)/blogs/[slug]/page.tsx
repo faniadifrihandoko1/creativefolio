@@ -26,8 +26,8 @@ export const generateMetadata = async ({ params }: BlogDetailProps) => {
     slug: params.slug,
   });
   return {
-    title: post?.title ?? "Blog",
-    description: post?.excerpt,
+    title: post?.seoTitle || post?.title || "Blog",
+    description: post?.seoDescription || post?.excerpt,
   };
 };
 
