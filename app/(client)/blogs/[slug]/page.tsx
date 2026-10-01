@@ -1,14 +1,18 @@
+import { notFound } from "next/navigation";
 import { BlogDetailView } from "@/app/components/Pages/Blog/detail-blog";
+import { client } from "@/sanity/lib/client";
+import {
+  postBySlugQuery,
+  postSlugsQuery,
+  postsQuery,
+  type SanityPost,
+} from "@/sanity/lib/queries";
+
+export const revalidate = 60;
 
 export const generateStaticParams = async () => {
-  return [
-    { slug: "building-modern-web-applications-with-nextjs-14" },
-    { slug: "the-art-of-clean-code-best-practices-for-developers" },
-    { slug: "design-systems-creating-consistent-user-experiences" },
-    { slug: "performance-optimization-techniques-for-react-applications" },
-    { slug: "typography-fundamentals-pairing-type-for-the-web" },
-    { slug: "ui-design-principles-crafting-intuitive-interfaces" },
-  ];
+  const slugs = await client.fetch<{ slug: string }[]>(postSlugsQuery);
+  return slugs.map((s) => ({ slug: s.slug }));
 };
 
 interface BlogDetailProps {
@@ -18,11 +22,22 @@ interface BlogDetailProps {
 }
 
 export const generateMetadata = async ({ params }: BlogDetailProps) => {
+  const post = await client.fetch<SanityPost | null>(postBySlugQuery, {
+    slug: params.slug,
+  });
   return {
-    title: params.slug,
+    title: post?.title ?? "Blog",
+    description: post?.excerpt,
   };
 };
 
-export default function BlogDetailPage({ params }: BlogDetailProps) {
-  return <BlogDetailView params={params} />;
+export default async function BlogDetailPage({ params }: BlogDetailProps) {
+  const [post, posts] = await Promise.all([
+    client.fetch<SanityPost | null>(postBySlugQuery, { slug: params.slug }),
+    client.fetch<SanityPost[]>(postsQuery),
+  ]);
+  if (!post) {
+    notFound();
+  }
+  return <BlogDetailView post={post} posts={posts} />;
 }

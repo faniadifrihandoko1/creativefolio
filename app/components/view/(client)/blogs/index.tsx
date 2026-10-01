@@ -13,84 +13,6 @@ import {
   FaUser,
 } from "react-icons/fa";
 
-const sampleBlogs = [
-  {
-    id: 1,
-    title: "Building Modern Web Applications with Next.js 14",
-    slug: "building-modern-web-applications-with-nextjs-14",
-    excerpt:
-      "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
-    author: "John Doe",
-    date: "2026-10-01",
-    readTime: "15 min read",
-    category: "Web Development",
-    image: "/images/nextjs-14-web-apps.jpg",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "The Art of Clean Code: Best Practices for Developers",
-    slug: "the-art-of-clean-code-best-practices-for-developers",
-    excerpt:
-      "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
-    author: "Fani Adi Frihandoko",
-    date: "2026-10-01",
-    readTime: "14 min read",
-    category: "Programming",
-    image: "/images/clean-code.jpg",
-    featured: false,
-  },
-  {
-    id: 3,
-    title: "Design Systems: Creating Consistent User Experiences",
-    slug: "design-systems-creating-consistent-user-experiences",
-    excerpt:
-      "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
-    author: "Fani Adi Frihandoko",
-    date: "2026-10-01",
-    readTime: "15 min read",
-    category: "Design",
-    image: "/images/design-systems.jpg",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Performance Optimization Techniques for React Applications",
-    slug: "performance-optimization-techniques-for-react-applications",
-    excerpt:
-      "Dive deep into advanced React optimization techniques including memoization, code splitting, and bundle analysis to create lightning-fast applications.",
-    author: "Sarah Wilson",
-    date: "2026-10-01",
-    readTime: "15 min read",
-    category: "Web Development",
-    image: "/images/performance-optimization.jpg",
-    featured: true,
-  },
-  {
-    id: 5,
-    title: "Typography Fundamentals: Pairing Type for the Web",
-    slug: "typography-fundamentals-pairing-type-for-the-web",
-    excerpt:
-      "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
-    author: "Fani Adi Frihandoko",
-    date: "2026-10-01",
-    readTime: "14 min read",
-    category: "Design",
-    image: "/images/typography-fundamentals.jpg",
-  },
-  {
-id: 6,
-title: "UI Design Principles: Crafting Intuitive Interfaces",
-    slug: "ui-design-principles-crafting-intuitive-interfaces",
-    excerpt:
-      "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
-    author: "Fani Adi Frihandoko",
-    date: "2026-10-01",
-    readTime: "14 min read",
-    category: "Design",
-    image: "/images/ui-design-principles.jpg",
-    featured: false,}
-];
 
 const categories = [
   "All",
@@ -100,7 +22,9 @@ const categories = [
   "Productivity",
 ];
 
-export const BlogsView = () => {
+import type { SanityPost } from "@/sanity/lib/queries";
+
+export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [isMounted, setIsMounted] = useState(false);
@@ -109,7 +33,7 @@ export const BlogsView = () => {
     setIsMounted(true);
   }, []);
 
-  const filteredBlogs = sampleBlogs.filter((blog) => {
+  const filteredBlogs = posts.filter((blog) => {
     const matchesCategory =
       selectedCategory === "All" || blog.category === selectedCategory;
     const matchesSearch =
@@ -176,12 +100,12 @@ export const BlogsView = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {featuredBlogs.map((blog) => (
               <article
-                key={blog.id}
+                key={blog._id}
                 className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700"
               >
                 <div className="relative h-48 overflow-hidden">
                   <Image
-                    src={blog.image}
+                    src={blog.coverUrl ?? "/images/portofolio.jpg"}
                     alt={blog.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -200,7 +124,7 @@ export const BlogsView = () => {
                     </span>
                     <span className="flex items-center gap-1">
                       <FaCalendarAlt />
-                      {new Date(blog.date).toLocaleDateString("en-US", {
+                      {new Date(blog.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
@@ -245,12 +169,12 @@ export const BlogsView = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {regularBlogs.map((blog) => (
               <article
-                key={blog.id}
+                key={blog._id}
                 className="group bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700"
               >
                 <div className="relative h-40 overflow-hidden">
                   <Image
-                    src={blog.image}
+                    src={blog.coverUrl ?? "/images/portofolio.jpg"}
                     alt={blog.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
