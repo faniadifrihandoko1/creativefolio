@@ -55,6 +55,39 @@ export const post = {
       ],
     },
     {
+      name: "author",
+      title: "Author",
+      type: "string",
+    },
+    {
+      name: "category",
+      title: "Category",
+      type: "string",
+    },
+    {
+      name: "readTime",
+      title: "Read time",
+      type: "string",
+    },
+    {
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+      initialValue: false,
+    },
+    {
+      name: "cover",
+      title: "Cover image",
+      type: "image",
+      fields: [
+        {
+          name: "alt",
+          title: "Alt",
+          type: "string",
+        },
+      ],
+    },
+    {
       name: "tag",
       title: "Tags",
       type: "array",

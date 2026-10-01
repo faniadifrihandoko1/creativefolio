@@ -1,7 +1,10 @@
 import { BlogsView } from "@/app/components/view/(client)/blogs";
+import { client } from "@/sanity/lib/client";
+import { postsQuery, type SanityPost } from "@/sanity/lib/queries";
 
-const BlogsPage = () => {
-  return <BlogsView />;
-};
+export const revalidate = 60;
 
-export default BlogsPage;
+export default async function BlogsPage() {
+  const posts = await client.fetch<SanityPost[]>(postsQuery);
+  return <BlogsView posts={posts} />;
+}
