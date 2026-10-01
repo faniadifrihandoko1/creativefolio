@@ -236,6 +236,42 @@ function App() {
     tags: ["Typography", "Web Design", "Design Fundamentals"],
     readTime: "8 min read",
   },
+  {
+    id: 6,
+    title: "UI Design Principles: Crafting Intuitive Interfaces",
+    slug: "ui-design-principles-crafting-intuitive-interfaces",
+    description:
+      "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
+    content: `
+      <p>Great interfaces feel effortless. Behind that simplicity lies a set of timeless UI design principles that guide every layout, color, and interaction decision.</p>
+      
+      <h2>1. Visual Hierarchy</h2>
+      <p>Guide the user's eye with size, weight, color, and spacing. The most important element on the screen should be the first thing noticed — everything else supports it.</p>
+      
+      <h2>2. Consistency</h2>
+      <p>Reuse the same patterns, components, and language across screens. Consistency reduces the learning curve: once users learn one part of your interface, they understand the rest.</p>
+      
+      <h3>Practical tips</h3>
+      <ul>
+        <li><strong>Design tokens:</strong> Define colors, spacing, and typography once</li>
+        <li><strong>Component library:</strong> Build once, reuse everywhere</li>
+        <li><strong>Predictable behavior:</strong> Similar actions should work the same way</li>
+      </ul>
+      
+      <h2>3. Feedback & Affordance</h2>
+      <p>Every interaction deserves a response. Buttons depress, toggles slide, forms validate inline. Clear affordances tell users what is possible before they even try.</p>
+      
+      <h2>4. Whitespace Is a Feature</h2>
+      <p>Empty space is not wasted space — it groups related elements, reduces cognitive load, and gives the design room to breathe.</p>
+      
+      <h2>Conclusion</h2>
+      <p>Intuitive interfaces are designed, not accidental. Apply hierarchy, consistency, feedback, and whitespace deliberately, and your UI will feel natural to everyone who uses it.</p>
+    `,
+    author: "Fani Adi Frihandoko",
+    publishedAt: "2024-01-20",
+    tags: ["UI Design", "UX", "Design Principles"],
+    readTime: "7 min read",
+  },
 ];
 
 export const BlogDetailView = ({ params }: BlogDetailProps) => {
