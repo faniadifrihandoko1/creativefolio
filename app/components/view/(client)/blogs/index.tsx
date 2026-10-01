@@ -24,7 +24,7 @@ const sampleBlogs = [
     date: "2024-01-15",
     readTime: "8 min read",
     category: "Web Development",
-    image: "/images/portofolio.jpg",
+    image: "/images/nextjs-14-web-apps.jpg",
     featured: true,
   },
   {
@@ -37,7 +37,7 @@ const sampleBlogs = [
     date: "2024-01-10",
     readTime: "6 min read",
     category: "Programming",
-    image: "/images/circle.jpg",
+    image: "/images/clean-code.jpg",
     featured: false,
   },
   {
@@ -50,7 +50,7 @@ const sampleBlogs = [
     date: "2024-01-05",
     readTime: "10 min read",
     category: "Design",
-    image: "/images/micro-feature.jpg",
+    image: "/images/design-systems.jpg",
     featured: false,
   },
   {
@@ -63,7 +63,7 @@ const sampleBlogs = [
     date: "2024-01-01",
     readTime: "12 min read",
     category: "Web Development",
-    image: "/images/the-scientis.jpg",
+    image: "/images/performance-optimization.jpg",
     featured: true,
   },
   {
@@ -76,7 +76,7 @@ const sampleBlogs = [
     date: "2024-01-25",
     readTime: "8 min read",
     category: "Design",
-    image: "/images/portofolio.jpg",
+    image: "/images/typography-fundamentals.jpg",
   },
   {
 id: 6,
@@ -88,7 +88,7 @@ title: "UI Design Principles: Crafting Intuitive Interfaces",
     date: "2024-01-20",
     readTime: "7 min read",
     category: "Design",
-    image: "/images/circle.jpg",
+    image: "/images/ui-design-principles.jpg",
     featured: false,}
 ];
 
