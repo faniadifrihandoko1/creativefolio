@@ -217,7 +217,7 @@ export const config = {
       <p>Next.js 14 rewards a simple mental shift: <strong>the server is the default, the client is the exception</strong>. Let Server Components fetch and render, stream the slow parts with Suspense, mutate with Server Actions, and reserve client JavaScript for genuine interactivity. Master these eight primitives — App Router, Server Components, Streaming, caching, Server Actions, Metadata, Route Handlers, and Middleware — and you have the complete toolkit for building fast, scalable web applications with Next.js 14.</p>
     `,
     author: "John Doe",
-    publishedAt: "2024-01-15",
+    publishedAt: "2026-10-01",
     tags: ["Next.js", "React", "Web Development", "Tutorial"],
     readTime: "15 min read",
   },
@@ -260,7 +260,7 @@ const activeUsers = getActiveUsers();</code></pre>
       <p>Writing clean code is an investment in the future. It makes your codebase more maintainable, reduces bugs, and improves team productivity.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-10",
+    publishedAt: "2026-10-01",
     tags: ["Programming", "Best Practices", "Code Quality"],
     readTime: "6 min read",
   },
@@ -405,7 +405,7 @@ npx changeset version</code></pre>
       <p>A design system is a long-term investment in how your organization builds interfaces. Tokens give you a single source of truth; components turn that truth into reusable interface; patterns guide composition; documentation makes it all usable. Adoption, versioning, and governance keep it alive. Start small — one pilot team, a handful of tokens, your most-used components — and grow the system from real demand rather than speculation. The systems that survive aren't the most complete on day one; they're the ones teams actually want to use on day one hundred.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-05",
+    publishedAt: "2026-10-01",
     tags: ["Design", "UI/UX", "Design Systems"],
     readTime: "15 min read",
   },
@@ -467,7 +467,7 @@ function App() {
       <p>Performance optimization is an ongoing process. Monitor your application's performance regularly and implement these techniques to create lightning-fast user experiences.</p>
     `,
     author: "Sarah Wilson",
-    publishedAt: "2024-01-01",
+    publishedAt: "2026-10-01",
     tags: ["React", "Performance", "Optimization"],
     readTime: "12 min read",
   },
@@ -503,7 +503,7 @@ function App() {
       <p>Good typography is invisible — readers notice the message, not the letters. Master anatomy, pairing, scale, and spacing, and your interfaces will communicate with clarity and character.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-25",
+    publishedAt: "2026-10-01",
     tags: ["Typography", "Web Design", "Design Fundamentals"],
     readTime: "8 min read",
   },
@@ -539,7 +539,7 @@ function App() {
       <p>Intuitive interfaces are designed, not accidental. Apply hierarchy, consistency, feedback, and whitespace deliberately, and your UI will feel natural to everyone who uses it.</p>
     `,
     author: "Fani Adi Frihandoko",
-    publishedAt: "2024-01-20",
+    publishedAt: "2026-10-01",
     tags: ["UI Design", "UX", "Design Principles"],
     readTime: "7 min read",
   },
