@@ -35,7 +35,7 @@ const sampleBlogs = [
       "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
     author: "Fani Adi Frihandoko",
     date: "2024-01-10",
-    readTime: "6 min read",
+    readTime: "14 min read",
     category: "Programming",
     image: "/images/clean-code.jpg",
     featured: false,

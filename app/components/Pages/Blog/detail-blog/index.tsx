@@ -228,41 +228,140 @@ export const config = {
     description:
       "Learn essential principles and practices for writing maintainable, readable, and efficient code that stands the test of time.",
     content: `
-      <p>Clean code is not just about making your code work—it's about making it readable, maintainable, and efficient. In this article, we'll explore the fundamental principles that every developer should know.</p>
-      
-      <h2>What is Clean Code?</h2>
-      <p>Clean code is code that is easy to read, understand, and modify. It follows consistent patterns, uses meaningful names, and is structured in a way that makes its purpose clear.</p>
-      
-      <h3>Key Principles</h3>
-      <ul>
-        <li><strong>Meaningful Names:</strong> Use descriptive names for variables, functions, and classes</li>
-        <li><strong>Single Responsibility:</strong> Each function should do one thing well</li>
-        <li><strong>DRY Principle:</strong> Don't Repeat Yourself - avoid code duplication</li>
-        <li><strong>Consistent Formatting:</strong> Use consistent indentation and spacing</li>
-      </ul>
-      
-      <h2>Best Practices</h2>
-      <p>Here are some practical tips for writing cleaner code:</p>
-      
-      <h3>1. Use Descriptive Names</h3>
-      <pre><code>// Bad
+      <p>Clean code is not about making your code work — any code can be made to work. It is about making it <strong>readable by the next person</strong>, who is very often future-you at 2 AM, three months from now, staring at a function you no longer remember writing. Real-world studies of codebases keep landing on the same ratio: code is read roughly ten times more often than it is written. Every minute you spend making code clearer pays for itself many times over — and every shortcut you take charges interest.</p>
+      <p>This article goes beyond the usual checklist. We unpack each principle with the reasoning behind it, show concrete before-and-after transformations, and — just as important — talk about when the rules should be bent or broken. Clean code is a judgment skill, not a compliance exercise.</p>
+
+      <h2>What Is Clean Code, Really?</h2>
+      <p>Robert C. Martin's famous definition still holds: clean code reads like well-written prose. But let's make it operational. Code is clean when a competent developer can answer three questions quickly: <strong>what</strong> does this do, <strong>why</strong> does it do it this way, and <strong>what breaks</strong> if I change it? If the answers require archaeology — tracing calls across five files, guessing at abbreviations, decoding clever tricks — the code isn't clean, no matter how short or "elegant" it looks.</p>
+      <p>Notice what this definition leaves out: brevity. Short code is not automatically clean code. A dense one-liner that takes ten minutes to parse is worse than five obvious lines. Optimize for <strong>reading time, not writing time</strong>.</p>
+
+      <h2>1. Meaningful Names: the Cheapest Documentation You Have</h2>
+      <p>Names are the highest-bandwidth channel you have for communicating intent. A good name makes a comment unnecessary; a bad name makes even correct code suspicious. The rule is simple: a name should reveal <strong>why it exists, what it does, and how it is used</strong>. If a name needs a comment to explain it, the name has failed.</p>
+      <pre><code>// Bad: what do these mean?
 const d = new Date();
 const u = getUsers();
+function proc(x, y) { /* ... */ }
 
-// Good
+// Good: intent is obvious
 const currentDate = new Date();
-const activeUsers = getActiveUsers();</code></pre>
-      
-      <h3>2. Keep Functions Small</h3>
-      <p>Functions should be small and focused on a single task. If a function is doing too many things, consider breaking it down into smaller functions.</p>
-      
+const activeUsers = getActiveUsers();
+function calculateDiscountedPrice(price, discountRate) { /* ... */ }</code></pre>
+      <p>A few naming rules that pay off forever:</p>
+      <ul>
+        <li><strong>Be precise, not just descriptive.</strong> <code>getUsers()</code> is descriptive; <code>getActiveUsers()</code> is precise. Precision kills whole classes of misunderstanding.</li>
+        <li><strong>Avoid mental mapping.</strong> Single letters (<code>d</code>, <code>u</code>, <code>x</code>) force the reader to keep a translation table in their head. The only acceptable single-letter names are loop counters and well-established math conventions.</li>
+        <li><strong>Don't encode types in names.</strong> <code>strName</code> or <code>userArr</code> are Hungarian-notation leftovers. Types change; the lie in the name stays.</li>
+        <li><strong>Use searchable names.</strong> You can't find every use of <code>d</code> in a codebase. You can find every use of <code>invoiceDueDate</code>.</li>
+        <li><strong>Pick one word per concept.</strong> Don't mix <code>fetch</code>, <code>retrieve</code>, and <code>get</code> for the same operation. Consistency in vocabulary is consistency in thought.</li>
+      </ul>
+
+      <h2>2. Small, Focused Functions: Do One Thing</h2>
+      <p>A function should do one thing, do it well, and do it only. "One thing" means one level of abstraction: a function either orchestrates high-level steps or implements a low-level detail, never both. When you read a function top to bottom and each line feels like it's at the same altitude, the function is the right size. When it jumps from "validate the order" to "parse this date string character by character," it needs splitting.</p>
+      <pre><code>// Bad: three levels of abstraction in one function
+function handleCheckout(cart, user) {
+  if (!cart.items.length) throw new Error("empty");
+  let total = 0;
+  for (const item of cart.items) {          // low-level math...
+    total += item.price * item.qty * (1 - item.discount);
+  }
+  const receipt = {                          // ...mixed with orchestration
+    userId: user.id,
+    total: Math.round(total * 100) / 100,
+    date: new Date().toISOString().slice(0, 10),
+  };
+  db.save("receipts", receipt);              // ...and persistence
+  sendEmail(user.email, "Receipt", JSON.stringify(receipt));
+  return receipt;
+}
+
+// Good: one level of abstraction per function
+function handleCheckout(cart, user) {
+  validateCart(cart);
+  const receipt = createReceipt(cart, user);
+  saveReceipt(receipt);
+  sendReceiptEmail(user.email, receipt);
+  return receipt;
+}</code></pre>
+      <p>The refactored version reads like a summary of what happens — each helper can be understood (and tested) in isolation. As a rule of thumb: if you can't describe what a function does without using the word "and," it's doing more than one thing. And keep functions short enough that you rarely need to scroll: 20 lines is a smell, 50 is a problem.</p>
+
+      <h2>3. DRY — But Don't Abstract Too Early</h2>
+      <p>Duplication is the root of a specific evil: when one concept lives in three places, changing it means finding all three — and you will miss one. But the cure can be worse than the disease. An abstraction built from two similar-looking pieces of code often turns out to be wrong, and a wrong abstraction is harder to fix than duplication, because now the two use cases are coupled through a shared lie.</p>
+      <pre><code>// Duplication: tolerable, honest
+function renderUserCard(user) { /* avatar + name + role */ }
+function renderAdminCard(admin) { /* avatar + name + role + badge */ }
+
+// Wrong abstraction: couples things that merely look alike
+function renderCard(entity, { showBadge, badgeLabel, theme, layout }) {
+  // 40 lines of conditionals trying to serve both masters
+}</code></pre>
+      <p>The pragmatic rule is the <strong>rule of three</strong>: the first time you write something, just write it. The second time, notice the duplication but tolerate it. The third time, you finally understand the real pattern — now abstract. Premature abstraction guesses at the pattern; the rule of three waits until the pattern reveals itself.</p>
+
+      <h2>4. Comments: Explain Why, Never What</h2>
+      <p>The best comment is the one you didn't need to write because the code says it. Comments that restate the code are noise — worse, they rot. Code gets updated; comments get forgotten. A comment that contradicts the code is actively dangerous, because readers trust the comment and misread the code.</p>
+      <pre><code>// Bad: restates the obvious, will rot
+// increment i by 1
+i++;
+
+// Bad: the lie that outlives the code
+// returns users sorted by name (it hasn't since 2022)
+return users.sort(byCreatedAt);
+
+// Good: explains the why that code cannot show
+// Stripe requires idempotency keys to be unique per 24h window,
+// otherwise retries create duplicate charges.
+const key = "charge-" + orderId + "-" + dayTimestamp();</code></pre>
+      <p>Write comments for <strong>intent, non-obvious constraints, and warnings</strong>: why this workaround exists, what external system forces this shape, what will break if someone "simplifies" this. Delete the rest. And treat TODO comments as debt with an owner and a date — an orphaned TODO is just a wish.</p>
+
+      <h2>5. Handle Errors Honestly</h2>
+      <p>Nothing destroys trust in a codebase faster than swallowed errors. An empty <code>catch</code> block doesn't fix a failure; it converts a loud, debuggable failure into a silent, mysterious one three layers up the stack. If you can't handle an error meaningfully at this level, <strong>don't catch it</strong> — let it propagate to someone who can.</p>
+      <pre><code>// Bad: the silent lie
+try {
+  chargeCustomer(order);
+} catch (e) {} // "it usually works"
+
+// Good: handle what you can, propagate the rest
+try {
+  chargeCustomer(order);
+} catch (e) {
+  if (e instanceof NetworkError) {
+    retryQueue.add(order); // transient: retry later
+  } else {
+    logger.error("Payment failed", { orderId: order.id, cause: e });
+    throw e; // permanent: fail loudly, upstream decides
+  }
+}</code></pre>
+      <p>Two more habits: prefer exceptions over error codes for exceptional conditions (error codes get ignored; exceptions can't be), and never return <code>null</code> where an empty collection or an explicit result type would do — <code>null</code> just moves the crash to whoever forgot the check.</p>
+
+      <h2>6. Formatting: the Visual Contract of a Team</h2>
+      <p>Formatting is the least intellectual and most underrated of the clean-code disciplines. Inconsistent indentation, random line breaks, and mixed styles create visual noise that slows every reader down. The fix is boring on purpose: <strong>automate it</strong>. A formatter (Prettier, Black, gofmt) plus a linter, run on every commit, ends all formatting debates permanently.</p>
+      <p>Automated formatting isn't about the "right" style — it's about <strong>zero</strong> style discussions. Every minute a team spends arguing about semicolons in code review is a minute not spent discussing actual logic. Let the tool decide; save human judgment for things tools can't judge.</p>
+
+      <h2>When to Break the Rules</h2>
+      <p>Clean code is a default, not a dogma. There are legitimate reasons to deviate — the key is that the deviation should be <strong>deliberate and documented</strong>, not accidental.</p>
+      <ul>
+        <li><strong>Performance hotspots:</strong> the cleanest abstraction sometimes costs a measurable amount in a tight loop. Optimize the hotspot, keep it small, and comment exactly why it's written that way — with the benchmark numbers.</li>
+        <li><strong>Throwaway code:</strong> a one-off migration script that runs once doesn't need the same care as a core domain module. Match the investment to the code's lifespan.</li>
+        <li><strong>Deadlines:</strong> sometimes you ship the ugly version to hit a date. That's fine — if you file the cleanup as a tracked task immediately. "Temporary" code without a ticket is permanent.</li>
+        <li><strong>External constraints:</strong> legacy APIs, generated code, and framework conventions sometimes force awkward shapes. Isolate the awkwardness behind a clean boundary so it doesn't infect the rest.</li>
+      </ul>
+      <p>The test is always the same: would the next reader understand <em>why</em> this deviates? If yes, it's pragmatism. If no, it's just mess.</p>
+
+      <h2>Common Traps</h2>
+      <p>A few failure modes experienced developers keep falling into:</p>
+      <ul>
+        <li><strong>Clever code:</strong> nested ternaries, bitwise tricks, regex golf. If it feels clever while writing, it will feel hostile while reading. Boring code is a feature.</li>
+        <li><strong>Over-abstraction:</strong> interfaces with one implementation, factories for objects created once, "flexibility" for requirements that don't exist. Build for the requirements you have; YAGNI (You Aren't Gonna Need It) is real.</li>
+        <li><strong>Premature patterns:</strong> forcing every problem into the design pattern you just learned. Patterns are vocabulary for communicating solutions, not a checklist to apply.</li>
+        <li><strong>Refactoring without tests:</strong> restructuring code you can't verify is just rearranging risk. The safety net comes first, the cleanup second.</li>
+      </ul>
+
       <h2>Conclusion</h2>
-      <p>Writing clean code is an investment in the future. It makes your codebase more maintainable, reduces bugs, and improves team productivity.</p>
+      <p>Writing clean code is an investment with compound interest. Meaningful names, small focused functions, honest error handling, and automated formatting don't just make code prettier — they make it <strong>cheaper to change</strong>, and software's whole game is changing. Start with one habit: the next time you write a function, read it back and ask whether a stranger could understand it in thirty seconds. That single question, applied consistently, will transform your code more than any tool or framework.</p>
     `,
     author: "Fani Adi Frihandoko",
     publishedAt: "2024-01-10",
     tags: ["Programming", "Best Practices", "Code Quality"],
-    readTime: "6 min read",
+    readTime: "14 min read",
   },
   {
     id: 3,
