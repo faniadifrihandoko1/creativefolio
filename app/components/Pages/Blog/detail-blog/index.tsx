@@ -514,34 +514,111 @@ function App() {
     description:
       "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
     content: `
-      <p>Great interfaces feel effortless. Behind that simplicity lies a set of timeless UI design principles that guide every layout, color, and interaction decision.</p>
-      
-      <h2>1. Visual Hierarchy</h2>
-      <p>Guide the user's eye with size, weight, color, and spacing. The most important element on the screen should be the first thing noticed — everything else supports it.</p>
-      
-      <h2>2. Consistency</h2>
-      <p>Reuse the same patterns, components, and language across screens. Consistency reduces the learning curve: once users learn one part of your interface, they understand the rest.</p>
-      
-      <h3>Practical tips</h3>
+      <p>Great interfaces feel effortless — as if the screen already knew what you wanted to do. That feeling is not luck and not talent. It is the product of principles applied deliberately: every size, color, spacing, and animation answering the question <em>"what will the user try to do next, and how do I make it obvious?"</em></p>
+      <p>This article goes deep. For each principle we'll cover the <strong>why</strong> (the psychology behind it), concrete <strong>violate-vs-follow</strong> examples you can picture on a real screen, how the principle survives the <strong>design-to-code handoff</strong>, and the common mistakes teams keep making. By the end, "intuitive" will stop being a vague compliment and become a checklist you can actually apply.</p>
+
+      <h2>What Does "Intuitive" Actually Mean?</h2>
+      <p>No interface is truly intuitive — nobody is born knowing what a hamburger menu does. What we call intuitive is really <strong>familiar</strong>: the interface matches a mental model the user already has. Don Norman's foundational insight still rules: good design makes the right action discoverable and the wrong action hard. Two laws of human behavior do most of the heavy lifting:</p>
       <ul>
-        <li><strong>Design tokens:</strong> Define colors, spacing, and typography once</li>
-        <li><strong>Component library:</strong> Build once, reuse everywhere</li>
-        <li><strong>Predictable behavior:</strong> Similar actions should work the same way</li>
+        <li><strong>Jakob's Law:</strong> users spend most of their time on <em>other</em> sites, so they expect yours to work like the ones they already know. Novelty has a cost — spend it only where it buys something.</li>
+        <li><strong>Recognition over recall:</strong> people recognize far more easily than they remember. Show options visibly (a labeled button) instead of making users recall hidden commands (a keyboard shortcut nobody taught them).</li>
       </ul>
-      
-      <h2>3. Feedback & Affordance</h2>
-      <p>Every interaction deserves a response. Buttons depress, toggles slide, forms validate inline. Clear affordances tell users what is possible before they even try.</p>
-      
-      <h2>4. Whitespace Is a Feature</h2>
-      <p>Empty space is not wasted space — it groups related elements, reduces cognitive load, and gives the design room to breathe.</p>
-      
+      <p>So "crafting intuitive interfaces" really means: <strong>reduce the gap between what the user expects and what the screen offers</strong>. Every principle below is a different tool for closing that gap.</p>
+
+      <h2>1. Visual Hierarchy: Tell the Eye Where to Go First</h2>
+      <p>Users don't read screens — they scan them. Eye-tracking studies consistently show F-shaped and Z-shaped scanning patterns: a quick sweep across the top, down the left edge, with attention decaying fast. Visual hierarchy is how you choreograph that scan. Size, weight, color, contrast, and spacing are your instruments; the most important element should win the most visual weight.</p>
+      <p><strong>Violate:</strong> a landing page where the headline, subheadline, nav links, testimonial quote, and footer CTA are all roughly the same size and color. The eye bounces around with no anchor, and the user leaves without knowing what the product does.</p>
+      <p><strong>Follow:</strong> the same page with one dominant headline (large, high-contrast), one primary CTA button (solid, saturated color), and everything else visually quieter. In three seconds the user knows: what this is, and what to do next. One screen, one job.</p>
+      <p>Practical rules: limit yourself to <strong>three levels of emphasis</strong> (primary, secondary, tertiary) — more than that and nothing stands out. Use size and weight before color, because color alone fails for color-blind users. And remember that <strong>whitespace creates hierarchy too</strong>: an element isolated by space draws the eye as strongly as one made larger.</p>
+      <pre><code>/* Bad: everything shouts, so nothing is heard */
+.hero h1 { font-size: 2rem; color: #333; }
+.hero p  { font-size: 1.9rem; color: #333; }
+.hero a  { font-size: 1.8rem; color: #555; }
+
+/* Good: one voice leads, the rest support */
+.hero h1 { font-size: 3rem; font-weight: 800; color: #111; }
+.hero p  { font-size: 1.125rem; color: #555; max-width: 36rem; }
+.hero .cta { font-size: 1rem; font-weight: 700; /* + solid bg, padding */ }</code></pre>
+
+      <h2>2. Consistency: Don't Make Users Re-Learn Your Product</h2>
+      <p>Every inconsistency is a small pop quiz: <em>"does this blue button mean the same thing as that blue button?"</em> Consistency eliminates those quizzes. Once a user learns that primary actions are solid and destructive actions are red and outlined, they can navigate screens they've never seen — because they've effectively already seen them.</p>
+      <p>There are two kinds. <strong>Internal consistency</strong> means your own product agrees with itself: same terminology ("Delete" everywhere, not "Delete" here and "Remove" there), same component styles, same interaction patterns. <strong>External consistency</strong> means you agree with the platform and with user expectations: a trash icon deletes, a magnifier searches, pinch zooms. Break external consistency only with a very good reason.</p>
+      <p><strong>Violate:</strong> a settings flow where "Save" is a solid button on one screen, a text link on another, and auto-applied with no button at all on a third. Users never build confidence; they tiptoe.</p>
+      <p><strong>Follow:</strong> a design system where the same <code>Button</code> component, same labels, and same placement appear everywhere. The user learns once and trusts everywhere.</p>
+      <h3>Making consistency survive in code</h3>
+      <p>Consistency dies in implementation unless it's structural. Design tokens (colors, spacing, type scale defined once) plus a real component library are the mechanism — not a Figma file everyone is supposed to eyeball. If two developers can produce two different-looking buttons, you don't have consistency; you have a suggestion.</p>
+
+      <h2>3. Feedback: Every Action Deserves a Response</h2>
+      <p>Humans are control loops: we act, we perceive the result, we adjust. An interface that doesn't respond breaks the loop, and a broken loop feels broken — users click again, harder, then assume the product is dead. The timing matters enormously: responses under ~100ms feel instant, up to ~1s keeps the user's flow, beyond ~10s and attention is gone. Design your feedback to those thresholds.</p>
+      <p><strong>Violate:</strong> a "Submit" button that does nothing visible for four seconds while the request runs, then suddenly navigates. Users click it three times and create three orders.</p>
+      <p><strong>Follow:</strong> the button shows a spinner and disables itself immediately (&lt;100ms), a progress indicator appears for longer waits, and success gets a clear confirmation — a toast, a checkmark animation, the new item visibly added to the list.</p>
+      <pre><code>/* Bad: the button goes silent during the request */
+.submit-btn { /* no :disabled, :active, or loading styles */ }
+
+/* Good: every state is designed, not left to defaults */
+.submit-btn { transition: transform 120ms ease, opacity 120ms ease; }
+.submit-btn:active { transform: scale(0.97); }   /* &lt;100ms: "I heard you" */
+.submit-btn:disabled { opacity: 0.6; cursor: wait; } /* during: "working on it" */
+.submit-btn.success { /* checkmark animation: "done" */ }</code></pre>
+      <p>Feedback isn't only for success. <strong>Inline validation</strong> — telling the user about an invalid email while they're still in the field, not after submission — is feedback too, and it converts one of the most frustrating flows on the web into a non-event.</p>
+
+      <h2>4. Affordance and Signifiers: Show What's Possible</h2>
+      <p>An affordance is what an object <em>allows</em> you to do; a signifier is what <em>communicates</em> it. A flat rectangle on screen affords clicking only if it looks clickable — that's the signifier's job. This is where flat design went wrong for a decade: removing every shadow, border, and gradient also removed the signifiers, leaving users to hunt-and-peck at mysterious rectangles.</p>
+      <p><strong>Violate:</strong> a card where the entire surface is clickable but looks identical to non-clickable cards. Users discover it by accident — or never.</p>
+      <p><strong>Follow:</strong> interactive elements carry consistent signifiers: buttons have solid fills and clear labels ("Save changes", not "OK"), links are underlined or distinctly colored, hover states lift or highlight. The rule: <strong>if it looks the same, it should behave the same</strong>.</p>
+      <p>Test this cheaply with the "squint test": blur your eyes at the screen. Can you still tell what's clickable? If not, your signifiers are too subtle.</p>
+
+      <h2>5. Whitespace and Grouping: Let Proximity Do the Talking</h2>
+      <p>Empty space is not wasted space — it's the cheapest organizational tool you have. The Gestalt principle of proximity says we perceive close-together items as related. Generous spacing between groups and tight spacing within groups communicates structure without a single line, label, or divider.</p>
+      <p><strong>Violate:</strong> a form where labels, inputs, and error messages are evenly spaced throughout, so it's unclear which error belongs to which field.</p>
+      <p><strong>Follow:</strong> each label hugs its input, error text sits directly beneath its field in a warning color, and distinct sections are separated by large gaps. The layout <em>explains itself</em>.</p>
+      <p>Whitespace also fights cognitive load: a screen with room to breathe lets users process one group at a time. When everything is crammed together, everything competes — and the user processes nothing. If a screen feels "busy," the fix is almost never a redesign; it's deleting or spacing.</p>
+
+      <h2>6. Simplicity and Progressive Disclosure: Don't Show Everything at Once</h2>
+      <p>Hick's Law is blunt: the more choices you present, the longer decisions take. A settings page with forty toggles doesn't empower users — it paralyzes them. Progressive disclosure is the answer: show what 90% of users need, and tuck the rest behind "Advanced" sections, expandable panels, or contextual reveals.</p>
+      <p><strong>Violate:</strong> a signup form asking for twelve fields including "company revenue range" before the user has seen any value.</p>
+      <p><strong>Follow:</strong> email + password to start; everything else collected later, in context, when the user understands why you need it. Each step asks for one decision, not twelve.</p>
+      <p>The discipline here is subtraction. For every element on screen, ask: <em>"what happens if I remove this?"</em> If the honest answer is "nothing," remove it. Simplicity isn't the absence of features — it's the absence of everything the user doesn't need <em>right now</em>.</p>
+
+      <h2>7. Forgiveness: Design for Mistakes, Not Just Success</h2>
+      <p>Users will make mistakes — wrong file deleted, form half-filled then abandoned, button hit by accident. An unforgiving interface punishes exploration; a forgiving one invites it. There are three layers, in order of preference:</p>
+      <ul>
+        <li><strong>Prevent:</strong> disable invalid actions (grey out "Send" until the form is valid), constrain input (a date picker instead of a free-text field).</li>
+        <li><strong>Confirm:</strong> for destructive, hard-to-reverse actions, ask once — but only for those. Confirming everything trains users to click "yes" blindly.</li>
+        <li><strong>Recover:</strong> undo beats confirmation. Gmail's "undo send" is the gold standard: no interruption, full recovery. Trash with restore, autosaved drafts, version history — these are forgiveness features.</li>
+      </ul>
+      <p><strong>Violate:</strong> "Delete project" executes instantly with no undo, and the toast says "Project deleted" with no way back.</p>
+      <p><strong>Follow:</strong> deletion moves to trash for 30 days, the toast offers "Undo," and the empty state explains how to restore. The user can act boldly because the cost of being wrong is near zero.</p>
+
+      <h2>From Design to Code: Keeping Principles Alive in Implementation</h2>
+      <p>Principles die in the handoff unless they're encoded. Here's how each one survives contact with real code:</p>
+      <ul>
+        <li><strong>Hierarchy → type scale and tokens.</strong> Define the three emphasis levels as tokens (<code>text.display</code>, <code>text.body</code>, <code>text.muted</code>) so developers reach for the system instead of inventing sizes.</li>
+        <li><strong>Consistency → components, not guidelines.</strong> A documented <code>Button</code> with <code>variant</code> and <code>size</code> props enforces consistency; a wiki page describing buttons hopes for it.</li>
+        <li><strong>Feedback → state matrix.</strong> Every interactive component ships with designed default, hover, active, focus, disabled, loading, and error states — never browser defaults.</li>
+        <li><strong>Affordance → visible focus.</strong> Keyboard users navigate by focus rings. If your CSS removes <code>outline</code> without replacing it, you've deleted affordance for an entire group of users.</li>
+        <li><strong>Whitespace → spacing scale.</strong> A fixed scale (4/8/16/24/32…) makes "generous grouping" the default instead of a negotiation.</li>
+        <li><strong>Forgiveness → confirm the destructive, undo the rest.</strong> Build the undo/toast/restore patterns once as shared utilities; product teams get forgiveness for free.</li>
+      </ul>
+      <p>And one non-negotiable: <strong>test on real devices with real content</strong>. Hierarchy that works with lorem ipsum collapses under a 200-character German headline; touch targets that look fine with a mouse fail on phones. Principles are hypotheses until a user proves them.</p>
+
+      <h2>Common Mistakes</h2>
+      <ul>
+        <li><strong>Designing for the empty state only.</strong> The mockup has three perfect items; production has zero or ten thousand. Design the empty, loading, error, and overflow states with the same care.</li>
+        <li><strong>Grey text on grey backgrounds.</strong> Low-contrast "elegant" typography fails WCAG and fails real users in sunlight. Contrast is not a style choice; it's readability.</li>
+        <li><strong>Mystery-meat navigation.</strong> Icon-only controls with no labels or tooltips. If users must hover to discover meaning, the signifier has failed.</li>
+        <li><strong>Modal abuse.</strong> Every interruption has a cost. If it isn't urgent and destructive, it probably doesn't deserve a modal — use inline UI.</li>
+        <li><strong>Confirming everything.</strong> Blanket "Are you sure?" dialogs train reflexive clicking. Reserve friction for the irreversible.</li>
+        <li><strong>One breakpoint.</strong> A layout that works at 1440px and collapses at 375px wasn't designed — it was drawn. Responsive behavior is part of the principle, not an afterthought.</li>
+      </ul>
+
       <h2>Conclusion</h2>
-      <p>Intuitive interfaces are designed, not accidental. Apply hierarchy, consistency, feedback, and whitespace deliberately, and your UI will feel natural to everyone who uses it.</p>
+      <p>Intuitive interfaces are designed, not accidental — but "designed" doesn't mean decorated. It means every hierarchy decision guides the eye, every repeated pattern builds trust, every interaction answers back, every clickable thing looks clickable, every group breathes, every screen shows only what's needed, and every mistake is survivable. Apply these seven principles deliberately, encode them in tokens and components so they survive implementation, and test them against real users and real content. Do that, and your UI won't just look good — it will feel inevitable.</p>
     `,
     author: "Fani Adi Frihandoko",
     publishedAt: "2024-01-20",
     tags: ["UI Design", "UX", "Design Principles"],
-    readTime: "7 min read",
+    readTime: "14 min read",
   },
 ];
 
