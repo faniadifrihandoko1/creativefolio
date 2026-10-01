@@ -103,40 +103,143 @@ const activeUsers = getActiveUsers();</code></pre>
     description:
       "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
     content: `
-      <p>Design systems have become essential for creating consistent, scalable, and maintainable user interfaces. They provide a shared language and set of components that ensure consistency across your entire product.</p>
-      
-      <h2>What is a Design System?</h2>
-      <p>A design system is a collection of reusable components, guided by clear standards, that can be assembled together to build any number of applications.</p>
-      
-      <h3>Core Components</h3>
+      <p>Design systems have become essential for creating consistent, scalable, and maintainable user interfaces — but most teams only scratch the surface. They build a component library, call it a design system, and wonder why inconsistency creeps back within a year. This article goes deeper: we unpack each foundation of a real design system, trace one component end-to-end from design token to documentation, and cover the adoption, versioning, and governance practices that separate systems that survive from those that quietly die.</p>
+
+      <h2>What Is a Design System, Really?</h2>
+      <p>A design system is not a UI kit, a Figma file, or a folder of components. It is a <strong>product that serves products</strong>: a complete set of standards, reusable components, and patterns, bound together by documentation and governed like software. Brad Frost's atomic design gave us a useful vocabulary — atoms, molecules, organisms — but the modern definition goes further. A design system includes the <em>rules for change</em>: how tokens are named, how components evolve, who can contribute, and how breaking changes are communicated.</p>
+      <p>Think of it in three layers. The <strong>visual language</strong> defines what the product looks like (color, type, spacing, motion). The <strong>component layer</strong> defines what the product is built from (buttons, inputs, dialogs). The <strong>guidance layer</strong> defines how it all gets used (patterns, voice, accessibility rules, contribution workflows). Miss any layer and you have a library, not a system.</p>
+
+      <h2>The Four Foundations</h2>
+      <p>Every durable design system rests on four foundations. Each one deserves deliberate design, because weakness in any of them leaks into everything built on top.</p>
+
+      <h3>1. Design Tokens: The Single Source of Truth</h3>
+      <p>Design tokens are platform-agnostic variables that store visual design decisions — color, typography, spacing, radius, shadow, motion. Instead of hard-coding a hex value in fifty files, you reference a token. When the brand color changes, you change it once. Tokens are typically organized in three tiers:</p>
       <ul>
-        <li><strong>Design Tokens:</strong> Colors, typography, spacing, and other visual properties</li>
-        <li><strong>Component Library:</strong> Reusable UI components</li>
-        <li><strong>Patterns:</strong> Common interaction patterns and layouts</li>
-        <li><strong>Documentation:</strong> Guidelines and usage examples</li>
+        <li><strong>Base (primitive) tokens:</strong> raw values with generic names, e.g. <code>blue-500</code> or <code>space-4</code>. They describe <em>what</em> the value is.</li>
+        <li><strong>Semantic tokens:</strong> purpose-driven aliases, e.g. <code>color.action.primary</code> pointing at <code>blue-500</code>. They describe <em>how</em> the value is used.</li>
+        <li><strong>Component tokens:</strong> narrow aliases for specific parts, e.g. <code>button.primary.background</code> pointing at <code>color.action.primary</code>. They describe <em>where</em> the value is used.</li>
       </ul>
-      
-      <h2>Benefits of Design Systems</h2>
-      <p>Implementing a design system brings numerous benefits to your team and product:</p>
-      
+      <p>This aliasing chain is what makes theming and dark mode tractable: you remap the semantic layer once instead of hunting through components. The W3C Design Tokens Community Group (DTCG) format has emerged as the interchange standard, supported by tools like Style Dictionary and Tokens Studio:</p>
+      <pre><code>{
+  "color": {
+    "blue": {
+      "500": {
+        "$value": "#2563eb",
+        "$type": "color"
+      }
+    },
+    "action": {
+      "primary": {
+        "$value": "{color.blue.500}",
+        "$type": "color",
+        "$description": "Default background for primary actions"
+      }
+    }
+  },
+  "space": {
+    "4": { "$value": "16px", "$type": "dimension" }
+  },
+  "button": {
+    "primary": {
+      "background": { "$value": "{color.action.primary}", "$type": "color" },
+      "padding-x": { "$value": "{space.4}", "$type": "dimension" }
+    }
+  }
+}</code></pre>
+      <p>From this single JSON source, build tools generate CSS custom properties for the web, constants for iOS, and resources for Android — one truth, many platforms. A practical rule: name tokens by <strong>intent, not appearance</strong>. <code>color.text.danger</code> survives a rebrand; <code>color.red</code> invites misuse the moment red means something else.</p>
+
+      <h3>2. Components: Encapsulated, API-Driven Building Blocks</h3>
+      <p>Components are where tokens become interface. A good component is <strong>encapsulated</strong> (its styles don't leak, and outside styles don't break it), <strong>composable</strong> (small pieces combine into larger ones), and <strong>API-driven</strong> (behavior is controlled through a clear, documented props interface rather than CSS overrides).</p>
+      <p>Design component APIs the way you design public APIs, because that's what they are. Prefer a small set of <code>variant</code> and <code>size</code> props over boolean soup like <code>isPrimaryLargeRounded</code>. Every component should define its full <strong>state matrix</strong>: default, hover, focus, active, disabled, loading, and error — each one designed, not left to browser defaults. Accessibility is part of the component, not a layer added later: keyboard operability, visible focus indicators, sufficient contrast, and correct ARIA roles ship inside the component so product teams get them for free.</p>
+      <p>A useful test: can a developer use the component correctly without reading its source code? If yes, the API is well designed. If the answer is "just wrap it in a div and add some custom CSS," the component has failed its contract.</p>
+
+      <h3>3. Patterns: Guidance for Composition</h3>
+      <p>Components answer "what can I use?" Patterns answer "how should I assemble it?" Patterns live one level above components: form layouts with inline validation, empty states, error handling, navigation structures, data tables with pagination, onboarding flows. They capture <strong>decisions that repeat</strong> across features.</p>
+      <p>Good patterns include the rationale, not just the recipe: <em>why</em> the form places errors inline rather than in a summary banner, <em>when</em> to use a modal versus a dedicated page, and explicit <strong>do / don't</strong> examples with visuals. Patterns are also where product-specific conventions live — the things a generic component library can never know, like how your checkout flow handles declined payments. Without patterns, teams assemble the same components into wildly different experiences, and the consistency you bought the system for evaporates at the page level.</p>
+
+      <h3>4. Documentation: The System's User Interface</h3>
+      <p>Documentation is how the design system meets its users — the designers and developers building products. An undocumented component might as well not exist; teams will rebuild their own rather than guess at an API. Effective documentation is <strong>living</strong>: generated or co-located with the code so it can't drift out of date, versioned alongside releases, and written for two audiences at once.</p>
+      <p>Designers need anatomy diagrams, spacing rules, content guidelines, and do/don't examples. Developers need props tables, code snippets, framework-specific notes, and migration guides. Both need accessibility requirements stated plainly. Treat documentation like product copy: clear, scannable, example-first. If contributing to the system requires tribal knowledge, the documentation has failed.</p>
+
+      <h2>Anatomy of a Component: From Token to Documentation</h2>
+      <p>Theory is cheap — let's trace one component through the entire pipeline. We'll follow a humble <strong>Button</strong>, the most-used and most-abused component in any system, from raw token to published documentation.</p>
+
+      <h3>Step 1: Tokens Feed the Component</h3>
+      <p>Our button never hard-codes a value. Its primary variant draws from the component-token tier we defined earlier: <code>button.primary.background</code> resolves through <code>color.action.primary</code> down to a single hex value. Spacing, radius, and type come from <code>space</code>, <code>radius</code>, and <code>text</code> tokens. If the brand refreshes next year, the button updates without a single line of component code changing — that's the payoff of the aliasing chain.</p>
+
+      <h3>Step 2: Implementation</h3>
+      <p>The component consumes the tokens as CSS custom properties (generated from the token JSON) and exposes a tight API. States are designed explicitly — note the visible focus ring and the disabled treatment, both accessibility requirements, not afterthoughts:</p>
+      <pre><code>.btn {
+  background: var(--button-primary-background);
+  color: var(--color-text-on-action);
+  padding: var(--space-2) var(--button-primary-padding-x);
+  border-radius: var(--radius-md);
+  font: var(--text-button);
+  border: none;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.btn:hover { background: var(--button-primary-background-hover); }
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }</code></pre>
+
+      <h3>Step 3: Usage in Products</h3>
+      <p>Product teams never touch the CSS. They compose through the component API, and the variant system keeps visual decisions inside the design system where they can be governed:</p>
+      <pre><code>&lt;Button variant="primary" size="md" onClick={handleSave}&gt;
+  Save changes
+&lt;/Button&gt;
+
+&lt;Button variant="secondary" size="sm" disabled&gt;
+  Cancel
+&lt;/Button&gt;</code></pre>
+      <p>Notice what's absent: no className overrides, no inline styles, no one-off hex codes. When every team consumes the same API, a design change propagates as a version bump, not a hundred pull requests.</p>
+
+      <h3>Step 4: Documentation</h3>
+      <p>Finally, the button earns a documentation page that serves both audiences: an anatomy diagram labeling the container, label, icon slot, and padding; a props table (<code>variant</code>, <code>size</code>, <code>disabled</code>, <code>loading</code>); live examples of every variant and state; content guidelines ("use sentence case; keep labels under three words"); and an accessibility checklist — minimum 44px touch target, 4.5:1 contrast, keyboard operability, announced loading state. This page is the component's contract with its users. When the contract is clear, adoption follows.</p>
+
+      <h2>Adopting a Design System in Your Team</h2>
+      <p>The best-built system fails if nobody adopts it. Adoption is a <strong>change-management</strong> problem, not a tooling problem, and it needs a strategy from day one.</p>
       <ul>
-        <li>Consistency across all touchpoints</li>
-        <li>Faster development and prototyping</li>
-        <li>Reduced design and development debt</li>
-        <li>Better collaboration between teams</li>
-        <li>Improved accessibility and usability</li>
+        <li><strong>Start with a pilot, not a mandate.</strong> Partner with one product team on a real feature. Ship something, measure the time saved, then let that team become your advocate. Mandates breed resentment; success stories breed pull.</li>
+        <li><strong>Define a contribution model.</strong> The core team can't build everything. Document how product teams propose new components or variants, who reviews them, and what the bar for inclusion is. A lightweight RFC or proposal template prevents both chaos and bottlenecks.</li>
+        <li><strong>Govern without gatekeeping.</strong> A small working group — design, engineering, accessibility — reviews additions for consistency and quality. Their job is curation, not control: say yes with modifications far more often than no.</li>
+        <li><strong>Communicate like a product.</strong> Release notes, a changelog, a dedicated channel, office hours. Every breaking change needs a migration guide written <em>before</em> the release, not after the complaints.</li>
+        <li><strong>Measure what matters.</strong> Track component adoption rate, the number of one-off overrides, and time-to-build for common screens. When you can show that teams ship forms faster with system components, funding and buy-in take care of themselves.</li>
       </ul>
-      
-      <h2>Getting Started</h2>
-      <p>Building a design system is an iterative process. Start with your most common components and gradually expand your system based on real usage patterns.</p>
-      
+
+      <h2>Versioning: Treating the System Like Software</h2>
+      <p>A design system is a dependency, so version it like one. <strong>Semantic versioning</strong> gives consumers a contract: patch releases fix bugs, minor releases add components or variants in a backward-compatible way, and major releases may break things — renamed props, removed variants, restructured tokens. Consumers should be able to upgrade a minor version without reading a migration guide.</p>
+      <p>Tools like <strong>Changesets</strong> make this workflow concrete. Each pull request that changes the system includes a small markdown file declaring the bump type and a human-readable summary:</p>
+      <pre><code># Add a changeset with:
+npx changeset
+# select patch / minor / major, then describe the change
+
+# On release, versions are bumped and a changelog generated:
+npx changeset version</code></pre>
+      <p>Pair this with a <strong>deprecation policy</strong>: never remove a component outright. Mark it deprecated, announce the removal version (at least one major version away), provide a codemod or migration guide, and only then delete. Respect for consumers' upgrade budgets is what keeps teams on the latest version instead of forking their own copies.</p>
+
+      <h2>Common Mistakes to Avoid</h2>
+      <p>Most design systems don't fail from lack of effort — they fail from predictable mistakes. Watch for these:</p>
+      <ul>
+        <li><strong>Building a component library and calling it a system.</strong> Without tokens, patterns, documentation, and governance, you have a UI kit that drifts. The unglamorous parts are the system.</li>
+        <li><strong>Boiling the ocean.</strong> Trying to design every component before shipping any means the system arrives obsolete. Start with the ten components every screen needs; let real usage pull the rest.</li>
+        <li><strong>Over-abstracting too early.</strong> A button with forty props is worse than two focused components. Abstract from repeated real usage, not from imagined future needs.</li>
+        <li><strong>Ignoring the contribution path.</strong> If product teams can't feed improvements back, they'll fork. A system nobody can contribute to becomes a system everybody works around.</li>
+        <li><strong>Breaking changes without migration paths.</strong> Nothing kills trust faster than an upgrade that silently breaks production. Deprecate loudly, migrate gently.</li>
+        <li><strong>Designing for the portfolio, not the product.</strong> Pixel-perfect showcase pages that ignore edge cases — long strings, empty states, right-to-left languages, large zoom levels — produce components that shatter on contact with reality.</li>
+        <li><strong>Treating accessibility as a phase.</strong> Bolting on accessibility at the end means rebuilding components. Bake contrast, keyboard support, and semantics into the first version of every component.</li>
+      </ul>
+
       <h2>Conclusion</h2>
-      <p>A well-designed design system is an investment that pays dividends in consistency, efficiency, and user experience quality.</p>
+      <p>A design system is a long-term investment in how your organization builds interfaces. Tokens give you a single source of truth; components turn that truth into reusable interface; patterns guide composition; documentation makes it all usable. Adoption, versioning, and governance keep it alive. Start small — one pilot team, a handful of tokens, your most-used components — and grow the system from real demand rather than speculation. The systems that survive aren't the most complete on day one; they're the ones teams actually want to use on day one hundred.</p>
     `,
     author: "Fani Adi Frihandoko",
     publishedAt: "2024-01-05",
     tags: ["Design", "UI/UX", "Design Systems"],
-    readTime: "10 min read",
+    readTime: "15 min read",
   },
   {
     id: 4,

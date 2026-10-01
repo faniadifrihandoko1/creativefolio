@@ -48,7 +48,7 @@ const sampleBlogs = [
       "Explore how design systems can help create cohesive, scalable, and maintainable user interfaces across your entire product ecosystem.",
     author: "Fani Adi Frihandoko",
     date: "2024-01-05",
-    readTime: "10 min read",
+    readTime: "15 min read",
     category: "Design",
     image: "/images/design-systems.jpg",
     featured: false,
