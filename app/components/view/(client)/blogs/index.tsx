@@ -68,7 +68,19 @@ const sampleBlogs = [
   },
   {
     id: 5,
-    title: "UI Design Principles: Crafting Intuitive Interfaces",
+    title: "Typography Fundamentals: Pairing Type for the Web",
+    slug: "typography-fundamentals-pairing-type-for-the-web",
+    excerpt:
+      "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
+    author: "Fani Adi Frihandoko",
+    date: "2024-01-25",
+    readTime: "8 min read",
+    category: "Design",
+    image: "/images/portofolio.jpg",
+  },
+  {
+id: 6,
+title: "UI Design Principles: Crafting Intuitive Interfaces",
     slug: "ui-design-principles-crafting-intuitive-interfaces",
     excerpt:
       "Explore core UI design principles — visual hierarchy, consistency, and feedback — to craft interfaces that feel intuitive and delightful for users.",
@@ -77,8 +89,7 @@ const sampleBlogs = [
     readTime: "7 min read",
     category: "Design",
     image: "/images/circle.jpg",
-    featured: false,
-  },
+    featured: false,}
 ];
 
 const categories = [

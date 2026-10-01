@@ -202,6 +202,42 @@ function App() {
   },
   {
     id: 5,
+    title: "Typography Fundamentals: Pairing Type for the Web",
+    slug: "typography-fundamentals-pairing-type-for-the-web",
+    description:
+      "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
+    content: `
+      <p>Typography is the voice of your interface. Before users read a single word, the typeface, spacing, and scale already tell them how to feel — formal or playful, trustworthy or edgy. Getting the fundamentals right turns plain text into a design element.</p>
+
+      <h2>1. Know Your Font Anatomy</h2>
+      <p>Every typeface has a personality built from its anatomy: x-height, ascenders, descenders, and contrast between thick and thin strokes. High x-height fonts stay legible at small sizes — ideal for body text on screens.</p>
+
+      <h2>2. Pairing Typefaces</h2>
+      <p>A reliable pairing formula is one serif + one sans-serif, or one display face + one workhorse text face. Keep contrast in the roles (headings vs. body) but harmony in the mood. Two fonts are usually enough; three is the maximum for most interfaces.</p>
+
+      <h3>Practical tips</h3>
+      <ul>
+        <li><strong>Contrast, not clash:</strong> Pair fonts that differ in at least one axis — weight, width, or style</li>
+        <li><strong>One superfamily:</strong> When in doubt, use different weights of the same family</li>
+        <li><strong>Test real content:</strong> Preview with your actual copy, not lorem ipsum</li>
+      </ul>
+
+      <h2>3. Scale With a Modular Scale</h2>
+      <p>Build your type scale from a base size and a ratio (1.25, 1.333, or 1.5). A modular scale creates rhythm: headings, subheadings, and body text relate to each other mathematically instead of by guesswork.</p>
+
+      <h2>4. Line Length and Spacing</h2>
+      <p>Aim for 45–75 characters per line for body text, with line-height around 1.5–1.7. Generous spacing between paragraphs and sections gives the eye clear landmarks while scanning.</p>
+
+      <h2>Conclusion</h2>
+      <p>Good typography is invisible — readers notice the message, not the letters. Master anatomy, pairing, scale, and spacing, and your interfaces will communicate with clarity and character.</p>
+    `,
+    author: "Fani Adi Frihandoko",
+    publishedAt: "2024-01-25",
+    tags: ["Typography", "Web Design", "Design Fundamentals"],
+    readTime: "8 min read",
+  },
+  {
+    id: 6,
     title: "UI Design Principles: Crafting Intuitive Interfaces",
     slug: "ui-design-principles-crafting-intuitive-interfaces",
     description:
