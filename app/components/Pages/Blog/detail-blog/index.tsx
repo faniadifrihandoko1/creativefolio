@@ -716,34 +716,138 @@ async function getDashboardData(userId) {
     description:
       "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
     content: `
-      <p>Typography is the voice of your interface. Before users read a single word, the typeface, spacing, and scale already tell them how to feel — formal or playful, trustworthy or edgy. Getting the fundamentals right turns plain text into a design element.</p>
+      <p>Typography is the voice of your interface. Before users read a single word, the typeface, spacing, and scale already tell them how to feel — formal or playful, trustworthy or edgy. The oft-quoted line that "95% of web design is typography" is an exaggeration with a true core: on most screens, text <em>is</em> the interface. Buttons are labels, navigation is words, error states are sentences. Get the type wrong and no amount of color or illustration will save the experience.</p>
+      <p>This article goes deep on the fundamentals that actually determine whether web type works: how to pair typefaces with a repeatable method (not vibes), how to build scales and hierarchies that hold up across screen sizes, how to protect readability, and how to implement it all on the web without wrecking performance. Along the way we'll look at concrete pairings — what works, what fails, and <em>why</em>.</p>
 
-      <h2>1. Know Your Font Anatomy</h2>
-      <p>Every typeface has a personality built from its anatomy: x-height, ascenders, descenders, and contrast between thick and thin strokes. High x-height fonts stay legible at small sizes — ideal for body text on screens.</p>
-
-      <h2>2. Pairing Typefaces</h2>
-      <p>A reliable pairing formula is one serif + one sans-serif, or one display face + one workhorse text face. Keep contrast in the roles (headings vs. body) but harmony in the mood. Two fonts are usually enough; three is the maximum for most interfaces.</p>
-
-      <h3>Practical tips</h3>
+      <h2>1. Why Screens Are Not Print</h2>
+      <p>Typography advice borrowed uncritically from print will mislead you, because screens render type differently. Print has effectively infinite resolution; screens rasterize letterforms onto a coarse pixel grid. That makes three anatomical traits disproportionately important on the web:</p>
       <ul>
-        <li><strong>Contrast, not clash:</strong> Pair fonts that differ in at least one axis — weight, width, or style</li>
-        <li><strong>One superfamily:</strong> When in doubt, use different weights of the same family</li>
-        <li><strong>Test real content:</strong> Preview with your actual copy, not lorem ipsum</li>
+        <li><strong>x-height:</strong> the height of lowercase letters. Fonts with a generous x-height (Inter, Source Sans) stay legible at small sizes because their main shapes are physically larger at the same point size.</li>
+        <li><strong>Open apertures:</strong> the openings in letters like <em>c</em>, <em>e</em>, <em>s</em>. Open apertures keep letters distinguishable when pixels are scarce — compare a tightly closed grotesque with something like IBM Plex Sans at 13px.</li>
+        <li><strong>Stroke contrast:</strong> the difference between thick and thin strokes. High-contrast Didone faces (think fashion magazines) look stunning large but disintegrate at body sizes on screen, where thin strokes vanish into single pixels.</li>
+      </ul>
+      <p>The practical takeaway: <strong>evaluate body typefaces at body sizes, on a real screen, with real content.</strong> A font that looks gorgeous in a 72pt hero specimen can be unreadable at 15px. Test at the sizes you'll actually ship.</p>
+
+      <h2>2. Type Pairing: a Method, Not a Mood</h2>
+      <p>Pairing means assigning <strong>roles</strong>: typically a display face (headings, hero, brand moments) and a text face (body, UI, everything long-form). The job of a pairing is to create enough contrast between the roles that the hierarchy reads instantly, while keeping enough harmony that the page feels like one product, not two websites stapled together.</p>
+      <p>The reliable method has three rules:</p>
+
+      <h3>Rule 1: Contrast on at least one axis, harmony on the rest</h3>
+      <p>Fonts differ along axes: classification (serif vs. sans), weight, width, contrast, mood. A good pairing contrasts on <strong>one</strong> axis and agrees on the others. A high-contrast transitional serif for display plus a neutral grotesque for body works because the classification contrast is strong while both share a calm, rational mood. Pair two fonts that differ on <em>every</em> axis and you get visual noise; pair two that differ on <em>none</em> and you get the worst outcome of all — see below.</p>
+
+      <h3>Rule 2: Never pair lookalikes</h3>
+      <p>The most common pairing failure isn't clashing — it's <strong>insufficient contrast</strong>. Two geometric sans-serifs (say, Poppins for headings and Montserrat for body) look almost the same but not quite. The reader's eye senses <em>something</em> is different but can't tell what, which reads as sloppiness rather than design. If the pairing doesn't look intentional at a glance, it isn't working. When in doubt, increase the contrast or collapse to a single family.</p>
+
+      <h3>Rule 3: Two is the default, three is the ceiling</h3>
+      <p>Two typefaces cover nearly every interface: display + text. A third is justified only for a distinct third role — often a monospace for code/data, or a brand script for rare accents. Every additional family adds HTTP requests, cognitive load, and maintenance cost. Most of the best-designed sites you admire use two.</p>
+      <p>And the escape hatch that never fails: <strong>the superfamily strategy.</strong> Using different weights and widths of a single family (e.g., Inter 400 for body, Inter 700 for headings, maybe Inter Tight for display) guarantees harmony because the letterforms share DNA, while weight contrast provides the hierarchy. If you're unsure, start here.</p>
+
+      <h2>3. Good vs. Bad Pairings, Explained</h2>
+      <p>Let's make this concrete with three evaluations — the reasoning matters more than the specific fonts:</p>
+
+      <h3>Good: Playfair Display (headings) + Inter (body)</h3>
+      <p>Why it works: strong classification contrast (high-contrast serif vs. neutral grotesque) gives instant hierarchy — you know what's a heading without thinking. Both have generous x-heights and open apertures, so they share a legible, contemporary feel despite the contrast. The mood agrees (confident, editorial) while the roles differ sharply. This is Rule 1 executed perfectly.</p>
+
+      <h3>Good: Space Grotesk (display) + Space Grotesk 400 (body)</h3>
+      <p>Why it works: the superfamily strategy. Same skeleton, so harmony is automatic; weight and size create the contrast. It's nearly impossible to make this look wrong, it loads one font file family, and it still has character thanks to Space Grotesk's quirky letterforms. The lesson: <strong>constraint is a design tool.</strong></p>
+
+      <h3>Bad: Poppins (headings) + Montserrat (body)</h3>
+      <p>Why it fails: both are geometric sans-serifs with near-identical construction — circular <em>o</em>s, single-story <em>a</em>s, similar x-heights. There's no role contrast, so headings don't feel like headings; there's just a vague sense that something is "off." This is the lookalike trap from Rule 2. Fix it by either committing to one of them in multiple weights, or replacing one side with a genuinely different classification.</p>
+
+      <h3>Bad: A decorative script for body text</h3>
+      <p>Why it fails: scripts and highly stylized display faces are designed to be <em>looked at</em>, not <em>read</em>. At paragraph lengths, unusual letterforms force the reader to decode every word instead of recognizing word shapes — reading speed collapses. Display faces earn their place at large sizes and short lengths; body text belongs to workhorses. <strong>Novelty is a budget: spend it on headings, save it everywhere else.</strong></p>
+
+      <h2>4. Scale: Build a Modular System, Not a Pile of Sizes</h2>
+      <p>Random font sizes — 13px here, 17px there, 23px because it "looked right" — produce interfaces with no rhythm. A <strong>modular scale</strong> derives every size from a base size multiplied by a ratio, so sizes relate to each other mathematically and the hierarchy feels inevitable rather than arbitrary.</p>
+      <p>Common ratios and their personalities:</p>
+      <ul>
+        <li><strong>1.125 (Major Second):</strong> subtle, quiet — good for dense UIs and data-heavy products where type shouldn't shout.</li>
+        <li><strong>1.25 (Major Third):</strong> the versatile default. Clear hierarchy without drama; works for most marketing and product interfaces.</li>
+        <li><strong>1.333 (Perfect Fourth):</strong> confident and editorial. Headings clearly dominate; suits blogs and brand-forward sites.</li>
+        <li><strong>1.5 (Perfect Fifth):</strong> dramatic. Use when display type is a brand statement, not for admin dashboards.</li>
+      </ul>
+      <p>A practical scale from a 16px base at 1.25: <code>12.8 → 16 → 20 → 25 → 31.25 → 39</code>. Round to sensible values (13, 16, 20, 25, 31, 39) and assign each step a <strong>role</strong> — caption, body, lead, h4, h3, h2, h1 — not a component. When every heading level maps to a scale step, the whole product stays consistent even as it grows. And define the scale in relative units (<code>rem</code>) so it respects user font-size preferences and zooms correctly.</p>
+
+      <h2>5. Hierarchy: Five Levers, Used Deliberately</h2>
+      <p>Hierarchy answers the reader's first question on any screen: <em>where do I look first?</em> You have five levers, roughly in order of strength:</p>
+      <ul>
+        <li><strong>Size:</strong> the strongest signal. Bigger reads as more important — but only relatively. A 32px heading next to 16px body works; a 32px heading next to 28px subheading creates ambiguity.</li>
+        <li><strong>Weight:</strong> bold vs. regular separates heading from body at the same size. Reserve the heaviest weights for the few elements that deserve maximum emphasis; if everything is bold, nothing is.</li>
+        <li><strong>Color:</strong> darker (or brand-colored) text advances; muted gray recedes. Use color for hierarchy sparingly — it doubles as an interactive signal, and overuse confuses both.</li>
+        <li><strong>Spacing:</strong> whitespace is hierarchy. A heading with generous space above it reads as the start of a new section; cramped headings blur into the content. Space <em>between</em> groups should exceed space <em>within</em> groups.</li>
+        <li><strong>Position:</strong> top-left (in LTR layouts) gets first attention. Put the primary message where the eye lands first instead of fighting reading order.</li>
+      </ul>
+      <p>The discipline: <strong>each level of your outline should differ from its neighbors by at least two levers.</strong> If h2 and h3 differ only in size by 2px, the hierarchy is mush. Make h3 smaller <em>and</em> lighter, or smaller <em>and</em> muted — then the structure survives even a quick scan.</p>
+
+      <h2>6. Readability: the Non-Negotiables</h2>
+      <p>Beautiful type that tires the eye is failed type. These are the measurable foundations:</p>
+      <ul>
+        <li><strong>Measure (line length):</strong> 45–75 characters per line for body text. Shorter and the eye jumps awkwardly; longer and it gets lost finding the next line. On wide screens, constrain text columns with <code>max-width: 65ch</code> — the <code>ch</code> unit ties the measure to the font itself.</li>
+        <li><strong>Line height:</strong> 1.5–1.7 for body text. Tight line-height (below ~1.4) makes paragraphs feel dense and intimidating; it can drop to ~1.1–1.2 for large display headings where lines are few and drama helps.</li>
+        <li><strong>Contrast:</strong> body text should meet WCAG AA — 4.5:1 against its background. The trendy light-gray-on-white body copy fails real users in real lighting. Check with a contrast tool, not your calibrated monitor in a dark room.</li>
+        <li><strong>Letter spacing:</strong> leave body text alone (or nearly). Add slight tracking (+0.05em or so) only to small-caps labels and uppercase eyebrows, where tight default spacing would blur the letters together. Never letterspace lowercase body copy.</li>
+        <li><strong>Paragraph rhythm:</strong> space between paragraphs (or a clear first-line indent — pick one, not both), and visibly larger gaps between sections. Readers navigate by these landmarks when scanning.</li>
+      </ul>
+      <p>Readability also degrades with viewport: on small screens, slightly increase base size and line-height (thin phone screens punish small type), and let headings wrap rather than shrinking them into illegibility.</p>
+
+      <h2>7. Implementing It on the Web</h2>
+      <p>Theory ships as CSS. Three modern techniques cover most of what you need:</p>
+
+      <h3>Fluid type with clamp()</h3>
+      <p>Instead of hard breakpoints, let display sizes interpolate smoothly between a minimum and maximum as the viewport grows:</p>
+      <pre><code>/* Fluid h1: 2rem at 320px viewport → 3.5rem at 1200px */
+h1 {
+  font-size: clamp(2rem, 1.2rem + 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+/* Fluid body: subtle, keeps measure sane everywhere */
+body {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.6;
+}</code></pre>
+      <p>Keep body type nearly fixed (readers need stability) and let display type be fluid (headings have room to breathe). One warning: test the extremes — <code>clamp()</code> with a bad preferred value can produce absurd sizes on ultrawide or tiny screens.</p>
+
+      <h3>Variable fonts: one file, many voices</h3>
+      <p>Variable fonts pack weight, width, slant — even optical size — into a single file with adjustable axes. Instead of loading four static weights (400, 500, 700, 900), you load one file and dial any value:</p>
+      <pre><code>@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+h1 { font-weight: 780; }   /* any value, not just presets */
+.caption { font-weight: 450; }</code></pre>
+      <p>The performance win is real: one ~100KB variable file often replaces 300KB+ of static weights. The design win is subtler but bigger — fine-grained weights let you tune hierarchy precisely instead of jumping between whatever presets you happened to load.</p>
+
+      <h3>Loading without the jank</h3>
+      <p>Custom fonts block rendering or cause flashes — both are typography failures. The checklist:</p>
+      <ul>
+        <li><strong><code>font-display: swap</code></strong> — show fallback text immediately, swap when the font arrives. Invisible text (FOIT) is worse than a brief style change (FOUT).</li>
+        <li><strong>Preload the critical weights</strong> — <code>&lt;link rel="preload" as="font"&gt;</code> for the body and heading faces so they don't wait behind other resources.</li>
+        <li><strong>Subset ruthlessly</strong> — if your audience is Latin-only, don't ship Cyrillic, Greek, and Vietnamese glyphs. Subsetting can halve file sizes.</li>
+        <li><strong>Match fallback metrics</strong> — use <code>size-adjust</code> in your <code>@font-face</code> fallback so the swap doesn't reflow the whole page (the dreaded layout shift).</li>
       </ul>
 
-      <h2>3. Scale With a Modular Scale</h2>
-      <p>Build your type scale from a base size and a ratio (1.25, 1.333, or 1.5). A modular scale creates rhythm: headings, subheadings, and body text relate to each other mathematically instead of by guesswork.</p>
-
-      <h2>4. Line Length and Spacing</h2>
-      <p>Aim for 45–75 characters per line for body text, with line-height around 1.5–1.7. Generous spacing between paragraphs and sections gives the eye clear landmarks while scanning.</p>
+      <h2>8. Common Mistakes</h2>
+      <ul>
+        <li><strong>Too many typefaces:</strong> four families on one page signals indecision, not richness. Audit and consolidate — most products need two.</li>
+        <li><strong>Pairing lookalikes:</strong> as covered in section 2, near-identical fonts read as mistakes. Contrast deliberately or unify.</li>
+        <li><strong>Fixed px everywhere:</strong> pixel sizes ignore user preferences and break zoom. Use <code>rem</code> for type; reserve <code>px</code> for borders and hairlines.</li>
+        <li><strong>Gray-on-gray body text:</strong> <code>#999</code> on white might look "refined" in Figma and be unreadable in sunlight. Respect the 4.5:1 ratio for body copy.</li>
+        <li><strong>Ignoring the fallback stack:</strong> when the webfont fails (and it will, somewhere), the fallback determines the experience. Specify a real stack — <code>system-ui, -apple-system, "Segoe UI", sans-serif</code> — with matched metrics, not just <code>sans-serif</code>.</li>
+        <li><strong>Center-aligning everything:</strong> centered text destroys the left edge readers use to track lines. Center short display lines; left-align (or start-align) everything long-form.</li>
+        <li><strong>Forgetting non-Latin scripts:</strong> if your product serves multiple languages, verify the typeface actually covers them — a beautiful Latin face with broken Arabic or CJK fallbacks is a broken experience for those users.</li>
+      </ul>
 
       <h2>Conclusion</h2>
-      <p>Good typography is invisible — readers notice the message, not the letters. Master anatomy, pairing, scale, and spacing, and your interfaces will communicate with clarity and character.</p>
+      <p>Good typography is invisible — readers notice the message, not the letters. That invisibility is engineered, not accidental: a pairing method that assigns clear roles, a modular scale that gives every size a job, hierarchy levers applied deliberately, readability guarded by measurable rules, and web implementation that respects both performance and real screens. Master these fundamentals and your interfaces won't just look considered — they'll <em>read</em> effortlessly, which is the whole point of putting words on a screen.</p>
     `,
     author: "Fani Adi Frihandoko",
     publishedAt: "2024-01-25",
     tags: ["Typography", "Web Design", "Design Fundamentals"],
-    readTime: "8 min read",
+    readTime: "14 min read",
   },
   {
     id: 6,
