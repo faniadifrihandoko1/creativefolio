@@ -74,7 +74,7 @@ const sampleBlogs = [
       "Learn how to choose, pair, and scale typefaces — from font anatomy to modular scales — to make your web typography readable, expressive, and consistent.",
     author: "Fani Adi Frihandoko",
     date: "2024-01-25",
-    readTime: "8 min read",
+    readTime: "14 min read",
     category: "Design",
     image: "/images/typography-fundamentals.jpg",
   },
