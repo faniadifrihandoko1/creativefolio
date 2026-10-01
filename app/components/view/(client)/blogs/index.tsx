@@ -22,7 +22,7 @@ const sampleBlogs = [
       "Discover the latest features in Next.js 14 and how to leverage them for building scalable web applications with improved performance and developer experience.",
     author: "John Doe",
     date: "2024-01-15",
-    readTime: "8 min read",
+    readTime: "15 min read",
     category: "Web Development",
     image: "/images/nextjs-14-web-apps.jpg",
     featured: true,
