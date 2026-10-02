@@ -15,6 +15,7 @@ import { structure } from "./sanity/structure";
 import { theme } from "./sanity/theme";
 import { Logo } from "./sanity/components/Logo";
 import { FeaturedBadge, NoCoverBadge } from "./sanity/components/DocumentBadges";
+import { dashboardTool } from "./sanity/plugins/dashboard";
 import { codeInput } from "@sanity/code-input";
 
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
   // Add and edit the content schema in the './sanity/schema' folder
   schema,
   plugins: [
+    dashboardTool(),
     structureTool({ structure }),
     codeInput(),
     // Vision is a tool that lets you query your content with GROQ in the studio
