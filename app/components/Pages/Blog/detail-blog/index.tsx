@@ -8,6 +8,9 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { urlForImage } from "@/sanity/lib/image";
 import type { SanityPost } from "@/sanity/lib/queries";
 import Image from "next/image";
+import { CodeBlock } from "@/app/components/Elements/CodeBlock";
+import { ShareButtons } from "@/app/components/Elements/ShareButtons";
+import { ReadingProgress } from "@/app/components/Elements/ReadingProgress";
 
 interface BlogDetailProps {
   post: SanityPost;
@@ -17,9 +20,7 @@ interface BlogDetailProps {
 const ptComponents: PortableTextComponents = {
   types: {
     code: ({ value }: { value: { code: string; language?: string } }) => (
-      <pre data-language={value.language}>
-        <code>{value.code}</code>
-      </pre>
+      <CodeBlock code={value.code} language={value.language} />
     ),
     image: ({ value }: { value: { alt?: string } }) => (
       <span className="block my-8">
@@ -81,6 +82,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
 
   return (
     <div className="w-full min-h-screen pt-28 px-6 md:px-0">
+      <ReadingProgress />
       <div className="mb-6">
         <Link
           href="/blogs"
@@ -127,6 +129,18 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
 
       <hr className="border-1.5 border-black dark:border-white mt-7" />
 
+      {blogPost.coverUrl && (
+        <div className="mt-8 relative w-full aspect-[16/9] overflow-hidden rounded-xl">
+          <Image
+            src={blogPost.coverUrl}
+            alt={blogPost.coverAlt || blogPost.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
+
       <article className="mt-10 max-w-4xl">
         <div
           className="prose prose-lg dark:prose-invert max-w-none
@@ -148,6 +162,9 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
       </article>
 
       <div className="mt-16 mb-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-center mb-8">
+          <ShareButtons title={blogPost.title} />
+        </div>
         <div className="flex justify-between items-center">
           {(() => {
             const currentIndex = posts.findIndex(

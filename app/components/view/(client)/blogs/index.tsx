@@ -14,14 +14,6 @@ import {
 } from "react-icons/fa";
 
 
-const categories = [
-  "All",
-  "Web Development",
-  "Programming",
-  "Design",
-  "Productivity",
-];
-
 import type { SanityPost } from "@/sanity/lib/queries";
 
 export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
@@ -29,6 +21,12 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
+
+  // Kategori diambil dari data (tidak hardcoded)
+  const categories = [
+    "All",
+    ...Array.from(new Set(posts.map((p) => p.category).filter(Boolean))).sort(),
+  ];
 
   useEffect(() => {
     setIsMounted(true);

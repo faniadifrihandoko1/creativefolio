@@ -25,9 +25,26 @@ export const generateMetadata = async ({ params }: BlogDetailProps) => {
   const post = await client.fetch<SanityPost | null>(postBySlugQuery, {
     slug: params.slug,
   });
+  const title = post?.seoTitle || post?.title || "Blog";
+  const description = post?.seoDescription || post?.excerpt;
+  const images = post?.coverUrl ? [post.coverUrl] : [];
   return {
-    title: post?.seoTitle || post?.title || "Blog",
-    description: post?.seoDescription || post?.excerpt,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images,
+      type: "article",
+      publishedTime: post?.publishedAt,
+      authors: post?.author ? [post.author] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
+    },
   };
 };
 
@@ -39,5 +56,22 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
   if (!post) {
     notFound();
   }
-  return <BlogDetailView post={post} posts={posts} />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.coverUrl || undefined,
+    datePublished: post.publishedAt,
+    author: { "@type": "Person", name: post.author },
+  };
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogDetailView post={post} posts={posts} />
+    </>
+  );
 }

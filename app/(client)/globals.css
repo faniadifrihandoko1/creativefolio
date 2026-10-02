@@ -19,3 +19,27 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* sugar-high syntax highlighting theme */
+:root {
+  --sh-identifier: #354150;
+  --sh-keyword: #c2410c;
+  --sh-string: #15803d;
+  --sh-class: #6d28d9;
+  --sh-property: #1d4ed8;
+  --sh-entity: #15803d;
+  --sh-jsxliterals: #c2410c;
+  --sh-sign: #64748b;
+  --sh-comment: #94a3b8;
+}
+.dark {
+  --sh-identifier: #e2e8f0;
+  --sh-keyword: #f472b6;
+  --sh-string: #86efac;
+  --sh-class: #c4b5fd;
+  --sh-property: #93c5fd;
+  --sh-entity: #86efac;
+  --sh-jsxliterals: #f472b6;
+  --sh-sign: #64748b;
+  --sh-comment: #64748b;
+}
