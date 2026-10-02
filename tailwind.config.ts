@@ -1,11 +1,16 @@
 import type { Config } from "tailwindcss";
 
+import { TECH_COLORS } from "./sanity/lib/techColors";
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // Warna badge teknologi datang dari Sanity (dinamis), jadi di-safelist
+  // agar Tailwind tetap men-generate class-nya.
+  safelist: TECH_COLORS,
   darkMode: "class",
   theme: {
     extend: {

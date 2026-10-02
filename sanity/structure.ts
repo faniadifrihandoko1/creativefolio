@@ -1,6 +1,7 @@
 import type { StructureResolver } from "sanity/structure";
 import {
   BookIcon,
+  CaseIcon,
   ClockIcon,
   DocumentIcon,
   StarIcon,
@@ -49,6 +50,37 @@ export const structure: StructureResolver = (S) =>
                     .filter('_type == "post"')
                     .defaultOrdering([
                       { field: "_createdAt", direction: "desc" },
+                    ])
+                ),
+            ])
+        ),
+      S.listItem()
+        .title("Portfolio")
+        .icon(CaseIcon)
+        .child(
+          S.list()
+            .title("Portfolio")
+            .items([
+              S.listItem()
+                .title("Semua Proyek")
+                .icon(CaseIcon)
+                .child(
+                  S.documentTypeList("project")
+                    .title("Semua Proyek")
+                    .defaultOrdering([
+                      { field: "order", direction: "asc" },
+                      { field: "date", direction: "desc" },
+                    ])
+                ),
+              S.listItem()
+                .title("Featured")
+                .icon(StarIcon)
+                .child(
+                  S.documentList()
+                    .title("Proyek Featured")
+                    .filter('_type == "project" && featured == true')
+                    .defaultOrdering([
+                      { field: "order", direction: "asc" },
                     ])
                 ),
             ])

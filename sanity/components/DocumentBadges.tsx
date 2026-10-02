@@ -18,6 +18,20 @@ export function FeaturedBadge(
   };
 }
 
+/** Badge peringatan kalau proyek belum punya gambar. */
+export function NoImageBadge(
+  props: DocumentBadgeProps
+): DocumentBadgeDescription | null {
+  if (props.type !== "project") return null;
+  const doc = props.draft || props.published;
+  if (!doc || (doc as { image?: unknown }).image) return null;
+  return {
+    label: "Tanpa gambar",
+    title: "Proyek ini belum punya gambar",
+    color: "warning",
+    icon: ImageIcon,
+  };
+}
 /** Badge peringatan kalau artikel belum punya cover. */
 export function NoCoverBadge(
   props: DocumentBadgeProps

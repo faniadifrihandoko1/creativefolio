@@ -23,6 +23,41 @@ export const postsQuery = groq`
   }
 `;
 
+export const projectsQuery = groq`
+  *[_type == "project"] | order(order asc, date desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    date,
+    url,
+    featured,
+    order,
+    "imageUrl": image.asset->url,
+    "imageAlt": image.alt,
+    "technologies": technologies[]{name, color}
+  }
+`;
+
+export interface SanityTechnology {
+  name: string;
+  color: string;
+}
+
+export interface SanityProject {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string;
+  date: string;
+  url: string;
+  featured: boolean;
+  order: number;
+  imageUrl: string | null;
+  imageAlt: string | null;
+  technologies: SanityTechnology[];
+}
+
 export const postSlugsQuery = groq`
   *[_type == "post" && defined(slug.current)] {
     "slug": slug.current

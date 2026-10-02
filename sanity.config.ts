@@ -14,7 +14,7 @@ import { schema } from "./sanity/schema";
 import { structure } from "./sanity/structure";
 import { theme } from "./sanity/theme";
 import { Logo } from "./sanity/components/Logo";
-import { FeaturedBadge, NoCoverBadge } from "./sanity/components/DocumentBadges";
+import { FeaturedBadge, NoCoverBadge, NoImageBadge } from "./sanity/components/DocumentBadges";
 import { dashboardTool } from "./sanity/plugins/dashboard";
 import { codeInput } from "@sanity/code-input";
 
@@ -37,6 +37,6 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
   ],
   document: {
-    badges: (prev) => [...prev, FeaturedBadge, NoCoverBadge],
+    badges: (prev) => [...prev, FeaturedBadge, NoCoverBadge, NoImageBadge],
   },
 });
