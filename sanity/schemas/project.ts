@@ -1,12 +1,12 @@
 import { defineField, defineType } from "sanity";
-import { BriefcaseIcon } from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons";
 import { TECH_COLORS } from "../lib/techColors";
 
 export const project = defineType({
   name: "project",
   title: "Proyek",
   type: "document",
-  icon: BriefcaseIcon,
+  icon: CaseIcon,
   groups: [
     { name: "content", title: "Konten", default: true },
     { name: "media", title: "Media" },

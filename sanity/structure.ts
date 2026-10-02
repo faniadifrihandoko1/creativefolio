@@ -1,7 +1,7 @@
 import type { StructureResolver } from "sanity/structure";
 import {
   BookIcon,
-  BriefcaseIcon,
+  CaseIcon,
   ClockIcon,
   DocumentIcon,
   StarIcon,
@@ -56,14 +56,14 @@ export const structure: StructureResolver = (S) =>
         ),
       S.listItem()
         .title("Portfolio")
-        .icon(BriefcaseIcon)
+        .icon(CaseIcon)
         .child(
           S.list()
             .title("Portfolio")
             .items([
               S.listItem()
                 .title("Semua Proyek")
-                .icon(BriefcaseIcon)
+                .icon(CaseIcon)
                 .child(
                   S.documentTypeList("project")
                     .title("Semua Proyek")
