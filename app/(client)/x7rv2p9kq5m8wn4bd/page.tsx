@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import profile from "@/images/profile.png";
-import Footer from "../components/Fragements/Footer";
+import Footer from "../../components/Fragements/Footer";
 import { client } from "@/sanity/lib/client";
 import { projectsQuery, type SanityProject } from "@/sanity/lib/queries";
 import { FaArrowRight, FaGithub, FaLink } from "react-icons/fa";
