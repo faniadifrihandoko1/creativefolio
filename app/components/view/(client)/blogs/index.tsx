@@ -28,10 +28,16 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Reset pagination saat filter berubah
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [selectedCategory, searchTerm]);
 
   const filteredBlogs = posts.filter((blog) => {
     const matchesCategory =
@@ -44,6 +50,8 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
 
   const featuredBlogs = filteredBlogs.filter((blog) => blog.featured);
   const regularBlogs = filteredBlogs.filter((blog) => !blog.featured);
+  const visibleRegularBlogs = regularBlogs.slice(0, visibleCount);
+  const hasMore = visibleCount < regularBlogs.length;
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!isMounted) {
@@ -160,14 +168,13 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
           </div>
         </section>
       )}
-      Regular Articles Section
-      {regularBlogs.length > 0 && (
+      {visibleRegularBlogs.length > 0 && (
         <section>
           <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-gray-100">
             Latest Articles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {regularBlogs.map((blog) => (
+            {visibleRegularBlogs.map((blog) => (
               <article
                 key={blog._id}
                 className="group bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700"
@@ -228,9 +235,12 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
           </p>
         </div>
       )}
-      {filteredBlogs.length > 0 && (
+      {hasMore && (
         <div className="flex justify-center mt-12">
-          <Button classname="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl">
+          <Button
+            onclick={() => setVisibleCount((c) => c + 6)}
+            classname="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
+          >
             Load More Articles
           </Button>
         </div>
