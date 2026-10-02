@@ -92,31 +92,46 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-3xl mb-24 text-center bg-gray-100 dark:bg-gray-800 rounded-2xl px-6 py-14">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">
-          Tertarik kerja sama?
-        </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-xl mx-auto">
-          Saya terbuka untuk proyek freelance, kolaborasi, atau sekadar ngobrol
-          soal teknologi. Jangan ragu untuk menghubungi saya!
-        </p>
-        <div className="flex flex-wrap gap-3 justify-center">
-          <a
-            href="mailto:faniadifrihandoko1@gmail.com"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-lg"
-          >
-            <MdEmail size={20} />
-            Kirim Email
-          </a>
-          <a
-            href="https://github.com/faniadifrihandoko1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            <FaGithub size={20} />
-            GitHub
-          </a>
+      <section className="mx-auto max-w-3xl mb-24">
+        <div className="relative overflow-hidden text-center rounded-2xl px-6 py-14 bg-[#1e1b4b]">
+          <div
+            className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-green-400/20 blur-3xl"
+            aria-hidden
+          />
+          <div
+            className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl"
+            aria-hidden
+          />
+          <div className="relative">
+            <p className="text-green-400 text-sm font-semibold uppercase tracking-widest mb-3">
+              Mari terhubung
+            </p>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-white">
+              Tertarik kerja sama?
+            </h2>
+            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+              Saya terbuka untuk proyek freelance, kolaborasi, atau sekadar
+              ngobrol soal teknologi. Jangan ragu untuk menghubungi saya!
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href="mailto:faniadifrihandoko1@gmail.com"
+                className="flex items-center gap-2 px-6 py-3 bg-green-400 hover:bg-green-300 text-[#1e1b4b] rounded-lg font-semibold transition-colors shadow-lg"
+              >
+                <MdEmail size={20} />
+                Kirim Email
+              </a>
+              <a
+                href="https://github.com/faniadifrihandoko1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10 transition-colors"
+              >
+                <FaGithub size={20} />
+                GitHub
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
