@@ -40,8 +40,8 @@ const SKILLS = [
 export default function Home() {
   return (
     <div className="w-full pt-28 px-6 md:px-0">
-      {/* Hero */}
-      <section className="mx-auto max-w-3xl text-center mb-24">
+      {/* Hero — full height di mobile, konten di tengah vertikal */}
+      <section className="mx-auto max-w-3xl text-center mb-24 min-h-[calc(100svh-7rem)] flex flex-col justify-center lg:min-h-0">
         <p
           className="text-3xl md:text-4xl inline-block animate-wave"
           style={{ transformOrigin: "70% 70%" }}
