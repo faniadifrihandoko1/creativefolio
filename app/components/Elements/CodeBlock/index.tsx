@@ -38,7 +38,11 @@ export const CodeBlock = ({ code, language }: CodeBlockProps) => {
         </button>
       </div>
       <pre className="p-4 overflow-x-auto bg-white dark:bg-gray-900 text-sm leading-relaxed">
-        <code>{highlight(code)}</code>
+        <code
+          dangerouslySetInnerHTML={{
+            __html: highlight(code, language ? { lang: language } : undefined),
+          }}
+        />
       </pre>
     </div>
   );
