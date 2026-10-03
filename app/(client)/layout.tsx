@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${inter.className} min-h-screen bg-bgBody text-indigo-950 dark:bg-slate-950 dark:text-amber-50 dark:selection:bg-purple-500`}
       >

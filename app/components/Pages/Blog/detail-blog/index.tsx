@@ -165,7 +165,19 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         </div>
       )}
 
-      <div className="mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10 items-start">
+      {headings.length > 0 && (
+        <details className="lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
+          <summary className="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer list-none flex items-center justify-between">
+            Daftar Isi
+            <span className="text-gray-400">▾</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <TableOfContents headings={headings} />
+          </div>
+        </details>
+      )}
+
+      <div className="mt-6 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10 items-start">
         <article className="max-w-4xl min-w-0">
           <div
             className="prose prose-lg dark:prose-invert max-w-none
