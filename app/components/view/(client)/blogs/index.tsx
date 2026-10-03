@@ -123,21 +123,21 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    <span className="flex items-center gap-1">
-                      <FaTag className="text-blue-500" />
-                      {blog.category}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                    <span className="flex items-center gap-1.5 whitespace-nowrap min-w-0 max-w-full">
+                      <FaTag className="text-blue-500 shrink-0" />
+                      <span className="truncate">{blog.category}</span>
                     </span>
-                    <span className="flex items-center gap-1">
-                      <FaCalendarAlt />
+                    <span className="flex items-center gap-1.5 whitespace-nowrap">
+                      <FaCalendarAlt className="shrink-0" />
                       {new Date(blog.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
                       })}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <FaClock />
+                    <span className="flex items-center gap-1.5 whitespace-nowrap">
+                      <FaClock className="shrink-0" />
                       {blog.readTime}
                     </span>
                   </div>
@@ -186,13 +186,13 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
                   />
                 </div>
                 <div className="p-5">
-                  <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-2">
-                    <span className="flex items-center gap-1">
-                      <FaTag className="text-blue-500" />
-                      {blog.category}
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    <span className="flex items-center gap-1.5 whitespace-nowrap min-w-0 max-w-full">
+                      <FaTag className="text-blue-500 shrink-0" />
+                      <span className="truncate">{blog.category}</span>
                     </span>
-                    <span className="flex items-center gap-1">
-                      <FaClock />
+                    <span className="flex items-center gap-1.5 whitespace-nowrap">
+                      <FaClock className="shrink-0" />
                       {blog.readTime}
                     </span>
                   </div>
