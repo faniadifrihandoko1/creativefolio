@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Fragements/Header";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { FaArrowLeft, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
@@ -11,6 +11,10 @@ import Image from "next/image";
 import { CodeBlock } from "@/app/components/Elements/CodeBlock";
 import { ShareButtons } from "@/app/components/Elements/ShareButtons";
 import { ReadingProgress } from "@/app/components/Elements/ReadingProgress";
+import {
+  TableOfContents,
+  getHeadings,
+} from "@/app/components/Elements/TableOfContents";
 
 interface BlogDetailProps {
   post: SanityPost;
@@ -18,20 +22,38 @@ interface BlogDetailProps {
 }
 
 const ptComponents: PortableTextComponents = {
+  block: {
+    h2: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h2 id={value._key} className="scroll-mt-28">
+        {children}
+      </h2>
+    ),
+    h3: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h3 id={value._key} className="scroll-mt-28">
+        {children}
+      </h3>
+    ),
+    h4: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h4 id={value._key} className="scroll-mt-28">
+        {children}
+      </h4>
+    ),
+  },
   types: {
     code: ({ value }: { value: { code: string; language?: string } }) => (
       <CodeBlock code={value.code} language={value.language} />
     ),
     image: ({ value }: { value: { alt?: string } }) => (
-      <span className="block my-8">
+      <figure className="block my-8">
         <Image
           src={urlForImage(value as never)}
           alt={value.alt || ""}
           width={1200}
           height={675}
-          className="rounded-lg"
+          sizes="(max-width: 768px) 100vw, 1024px"
+          className="rounded-lg w-full h-auto"
         />
-      </span>
+      </figure>
     ),
   },
 };
@@ -46,6 +68,8 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
 
   // Post comes from Sanity (fetched in the page)
   const blogPost = post;
+
+  const headings = blogPost ? getHeadings(blogPost.body) : [];
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!isMounted) {
@@ -141,9 +165,22 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         </div>
       )}
 
-      <article className="mt-10 max-w-4xl">
-        <div
-          className="prose prose-lg dark:prose-invert max-w-none
+      {headings.length > 0 && (
+        <details className="lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
+          <summary className="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer list-none flex items-center justify-between">
+            Daftar Isi
+            <span className="text-gray-400">▾</span>
+          </summary>
+          <div className="px-4 pb-4">
+            <TableOfContents headings={headings} />
+          </div>
+        </details>
+      )}
+
+      <div className="mt-6 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10 items-start">
+        <article className="max-w-4xl min-w-0">
+          <div
+            className="prose prose-lg dark:prose-invert max-w-none
                      prose-headings:text-gray-900 dark:prose-headings:text-gray-100
                      prose-p:text-gray-700 dark:prose-p:text-gray-300
                      prose-strong:text-gray-900 dark:prose-strong:text-gray-100
@@ -154,12 +191,21 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
                      prose-code:px-1 prose-code:py-0.5 prose-code:rounded
                      prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
                      prose-pre:text-gray-900 dark:prose-pre:text-gray-100"
-        >
-          {blogPost.body ? (
-            <PortableText value={blogPost.body as never} components={ptComponents} />
-          ) : null}
-        </div>
-      </article>
+          >
+            {blogPost.body ? (
+              <PortableText value={blogPost.body as never} components={ptComponents} />
+            ) : null}
+          </div>
+        </article>
+        {headings.length > 0 && (
+          <aside className="hidden lg:block sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
+              Daftar Isi
+            </p>
+            <TableOfContents headings={headings} />
+          </aside>
+        )}
+      </div>
 
       <div className="mt-16 mb-16 pt-8 border-t border-gray-200 dark:border-gray-700">
         <div className="flex justify-center mb-8">
