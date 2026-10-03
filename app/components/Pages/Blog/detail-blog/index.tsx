@@ -29,7 +29,7 @@ const ptComponents: PortableTextComponents = {
           alt={value.alt || ""}
           width={1200}
           height={675}
-          className="rounded-lg"
+          className="rounded-lg w-full h-auto"
         />
       </span>
     ),
