@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Fragements/Header";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { FaArrowLeft, FaCalendarAlt, FaTag, FaUser } from "react-icons/fa";
 
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
@@ -18,6 +18,23 @@ interface BlogDetailProps {
 }
 
 const ptComponents: PortableTextComponents = {
+  block: {
+    h2: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h2 id={value._key} className="scroll-mt-28">
+        {children}
+      </h2>
+    ),
+    h3: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h3 id={value._key} className="scroll-mt-28">
+        {children}
+      </h3>
+    ),
+    h4: ({ value, children }: { value: { _key?: string }; children?: ReactNode }) => (
+      <h4 id={value._key} className="scroll-mt-28">
+        {children}
+      </h4>
+    ),
+  },
   types: {
     code: ({ value }: { value: { code: string; language?: string } }) => (
       <CodeBlock code={value.code} language={value.language} />
