@@ -23,7 +23,7 @@ const ptComponents: PortableTextComponents = {
       <CodeBlock code={value.code} language={value.language} />
     ),
     image: ({ value }: { value: { alt?: string } }) => (
-      <span className="block my-8">
+      <figure className="block my-8">
         <Image
           src={urlForImage(value as never)}
           alt={value.alt || ""}
@@ -32,7 +32,7 @@ const ptComponents: PortableTextComponents = {
           sizes="(max-width: 768px) 100vw, 1024px"
           className="rounded-lg w-full h-auto"
         />
-      </span>
+      </figure>
     ),
   },
 };
