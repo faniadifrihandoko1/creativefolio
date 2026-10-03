@@ -11,6 +11,10 @@ import Image from "next/image";
 import { CodeBlock } from "@/app/components/Elements/CodeBlock";
 import { ShareButtons } from "@/app/components/Elements/ShareButtons";
 import { ReadingProgress } from "@/app/components/Elements/ReadingProgress";
+import {
+  TableOfContents,
+  getHeadings,
+} from "@/app/components/Elements/TableOfContents";
 
 interface BlogDetailProps {
   post: SanityPost;
@@ -64,6 +68,8 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
 
   // Post comes from Sanity (fetched in the page)
   const blogPost = post;
+
+  const headings = blogPost ? getHeadings(blogPost.body) : [];
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!isMounted) {
@@ -159,9 +165,10 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         </div>
       )}
 
-      <article className="mt-10 max-w-4xl">
-        <div
-          className="prose prose-lg dark:prose-invert max-w-none
+      <div className="mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10 items-start">
+        <article className="max-w-4xl min-w-0">
+          <div
+            className="prose prose-lg dark:prose-invert max-w-none
                      prose-headings:text-gray-900 dark:prose-headings:text-gray-100
                      prose-p:text-gray-700 dark:prose-p:text-gray-300
                      prose-strong:text-gray-900 dark:prose-strong:text-gray-100
@@ -172,12 +179,21 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
                      prose-code:px-1 prose-code:py-0.5 prose-code:rounded
                      prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
                      prose-pre:text-gray-900 dark:prose-pre:text-gray-100"
-        >
-          {blogPost.body ? (
-            <PortableText value={blogPost.body as never} components={ptComponents} />
-          ) : null}
-        </div>
-      </article>
+          >
+            {blogPost.body ? (
+              <PortableText value={blogPost.body as never} components={ptComponents} />
+            ) : null}
+          </div>
+        </article>
+        {headings.length > 0 && (
+          <aside className="hidden lg:block sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
+              Daftar Isi
+            </p>
+            <TableOfContents headings={headings} />
+          </aside>
+        )}
+      </div>
 
       <div className="mt-16 mb-16 pt-8 border-t border-gray-200 dark:border-gray-700">
         <div className="flex justify-center mb-8">
