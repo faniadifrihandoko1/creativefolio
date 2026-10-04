@@ -15,6 +15,8 @@ import {
   TableOfContents,
   getHeadings,
 } from "@/app/components/Elements/TableOfContents";
+import { RelatedArticles } from "@/app/components/Elements/RelatedArticles";
+import { getRelatedPosts } from "@/app/utils/related-posts";
 
 interface BlogDetailProps {
   post: SanityPost;
@@ -70,6 +72,8 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
   const blogPost = post;
 
   const headings = blogPost ? getHeadings(blogPost.body) : [];
+  const relatedPosts =
+    blogPost && posts ? getRelatedPosts(posts, blogPost.slug) : [];
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!isMounted) {
@@ -211,7 +215,8 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         <div className="flex justify-center mb-8">
           <ShareButtons title={blogPost.title} />
         </div>
-        <div className="flex justify-between items-center">
+        <RelatedArticles posts={relatedPosts} />
+        <div className="flex justify-between items-center mt-16">
           {(() => {
             const currentIndex = posts.findIndex(
               (blog) => blog.slug === blogPost.slug
