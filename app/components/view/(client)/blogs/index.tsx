@@ -15,6 +15,7 @@ import {
 
 
 import type { SanityPost } from "@/sanity/lib/queries";
+import { searchPosts } from "@/app/utils/search-posts";
 
 export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -37,14 +38,12 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
     setVisibleCount(6);
   }, [selectedCategory, searchTerm]);
 
-  const filteredBlogs = posts.filter((blog) => {
-    const matchesCategory =
-      selectedCategory === "All" || blog.category === selectedCategory;
-    const matchesSearch =
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredBlogs = searchPosts(
+    posts.filter(
+      (blog) => selectedCategory === "All" || blog.category === selectedCategory
+    ),
+    searchTerm
+  );
 
   const featuredBlogs = filteredBlogs.filter((blog) => blog.featured);
   const regularBlogs = filteredBlogs.filter((blog) => !blog.featured);
