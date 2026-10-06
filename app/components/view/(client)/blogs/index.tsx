@@ -8,6 +8,7 @@ import {
   FaArrowRight,
   FaCalendarAlt,
   FaClock,
+  FaRss,
   FaSearch,
   FaTag,
   FaUser,
@@ -69,15 +70,25 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
       />
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-          <div className="relative w-full md:w-96">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            />
+          <div className="flex gap-2 w-full md:w-auto items-center">
+            <div className="relative w-full md:w-96">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search articles..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+            <a
+              href="/rss.xml"
+              title="RSS Feed"
+              aria-label="RSS Feed"
+              className="p-3.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 hover:border-orange-300 dark:hover:border-orange-700 transition-all duration-200 shrink-0"
+            >
+              <FaRss />
+            </a>
           </div>
 
           <div className="flex flex-wrap gap-2">
