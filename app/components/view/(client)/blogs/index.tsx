@@ -95,6 +95,11 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
             ))}
           </div>
         </div>
+        {searchTerm.trim() && (
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+            {filteredBlogs.length} hasil untuk &ldquo;{searchTerm.trim()}&rdquo;
+          </p>
+        )}
       </div>
       <hr className="border-1.5 border-black dark:border-white mb-12" />
       {featuredBlogs.length > 0 && (
