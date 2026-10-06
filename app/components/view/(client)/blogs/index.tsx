@@ -15,6 +15,7 @@ import {
 
 
 import type { SanityPost } from "@/sanity/lib/queries";
+import { searchPosts } from "@/app/utils/search-posts";
 
 export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -37,14 +38,12 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
     setVisibleCount(6);
   }, [selectedCategory, searchTerm]);
 
-  const filteredBlogs = posts.filter((blog) => {
-    const matchesCategory =
-      selectedCategory === "All" || blog.category === selectedCategory;
-    const matchesSearch =
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredBlogs = searchPosts(
+    posts.filter(
+      (blog) => selectedCategory === "All" || blog.category === selectedCategory
+    ),
+    searchTerm
+  );
 
   const featuredBlogs = filteredBlogs.filter((blog) => blog.featured);
   const regularBlogs = filteredBlogs.filter((blog) => !blog.featured);
@@ -96,6 +95,11 @@ export const BlogsView = ({ posts }: { posts: SanityPost[] }) => {
             ))}
           </div>
         </div>
+        {searchTerm.trim() && (
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+            {filteredBlogs.length} hasil untuk &ldquo;{searchTerm.trim()}&rdquo;
+          </p>
+        )}
       </div>
       <hr className="border-1.5 border-black dark:border-white mb-12" />
       {featuredBlogs.length > 0 && (

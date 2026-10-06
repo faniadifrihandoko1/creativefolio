@@ -19,7 +19,8 @@ export const postFields = groq`
 
 export const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
-    ${postFields}
+    ${postFields},
+    body
   }
 `;
 
