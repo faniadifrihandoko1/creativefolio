@@ -216,7 +216,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
           <ShareButtons title={blogPost.title} />
         </div>
         <RelatedArticles posts={relatedPosts} />
-        <div className="flex justify-between items-center mt-16">
+        <div className="flex flex-col gap-3 mt-16 sm:flex-row sm:justify-between sm:items-center">
           {(() => {
             const currentIndex = posts.findIndex(
               (blog) => blog.slug === blogPost.slug
