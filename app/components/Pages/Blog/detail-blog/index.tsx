@@ -170,10 +170,22 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
       )}
 
       {headings.length > 0 && (
-        <details className="lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
+        <details className="group lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
           <summary className="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer list-none flex items-center justify-between">
             Daftar Isi
-            <span className="text-gray-400">▾</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+              className="h-4 w-4 text-gray-400 transition-transform duration-300 group-open:rotate-180 motion-reduce:transition-none"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
           </summary>
           <div className="px-4 pb-4">
             <TableOfContents headings={headings} />
