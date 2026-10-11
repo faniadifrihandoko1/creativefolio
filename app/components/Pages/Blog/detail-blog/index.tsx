@@ -178,7 +178,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
               viewBox="0 0 20 20"
               fill="currentColor"
               aria-hidden="true"
-              className="h-4 w-4 text-gray-400 transition-transform duration-300 group-open:rotate-180"
+              className="h-4 w-4 text-gray-400 transition-transform duration-300 group-open:rotate-180 motion-reduce:transition-none"
             >
               <path
                 fillRule="evenodd"
