@@ -216,7 +216,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
           <ShareButtons title={blogPost.title} />
         </div>
         <RelatedArticles posts={relatedPosts} />
-        <div className="flex justify-between items-center mt-16">
+        <div className="flex flex-col gap-3 mt-16 sm:flex-row sm:justify-between sm:items-center">
           {(() => {
             const currentIndex = posts.findIndex(
               (blog) => blog.slug === blogPost.slug
@@ -233,7 +233,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
                 {previousBlog ? (
                   <Link
                     href={`/blogs/${previousBlog.slug}`}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="flex w-full sm:w-auto items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     <FaArrowLeft />
                     Previous Article
@@ -244,7 +244,7 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
                 {nextBlog ? (
                   <Link
                     href={`/blogs/${nextBlog.slug}`}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="flex w-full sm:w-auto items-center justify-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     Next Article
                     <FaArrowLeft className="rotate-180" />
