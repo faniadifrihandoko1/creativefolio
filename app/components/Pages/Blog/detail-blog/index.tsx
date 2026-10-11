@@ -170,10 +170,10 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
       )}
 
       {headings.length > 0 && (
-        <details className="lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
+        <details className="group lg:hidden mt-10 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
           <summary className="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer list-none flex items-center justify-between">
             Daftar Isi
-            <span className="text-gray-400">▾</span>
+            <span className="text-gray-400 transition-transform duration-300 group-open:rotate-180">▾</span>
           </summary>
           <div className="px-4 pb-4">
             <TableOfContents headings={headings} />
