@@ -3,6 +3,7 @@ import ContactInfo from "../../components/Fragements/Content/ContactInfo";
 import Description from "../../components/Fragements/Content/Description";
 import Footer from "../../components/Fragements/Footer";
 import Header from "../../components/Fragements/Content/HeaderContent";
+import SecretCta from "../../components/Fragements/Content/SecretCta";
 import Tittle from "../../components/Fragements/Content/TittleContent";
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function SecretHomeCta() {
         <Header />
         <Tittle />
         <Description />
+        <SecretCta />
         <ContactInfo />
       </div>
       <Footer />
