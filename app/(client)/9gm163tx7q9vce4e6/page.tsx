@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import ContactInfo from "../../components/Fragements/Content/ContactInfo";
 import Description from "../../components/Fragements/Content/Description";
 import Footer from "../../components/Fragements/Footer";
 import Header from "../../components/Fragements/Content/HeaderContent";
@@ -40,7 +39,6 @@ export default function SecretHomeCta() {
         <Tittle />
         <Description />
         <SecretCta />
-        <ContactInfo />
       </div>
       <Footer />
     </div>
