@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function SecretHome() {
   return (
     <div className="h-screen flex flex-col pt-16">
-      <div className="flex-1 flex flex-col items-center justify-center font-extrabold mb-8">
+      <div className="flex-1 flex flex-col items-center justify-center font-extrabold">
         <Header />
         <Tittle />
         <Description />
