@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Footer from "../components/Fragements/Footer";
-import { FaArrowRight, FaGithub } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { FaArrowRight } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Fani Dev",
@@ -62,50 +61,6 @@ export default function Home() {
           >
             Baca Blog
           </Link>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="mx-auto max-w-3xl mb-24">
-        <div className="relative overflow-hidden text-center rounded-2xl px-6 py-14 bg-[#1e1b4b]">
-          <div
-            className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-green-400/20 blur-3xl"
-            aria-hidden
-          />
-          <div
-            className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl"
-            aria-hidden
-          />
-          <div className="relative">
-            <p className="text-green-400 text-sm font-semibold uppercase tracking-widest mb-3">
-              Mari terhubung
-            </p>
-            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-white">
-              Tertarik kerja sama?
-            </h2>
-            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-              Saya terbuka untuk proyek freelance, kolaborasi, atau sekadar
-              ngobrol soal teknologi. Jangan ragu untuk menghubungi saya!
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <a
-                href="mailto:faniadifrihandoko1@gmail.com"
-                className="flex items-center gap-2 px-6 py-3 bg-green-400 hover:bg-green-300 text-[#1e1b4b] rounded-lg font-semibold transition-colors shadow-lg"
-              >
-                <MdEmail size={20} />
-                Kirim Email
-              </a>
-              <a
-                href="https://github.com/faniadifrihandoko1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10 transition-colors"
-              >
-                <FaGithub size={20} />
-                GitHub
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 
