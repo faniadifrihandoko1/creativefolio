@@ -26,17 +26,6 @@ export const metadata: Metadata = {
   },
 };
 
-const SKILLS = [
-  "ReactJS",
-  "React Native",
-  "NextJS",
-  "TypeScript",
-  "TanStack Start",
-  "ExpressJS",
-  "TailwindCSS",
-  "PostgreSQL",
-];
-
 export default function Home() {
   return (
     <div className="w-full pt-28 px-6 md:px-0">
@@ -73,21 +62,6 @@ export default function Home() {
           >
             Baca Blog
           </Link>
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section className="mx-auto max-w-3xl mb-24 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Tech I Use</h2>
-        <div className="flex flex-wrap gap-3 justify-center">
-          {SKILLS.map((skill) => (
-            <span
-              key={skill}
-              className="px-4 py-2 text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full border border-gray-200 dark:border-gray-700"
-            >
-              {skill}
-            </span>
-          ))}
         </div>
       </section>
 
