@@ -28,3 +28,5 @@ export default SecretCta;
 // Pengingat: dua tautan di bawah mengarah ke halaman blog dan project.
 
 // Catatan: jaga kontras teks tombol saat hover agar tetap terbaca jelas.
+
+// Pengingat kecil: komponen ini dipakai bersama di root dan halaman khusus.
