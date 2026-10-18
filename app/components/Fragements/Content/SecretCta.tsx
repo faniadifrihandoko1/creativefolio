@@ -24,3 +24,5 @@ const SecretCta = () => {
 export default SecretCta;
 
 // Catatan kecil: blok CTA ini memakai gaya kotak tegas mengikuti template ContactItem.
+
+// Pengingat: dua tautan di bawah mengarah ke halaman blog dan project.
