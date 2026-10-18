@@ -32,3 +32,5 @@ export default SecretCta;
 // Pengingat kecil: komponen ini dipakai bersama di root dan halaman khusus.
 
 // Catatan: urutan tautan disengaja blog lebih dulu baru project.
+
+// Pengingat: bila menambah tautan baru samakan pola gaya dengan dua tombol ini.
