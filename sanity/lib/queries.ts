@@ -89,3 +89,73 @@ export interface SanityPost {
   seoDescription?: string | null;
   body?: unknown;
 }
+
+// ---- Jalur Belajar (learningPath) ----
+
+export const learningPathsQuery = groq`
+  *[_type == "learningPath"] | order(order asc, title asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    level,
+    order,
+    "lessonCount": count(lessons),
+    "lessons": lessons[]->{
+      "slug": slug.current,
+      readTime
+    }
+  }
+`;
+
+export const learningPathSlugsQuery = groq`
+  *[_type == "learningPath" && defined(slug.current)] {
+    "slug": slug.current
+  }
+`;
+
+export const learningPathBySlugQuery = groq`
+  *[_type == "learningPath" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    level,
+    order,
+    "lessonCount": count(lessons),
+    "lessons": lessons[]->{
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt,
+      readTime,
+      category,
+      publishedAt,
+      "coverUrl": cover.asset->url,
+      "coverAlt": cover.alt
+    }
+  }
+`;
+
+export interface SanityLearningLesson {
+  _id?: string;
+  title?: string;
+  slug: string;
+  excerpt?: string | null;
+  readTime?: string | null;
+  category?: string | null;
+  publishedAt?: string | null;
+  coverUrl?: string | null;
+  coverAlt?: string | null;
+}
+
+export interface SanityLearningPath {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  level: string;
+  order: number;
+  lessonCount: number;
+  lessons: SanityLearningLesson[];
+}
