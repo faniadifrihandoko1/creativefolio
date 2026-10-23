@@ -38,6 +38,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
     { name: "About", path: "/about" },
     { name: "Projects", path: "/projects" },
     { name: "Blogs", path: "/blogs" },
+    { name: "Learn", path: "/learn" },
   ];
 
   const toggleMenu = () => {
