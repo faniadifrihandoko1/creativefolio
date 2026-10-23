@@ -25,7 +25,7 @@ const PathCard = ({
 }) => {
   const mainLessons = path.lessons ?? [];
   const branchLessons = (path.branches ?? []).flatMap((b) => b.lessons ?? []);
-  const totalMinutes = mainLessons.reduce(
+  const totalMinutes = [...mainLessons, ...branchLessons].reduce(
     (sum, lesson) => sum + parseReadMinutes(lesson.readTime),
     0
   );

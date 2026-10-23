@@ -109,7 +109,8 @@ export const learningPathsQuery = groq`
       _key,
       label,
       "lessons": lessons[]->{
-        "slug": slug.current
+        "slug": slug.current,
+        readTime
       }
     }
   }
