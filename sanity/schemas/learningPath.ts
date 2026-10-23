@@ -100,6 +100,61 @@ export const learningPath = defineType({
         Rule.unique().error("Ada artikel yang dobel dalam jalur ini."),
       ],
     }),
+    defineField({
+      name: "branches",
+      title: "Cabang (materi opsional / pendalaman)",
+      type: "array",
+      group: "curriculum",
+      description:
+        "Cabang menempel pada satu materi rute utama (halte jangkar) dan berisi materi pendalaman/opsional. Di halaman jalur, cabang tampil sebagai rute samping bertanda Opsional.",
+      of: [
+        {
+          type: "object",
+          name: "branch",
+          title: "Cabang",
+          fields: [
+            defineField({
+              name: "label",
+              title: "Label Cabang",
+              type: "string",
+              placeholder: "Contoh: Pendalaman",
+              validation: (Rule) =>
+                Rule.required().error("Label cabang wajib diisi."),
+            }),
+            defineField({
+              name: "afterLesson",
+              title: "Menempel Setelah Materi",
+              type: "reference",
+              to: [{ type: "post" }],
+              description:
+                "Halte jangkar di rute utama — cabang tampil tepat setelah materi ini.",
+              validation: (Rule) =>
+                Rule.required().error("Halte jangkar wajib dipilih."),
+            }),
+            defineField({
+              name: "lessons",
+              title: "Materi Cabang",
+              type: "array",
+              of: [{ type: "reference", to: [{ type: "post" }] }],
+              validation: (Rule) => [
+                Rule.min(1).error("Satu cabang minimal berisi 1 materi."),
+                Rule.unique().error("Ada artikel yang dobel dalam cabang ini."),
+              ],
+            }),
+          ],
+          preview: {
+            select: { title: "label", lessons: "lessons" },
+            prepare({ title, lessons }) {
+              const count = Array.isArray(lessons) ? lessons.length : 0;
+              return {
+                title: title || "Cabang tanpa label",
+                subtitle: `${count} materi cabang`,
+              };
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
