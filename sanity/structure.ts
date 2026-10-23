@@ -4,6 +4,7 @@ import {
   CaseIcon,
   ClockIcon,
   DocumentIcon,
+  RocketIcon,
   StarIcon,
   TagIcon,
 } from "@sanity/icons";
@@ -84,6 +85,14 @@ export const structure: StructureResolver = (S) =>
                     ])
                 ),
             ])
+        ),
+      S.listItem()
+        .title("Jalur Belajar")
+        .icon(RocketIcon)
+        .child(
+          S.documentTypeList("learningPath")
+            .title("Jalur Belajar")
+            .defaultOrdering([{ field: "order", direction: "asc" }])
         ),
       S.divider(),
       S.documentTypeListItem("tag").title("Tag").icon(TagIcon),
