@@ -2,7 +2,7 @@
 import Header from "@/app/components/Fragements/Header";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaArrowRight, FaCheck, FaClock, FaListUl } from "react-icons/fa";
+import { FaArrowRight, FaCheck, FaClock, FaCodeBranch, FaListUl } from "react-icons/fa";
 
 import type { SanityLearningPath } from "@/sanity/lib/queries";
 import {
@@ -23,15 +23,17 @@ const PathCard = ({
   progress: LearnProgress;
   mounted: boolean;
 }) => {
-  const totalMinutes = (path.lessons ?? []).reduce(
+  const mainLessons = path.lessons ?? [];
+  const branchLessons = (path.branches ?? []).flatMap((b) => b.lessons ?? []);
+  const totalMinutes = [...mainLessons, ...branchLessons].reduce(
     (sum, lesson) => sum + parseReadMinutes(lesson.readTime),
     0
   );
   const doneSlugs = new Set(progress[path.slug] ?? []);
-  const doneCount = (path.lessons ?? []).filter((l) =>
+  const doneCount = [...mainLessons, ...branchLessons].filter((l) =>
     doneSlugs.has(l.slug)
   ).length;
-  const total = path.lessonCount ?? path.lessons?.length ?? 0;
+  const total = mainLessons.length + branchLessons.length;
   const percent = total > 0 ? Math.round((doneCount / total) * 100) : 0;
   const isDone = mounted && total > 0 && doneCount === total;
 
@@ -70,6 +72,38 @@ const PathCard = ({
           </div>
           {mounted && total > 0 && (
             <div className="mb-4">
+              {/* Mini-map: satu titik per materi, terisi = selesai.
+                  Titik kecil berdering = materi cabang (opsional). */}
+              <div
+                className="flex items-center gap-1.5 flex-wrap mb-3"
+                aria-hidden="true"
+              >
+                {mainLessons.map((l) => (
+                  <span
+                    key={l.slug}
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      doneSlugs.has(l.slug)
+                        ? "bg-green-500"
+                        : "bg-gray-200 dark:bg-gray-600"
+                    }`}
+                  />
+                ))}
+                {branchLessons.length > 0 && (
+                  <>
+                    <FaCodeBranch className="text-[10px] text-gray-400 dark:text-gray-500 ml-1.5" />
+                    {branchLessons.map((l) => (
+                      <span
+                        key={l.slug}
+                        className={`w-2 h-2 rounded-full ${
+                          doneSlugs.has(l.slug)
+                            ? "bg-amber-500"
+                            : "border border-amber-400 dark:border-amber-500"
+                        }`}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
               <div className="h-2 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
                 <div
                   className="h-full bg-blue-600 rounded-full transition-all duration-500"
@@ -108,7 +142,10 @@ export const LearnView = ({ paths }: { paths: SanityLearningPath[] }) => {
   }, []);
 
   const totalLessons = paths.reduce(
-    (sum, p) => sum + (p.lessonCount ?? p.lessons?.length ?? 0),
+    (sum, p) =>
+      sum +
+      (p.lessons?.length ?? 0) +
+      (p.branches ?? []).reduce((s, b) => s + (b.lessons?.length ?? 0), 0),
     0
   );
 

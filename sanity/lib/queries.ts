@@ -104,6 +104,14 @@ export const learningPathsQuery = groq`
     "lessons": lessons[]->{
       "slug": slug.current,
       readTime
+    },
+    "branches": branches[]{
+      _key,
+      label,
+      "lessons": lessons[]->{
+        "slug": slug.current,
+        readTime
+      }
     }
   }
 `;
@@ -133,6 +141,22 @@ export const learningPathBySlugQuery = groq`
       publishedAt,
       "coverUrl": cover.asset->url,
       "coverAlt": cover.alt
+    },
+    "branches": branches[]{
+      _key,
+      label,
+      "afterSlug": afterLesson->slug.current,
+      "lessons": lessons[]->{
+        _id,
+        title,
+        "slug": slug.current,
+        excerpt,
+        readTime,
+        category,
+        publishedAt,
+        "coverUrl": cover.asset->url,
+        "coverAlt": cover.alt
+      }
     }
   }
 `;
@@ -149,6 +173,13 @@ export interface SanityLearningLesson {
   coverAlt?: string | null;
 }
 
+export interface SanityLearningBranch {
+  _key: string;
+  label: string;
+  afterSlug?: string | null;
+  lessons: SanityLearningLesson[];
+}
+
 export interface SanityLearningPath {
   _id: string;
   title: string;
@@ -158,4 +189,5 @@ export interface SanityLearningPath {
   order: number;
   lessonCount: number;
   lessons: SanityLearningLesson[];
+  branches?: SanityLearningBranch[] | null;
 }
