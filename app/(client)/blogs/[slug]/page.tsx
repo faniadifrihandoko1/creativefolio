@@ -3,9 +3,11 @@ import { BlogDetailView } from "@/app/components/Pages/Blog/detail-blog";
 import { client } from "@/sanity/lib/client";
 import {
   postBySlugQuery,
+  postPathsQuery,
   postSlugsQuery,
   postsQuery,
   type SanityPost,
+  type SanityPostPath,
 } from "@/sanity/lib/queries";
 
 export const revalidate = 60;
@@ -49,9 +51,10 @@ export const generateMetadata = async ({ params }: BlogDetailProps) => {
 };
 
 export default async function BlogDetailPage({ params }: BlogDetailProps) {
-  const [post, posts] = await Promise.all([
+  const [post, posts, postPaths] = await Promise.all([
     client.fetch<SanityPost | null>(postBySlugQuery, { slug: params.slug }),
     client.fetch<SanityPost[]>(postsQuery),
+    client.fetch<SanityPostPath[]>(postPathsQuery, { slug: params.slug }),
   ]);
   if (!post) {
     notFound();
@@ -71,7 +74,11 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <BlogDetailView post={post} posts={posts} />
+      <BlogDetailView
+        post={post}
+        posts={posts}
+        learnPath={postPaths[0] ?? null}
+      />
     </>
   );
 }

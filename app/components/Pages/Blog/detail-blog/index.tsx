@@ -16,11 +16,14 @@ import {
   getHeadings,
 } from "@/app/components/Elements/TableOfContents";
 import { RelatedArticles } from "@/app/components/Elements/RelatedArticles";
+import { LearnPathStrip } from "@/app/components/Elements/LearnPathStrip";
+import type { SanityPostPath } from "@/sanity/lib/queries";
 import { getRelatedPosts } from "@/app/utils/related-posts";
 
 interface BlogDetailProps {
   post: SanityPost;
   posts: SanityPost[];
+  learnPath?: SanityPostPath | null;
 }
 
 const ptComponents: PortableTextComponents = {
@@ -61,7 +64,7 @@ const ptComponents: PortableTextComponents = {
 };
 
 
-export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
+export const BlogDetailView = ({ post, posts, learnPath }: BlogDetailProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -155,6 +158,10 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         ))}
       </div>
 
+      {learnPath && (
+        <LearnPathStrip path={learnPath} postSlug={blogPost.slug} />
+      )}
+
       <hr className="border-1.5 border-black dark:border-white mt-7" />
 
       {blogPost.coverUrl && (
@@ -211,7 +218,10 @@ export const BlogDetailView = ({ post, posts }: BlogDetailProps) => {
         )}
       </div>
 
-      <div className="mt-16 mb-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+      <div
+        id="article-end"
+        className="mt-16 mb-16 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
         <div className="flex justify-center mb-8">
           <ShareButtons title={blogPost.title} />
         </div>
