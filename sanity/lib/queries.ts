@@ -102,6 +102,7 @@ export const learningPathsQuery = groq`
     order,
     "lessonCount": count(lessons),
     "lessons": lessons[]->{
+      title,
       "slug": slug.current,
       readTime
     },
@@ -109,6 +110,7 @@ export const learningPathsQuery = groq`
       _key,
       label,
       "lessons": lessons[]->{
+        title,
         "slug": slug.current,
         readTime
       }
