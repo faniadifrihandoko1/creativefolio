@@ -17,6 +17,7 @@ import {
 } from "@/app/components/Elements/TableOfContents";
 import { RelatedArticles } from "@/app/components/Elements/RelatedArticles";
 import { LearnPathStrip } from "@/app/components/Elements/LearnPathStrip";
+import { CurriculumNav } from "@/app/components/Elements/CurriculumNav";
 import type { SanityPostPath } from "@/sanity/lib/queries";
 import { getRelatedPosts } from "@/app/utils/related-posts";
 
@@ -226,7 +227,10 @@ export const BlogDetailView = ({ post, posts, learnPath }: BlogDetailProps) => {
           <ShareButtons title={blogPost.title} />
         </div>
         <RelatedArticles posts={relatedPosts} />
-        <div className="flex justify-between items-center mt-16">
+{learnPath ? (
+          <CurriculumNav path={learnPath} postSlug={blogPost.slug} />
+        ) : (
+                <div className="flex justify-between items-center mt-16">
           {(() => {
             const currentIndex = posts.findIndex(
               (blog) => blog.slug === blogPost.slug
@@ -266,6 +270,7 @@ export const BlogDetailView = ({ post, posts, learnPath }: BlogDetailProps) => {
             );
           })()}
         </div>
+        )}
       </div>
     </div>
   );
