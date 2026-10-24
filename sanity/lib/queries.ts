@@ -191,3 +191,49 @@ export interface SanityLearningPath {
   lessons: SanityLearningLesson[];
   branches?: SanityLearningBranch[] | null;
 }
+
+// ---- Keanggotaan artikel di jalur belajar (untuk halaman artikel) ----
+
+export const postPathsQuery = groq`
+  *[_type == "learningPath" && (
+    $slug in lessons[]->slug.current ||
+    $slug in branches[].lessons[]->slug.current
+  )] | order(order asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    "lessons": lessons[]->{
+      "slug": slug.current,
+      title
+    },
+    "branches": branches[]{
+      _key,
+      label,
+      "afterSlug": afterLesson->slug.current,
+      "lessons": lessons[]->{
+        "slug": slug.current,
+        title
+      }
+    }
+  }
+`;
+
+export interface SanityPathLessonRef {
+  slug: string;
+  title: string;
+}
+
+export interface SanityPostPathBranch {
+  _key: string;
+  label: string;
+  afterSlug: string | null;
+  lessons: SanityPathLessonRef[];
+}
+
+export interface SanityPostPath {
+  _id: string;
+  title: string;
+  slug: string;
+  lessons: SanityPathLessonRef[];
+  branches: SanityPostPathBranch[] | null;
+}

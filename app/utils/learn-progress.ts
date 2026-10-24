@@ -56,6 +56,26 @@ export function toggleLessonDone(
   return { ...progress, [pathSlug]: Array.from(current) };
 }
 
+/** Salinan progres baru dengan satu materi ditandai selesai (tanpa membalik). */
+export function markLessonDone(
+  progress: LearnProgress,
+  pathSlug: string,
+  lessonSlug: string
+): LearnProgress {
+  const current = new Set(progress[pathSlug] ?? []);
+  if (current.has(lessonSlug)) return progress;
+  current.add(lessonSlug);
+  return { ...progress, [pathSlug]: Array.from(current) };
+}
+
+/** Event window yang disiarkan setiap progres berubah (sinkronisasi antar komponen dalam satu tab). */
+export const LEARN_PROGRESS_EVENT = "learn-progress-changed";
+
+export function notifyLearnProgress() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(LEARN_PROGRESS_EVENT));
+}
+
 /** "5 menit" -> 5; string tanpa angka -> 0. */
 export function parseReadMinutes(readTime?: string | null): number {
   if (!readTime) return 0;
