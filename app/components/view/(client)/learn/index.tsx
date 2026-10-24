@@ -36,12 +36,26 @@ const PathCard = ({
   const total = mainLessons.length + branchLessons.length;
   const percent = total > 0 ? Math.round((doneCount / total) * 100) : 0;
   const isDone = mounted && total > 0 && doneCount === total;
+  const hasProgress = mounted && doneCount > 0 && !isDone;
+
+  // Urutan kurikulum: rute utama dulu, lalu cabang (aturan sama dengan
+  // tombol lanjut di halaman detail).
+  const sequence = [...mainLessons, ...branchLessons];
+  const nextLesson = hasProgress
+    ? sequence.find((l) => !doneSlugs.has(l.slug))
+    : undefined;
+  // Materi yang paling terakhir ditandai selesai (urutan array progres =
+  // urutan penandaan, termasuk auto-tandai dari halaman artikel).
+  const titleBySlug = new Map(sequence.map((l) => [l.slug, l.title]));
+  const lastDoneTitle = hasProgress
+    ? [...(progress[path.slug] ?? [])]
+        .reverse()
+        .map((slug) => titleBySlug.get(slug))
+        .find(Boolean)
+    : undefined;
 
   return (
-    <Link
-      href={`/learn/${path.slug}`}
-      className="group flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-    >
+    <div className="group relative flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start justify-between mb-4">
           <span className="text-4xl font-bold text-blue-600/15 dark:text-blue-400/20 leading-none select-none">
@@ -52,7 +66,12 @@ const PathCard = ({
           </span>
         </div>
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-          {path.title}
+          <Link
+            href={`/learn/${path.slug}`}
+            className="after:absolute after:inset-0 after:content-['']"
+          >
+            {path.title}
+          </Link>
         </h2>
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-5 line-clamp-3">
           {path.description}
@@ -122,13 +141,38 @@ const PathCard = ({
               </p>
             </div>
           )}
-          <span className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:gap-3 transition-all duration-200">
-            Lihat Jalur
-            <FaArrowRight className="text-xs" />
-          </span>
+          {hasProgress && nextLesson ? (
+            <div className="relative z-10">
+              {lastDoneTitle && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-1">
+                  Terakhir selesai:{" "}
+                  <span className="font-medium text-gray-700 dark:text-gray-200">
+                    {lastDoneTitle}
+                  </span>
+                </p>
+              )}
+              <Link
+                href={`/blogs/${nextLesson.slug}`}
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors duration-200"
+              >
+                Lanjutkan Belajar
+                <FaArrowRight className="text-xs" />
+              </Link>
+              <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 line-clamp-1">
+                Berikutnya: {nextLesson.title}
+              </p>
+            </div>
+          ) : (
+            <span className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:gap-3 transition-all duration-200">
+              {mounted && total > 0 && doneCount === 0
+                ? "Mulai Belajar"
+                : "Lihat Jalur"}
+              <FaArrowRight className="text-xs" />
+            </span>
+          )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
