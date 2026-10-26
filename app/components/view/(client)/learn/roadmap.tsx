@@ -216,7 +216,7 @@ export function buildMinimapDots(
   lessons.forEach((lesson) => {
     dots.push({
       slug: lesson.slug,
-      title: lesson.title,
+      title: lesson.title ?? lesson.slug,
       kind: "main",
       targetId: `halte-${lesson.slug}`,
     });
@@ -227,7 +227,7 @@ export function buildMinimapDots(
         branch.lessons.forEach((bl) =>
           dots.push({
             slug: bl.slug,
-            title: bl.title,
+            title: bl.title ?? bl.slug,
             kind: "branch",
             targetId: `cabang-${branch._key}`,
           })
@@ -241,7 +241,7 @@ export function buildMinimapDots(
       branch.lessons.forEach((bl) =>
         dots.push({
           slug: bl.slug,
-          title: bl.title,
+          title: bl.title ?? bl.slug,
           kind: "branch",
           targetId: `cabang-${branch._key}`,
         })
