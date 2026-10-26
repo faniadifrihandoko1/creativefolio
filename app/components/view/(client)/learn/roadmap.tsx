@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { FaCheck, FaClock, FaCodeBranch, FaTag } from "react-icons/fa";
+import { FaCheck, FaClock, FaCodeBranch, FaLayerGroup, FaTag } from "react-icons/fa";
 
 import type {
   SanityLearningBranch,
+  SanityLearningGroup,
   SanityLearningLesson,
 } from "@/sanity/lib/queries";
 
@@ -18,7 +19,8 @@ import type {
 
 type RoadmapItem =
   | { type: "lesson"; lesson: SanityLearningLesson; index: number }
-  | { type: "branch"; branch: SanityLearningBranch; anchorIndex: number };
+  | { type: "branch"; branch: SanityLearningBranch; anchorIndex: number }
+  | { type: "group"; group: SanityLearningGroup; anchorIndex: number };
 
 const ToggleButton = ({
   done,
@@ -195,6 +197,78 @@ const BranchPanel = ({
   </div>
 );
 
+const GroupPanel = ({
+  group,
+  doneSlugs,
+  onToggle,
+}: {
+  group: SanityLearningGroup;
+  doneSlugs: Set<string>;
+  onToggle: (slug: string) => void;
+}) => (
+  <div className="border-2 border-gray-900/70 dark:border-gray-100/70 rounded-xl p-4 bg-amber-50/50 dark:bg-gray-800/40">
+    <div className="flex flex-wrap items-center gap-2 mb-4">
+      <FaCodeBranch className="text-gray-400" />
+      <h3 className="font-bold text-gray-900 dark:text-gray-100">
+        Grup: {group.label}
+      </h3>
+      <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
+        {group.lessons.length} materi
+      </span>
+    </div>
+    <div className="flex flex-col gap-3">
+      {group.lessons.map((lesson, i) => {
+        const done = doneSlugs.has(lesson.slug);
+        return (
+          <div key={lesson.slug} className="flex items-start gap-3">
+            <span
+              className={`w-7 h-7 shrink-0 rounded-full border-2 flex items-center justify-center text-[11px] font-bold ${
+                done
+                  ? "bg-green-600 border-green-600 text-white"
+                  : "border-gray-300 dark:border-gray-600 text-gray-400 bg-white dark:bg-gray-800"
+              }`}
+            >
+              {done ? <FaCheck className="text-[9px]" /> : i + 1}
+            </span>
+            <div className="flex-1 min-w-0 pt-0.5">
+              <Link
+                href={`/blogs/${lesson.slug}`}
+                className={`font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 line-clamp-2 ${
+                  done
+                    ? "text-gray-500 dark:text-gray-400"
+                    : "text-gray-900 dark:text-gray-100"
+                }`}
+              >
+                {lesson.title}
+              </Link>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                {lesson.category && (
+                  <span className="flex items-center gap-1.5">
+                    <FaTag className="text-gray-400" />
+                    {lesson.category}
+                  </span>
+                )}
+                {lesson.readTime && (
+                  <span className="flex items-center gap-1.5">
+                    <FaClock />
+                    {lesson.readTime}
+                  </span>
+                )}
+              </div>
+            </div>
+            <ToggleButton
+              done={done}
+              title={lesson.title}
+              onToggle={() => onToggle(lesson.slug)}
+              small
+            />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+
 /**
  * Titik-titik mini-map (DEL-108): urutan sama dengan peta — materi utama
  * lalu materi cabang tepat setelah halte jangkarnya. Dipakai bar
@@ -203,16 +277,18 @@ const BranchPanel = ({
 export interface MinimapDot {
   slug: string;
   title: string;
-  kind: "main" | "branch";
+  kind: "main" | "branch" | "group";
   targetId: string;
 }
 
 export function buildMinimapDots(
   lessons: SanityLearningLesson[],
-  branches: SanityLearningBranch[]
+  branches: SanityLearningBranch[],
+  groups: SanityLearningGroup[] = []
 ): MinimapDot[] {
   const dots: MinimapDot[] = [];
-  const placedKeys = new Set<string>();
+  const placedBranches = new Set<string>();
+  const placedGroups = new Set<string>();
   lessons.forEach((lesson) => {
     dots.push({
       slug: lesson.slug,
@@ -220,10 +296,23 @@ export function buildMinimapDots(
       kind: "main",
       targetId: `halte-${lesson.slug}`,
     });
+    groups
+      .filter((g) => g.afterSlug === lesson.slug)
+      .forEach((group) => {
+        placedGroups.add(group._key);
+        group.lessons.forEach((gl) =>
+          dots.push({
+            slug: gl.slug,
+            title: gl.title ?? gl.slug,
+            kind: "group",
+            targetId: `grup-${group._key}`,
+          })
+        );
+      });
     branches
       .filter((b) => b.afterSlug === lesson.slug)
       .forEach((branch) => {
-        placedKeys.add(branch._key);
+        placedBranches.add(branch._key);
         branch.lessons.forEach((bl) =>
           dots.push({
             slug: bl.slug,
@@ -234,9 +323,21 @@ export function buildMinimapDots(
         );
       });
   });
-  // Cabang yang jangkarnya tidak ditemukan tetap muncul di akhir.
+  // Grup/cabang yang jangkarnya tidak ditemukan tetap muncul di akhir.
+  groups
+    .filter((g) => !placedGroups.has(g._key))
+    .forEach((group) =>
+      group.lessons.forEach((gl) =>
+        dots.push({
+          slug: gl.slug,
+          title: gl.title ?? gl.slug,
+          kind: "group",
+          targetId: `grup-${group._key}`,
+        })
+      )
+    );
   branches
-    .filter((b) => !placedKeys.has(b._key))
+    .filter((b) => !placedBranches.has(b._key))
     .forEach((branch) =>
       branch.lessons.forEach((bl) =>
         dots.push({
@@ -253,15 +354,17 @@ export function buildMinimapDots(
 export const RoadmapMinimap = ({
   lessons,
   branches,
+  groups = [],
   doneSlugs,
   nextSlug,
 }: {
   lessons: SanityLearningLesson[];
   branches: SanityLearningBranch[];
+  groups?: SanityLearningGroup[];
   doneSlugs: Set<string>;
   nextSlug: string | null;
 }) => {
-  const dots = buildMinimapDots(lessons, branches);
+  const dots = buildMinimapDots(lessons, branches, groups);
   if (dots.length === 0) return null;
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -309,31 +412,42 @@ export const RoadmapMinimap = ({
 export const RoadmapPath = ({
   lessons,
   branches,
+  groups = [],
   doneSlugs,
   nextSlug,
   onToggle,
 }: {
   lessons: SanityLearningLesson[];
   branches: SanityLearningBranch[];
+  groups?: SanityLearningGroup[];
   doneSlugs: Set<string>;
   nextSlug: string | null;
   onToggle: (slug: string) => void;
 }) => {
-  // Susun urutan tampil: halte utama, disisipi panel cabang tepat
-  // setelah halte jangkarnya.
+  // Susun urutan tampil: halte utama, disisipi grup lalu panel cabang
+  // tepat setelah halte jangkarnya.
   const items: RoadmapItem[] = [];
   lessons.forEach((lesson, index) => {
     items.push({ type: "lesson", lesson, index });
+    groups
+      .filter((g) => g.afterSlug === lesson.slug)
+      .forEach((group) => items.push({ type: "group", group, anchorIndex: index }));
     branches
       .filter((b) => b.afterSlug === lesson.slug)
       .forEach((branch) => items.push({ type: "branch", branch, anchorIndex: index }));
   });
-  // Cabang yang jangkarnya tidak ditemukan tetap ditampilkan di akhir.
-  const placed = new Set(
+  // Grup/cabang yang jangkarnya tidak ditemukan tetap ditampilkan di akhir.
+  const placedGroups = new Set(
+    items.filter((i) => i.type === "group").map((i) => (i as { group: SanityLearningGroup }).group._key)
+  );
+  const placedBranches = new Set(
     items.filter((i) => i.type === "branch").map((i) => (i as { branch: SanityLearningBranch }).branch._key)
   );
+  groups
+    .filter((g) => !placedGroups.has(g._key))
+    .forEach((group) => items.push({ type: "group", group, anchorIndex: -1 }));
   branches
-    .filter((b) => !placed.has(b._key))
+    .filter((b) => !placedBranches.has(b._key))
     .forEach((branch) => items.push({ type: "branch", branch, anchorIndex: -1 }));
 
   return (
@@ -390,7 +504,9 @@ export const RoadmapPath = ({
             </div>
           );
         }
-        // Panel cabang
+        // Panel grup / cabang
+        const isGroup = item.type === "group";
+        const stack = isGroup ? item.group : item.branch;
         const anchorDone =
           item.anchorIndex >= 0
             ? doneSlugs.has(lessons[item.anchorIndex].slug)
@@ -398,8 +514,8 @@ export const RoadmapPath = ({
         const anchorLeft = item.anchorIndex >= 0 && item.anchorIndex % 2 === 0;
         return (
           <div
-            key={`branch-${item.branch._key}`}
-            id={`cabang-${item.branch._key}`}
+            key={`${isGroup ? "group" : "branch"}-${stack._key}`}
+            id={`${isGroup ? "grup" : "cabang"}-${stack._key}`}
             className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0 scroll-mt-36"
           >
             <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
@@ -412,8 +528,14 @@ export const RoadmapPath = ({
                   }`}
                 />
               )}
-              <span className="relative z-10 w-8 h-8 rounded-full border-2 border-dashed border-gray-400 dark:border-gray-500 bg-white dark:bg-gray-800 text-gray-400 flex items-center justify-center text-xs">
-                <FaCodeBranch />
+              <span
+                className={`relative z-10 w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs ${
+                  isGroup
+                    ? "border-gray-900/70 dark:border-gray-100/70 bg-white dark:bg-gray-800 text-gray-500"
+                    : "border-dashed border-gray-400 dark:border-gray-500 bg-white dark:bg-gray-800 text-gray-400"
+                }`}
+              >
+                {isGroup ? <FaLayerGroup /> : <FaCodeBranch />}
               </span>
             </div>
             <div
@@ -421,11 +543,19 @@ export const RoadmapPath = ({
                 anchorLeft ? "md:col-start-1" : "md:col-start-3"
               }`}
             >
-              <BranchPanel
-                branch={item.branch}
-                doneSlugs={doneSlugs}
-                onToggle={onToggle}
-              />
+              {isGroup ? (
+                <GroupPanel
+                  group={stack as SanityLearningGroup}
+                  doneSlugs={doneSlugs}
+                  onToggle={onToggle}
+                />
+              ) : (
+                <BranchPanel
+                  branch={stack as SanityLearningBranch}
+                  doneSlugs={doneSlugs}
+                  onToggle={onToggle}
+                />
+              )}
             </div>
           </div>
         );
