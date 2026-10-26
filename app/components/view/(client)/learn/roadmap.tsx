@@ -385,11 +385,19 @@ export const RoadmapMinimap = ({
               type="button"
               title={dot.title}
               aria-label={`Lompat ke ${dot.title}`}
-              onClick={() =>
-                document
-                  .getElementById(dot.targetId)
-                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
-              }
+              onClick={() => {
+                // ID yang sama ada di diagram (desktop) dan timeline
+                // (mobile); pilih yang sedang tampil, bukan yang
+                // display:none — kalau tidak, scroll di HP tidak jalan.
+                const candidates = Array.from(
+                  document.querySelectorAll(`[id="${dot.targetId}"]`)
+                );
+                const visible =
+                  candidates.find(
+                    (el) => (el as HTMLElement).offsetParent !== null
+                  ) ?? candidates[0];
+                visible?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
               className={`rounded-full ${
                 dot.kind === "branch" ? "w-2 h-2" : "w-2.5 h-2.5"
               } ${

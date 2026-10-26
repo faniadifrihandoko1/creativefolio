@@ -16,6 +16,10 @@ import {
   RoadmapPath,
 } from "@/app/components/view/(client)/learn/roadmap";
 import {
+  RoadmapDiagram,
+  getOrderedMainLessons,
+} from "@/app/components/view/(client)/learn/roadmap-diagram";
+import {
   formatTotalMinutes,
   parseReadMinutes,
   readLearnProgress,
@@ -35,21 +39,27 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
 
   const lessons = path.lessons ?? [];
   const branches = path.branches ?? [];
+  const groups = path.groups ?? [];
   const branchLessons = branches.flatMap((b) => b.lessons ?? []);
-  const allLessons = [...lessons, ...branchLessons];
+  const groupLessons = groups.flatMap((g) => g.lessons ?? []);
+  const allLessons = [...lessons, ...groupLessons, ...branchLessons];
 
   const doneSlugs = new Set(progress[path.slug] ?? []);
   const doneCount = allLessons.filter((l) => doneSlugs.has(l.slug)).length;
   const total = allLessons.length;
   const percent = total > 0 ? Math.round((doneCount / total) * 100) : 0;
 
-  const mainDoneCount = lessons.filter((l) => doneSlugs.has(l.slug)).length;
-  const allMainDone = lessons.length > 0 && mainDoneCount === lessons.length;
+  // Rute utama = materi utama + grup yang menempel (grup dilewati,
+  // cabang tidak). "Berikutnya" mengikuti urutan tampil rute utama.
+  const orderedMain = getOrderedMainLessons(lessons, groups);
+  const mainDoneCount = orderedMain.filter((l) => doneSlugs.has(l.slug)).length;
+  const allMainDone =
+    orderedMain.length > 0 && mainDoneCount === orderedMain.length;
   const branchRemaining = branchLessons.filter(
     (l) => !doneSlugs.has(l.slug)
   ).length;
   const allDone = total > 0 && doneCount === total;
-  const nextLesson = lessons.find((l) => !doneSlugs.has(l.slug));
+  const nextLesson = orderedMain.find((l) => !doneSlugs.has(l.slug));
   const totalMinutes = allLessons.reduce(
     (sum, l) => sum + parseReadMinutes(l.readTime),
     0
@@ -82,6 +92,8 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
           {total} materi
           {branchLessons.length > 0 &&
             ` (termasuk ${branchLessons.length} cabang)`}
+          {groupLessons.length > 0 &&
+            ` (termasuk ${groupLessons.length} grup)`}
         </span>
         {totalMinutes > 0 && (
           <span className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
@@ -139,17 +151,32 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
             <RoadmapMinimap
               lessons={lessons}
               branches={branches}
+              groups={groups}
               doneSlugs={doneSlugs}
               nextSlug={nextLesson?.slug ?? null}
             />
           </div>
-          <RoadmapPath
-            lessons={lessons}
-            branches={branches}
-            doneSlugs={doneSlugs}
-            nextSlug={nextLesson?.slug ?? null}
-            onToggle={handleToggle}
-          />
+          {/* Desktop: diagram organik gaya roadmap.sh; mobile: timeline vertikal */}
+          <div className="hidden md:block">
+            <RoadmapDiagram
+              lessons={lessons}
+              groups={groups}
+              branches={branches}
+              doneSlugs={doneSlugs}
+              nextSlug={nextLesson?.slug ?? null}
+              onToggle={handleToggle}
+            />
+          </div>
+          <div className="md:hidden">
+            <RoadmapPath
+              lessons={lessons}
+              branches={branches}
+              groups={groups}
+              doneSlugs={doneSlugs}
+              nextSlug={nextLesson?.slug ?? null}
+              onToggle={handleToggle}
+            />
+          </div>
         </div>
       ) : (
         <p className="text-gray-500 dark:text-gray-400 mb-8">
@@ -158,10 +185,13 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
       )}
 
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-16">
-        Ikuti peta dari atas ke bawah — lingkaran bercentang hijau tandanya materi
-        selesai. Materi di dalam panel Cabang bersifat opsional untuk
-        pendalaman. Progresmu tersimpan otomatis di browser ini, tidak perlu
-        akun.
+        Di layar lebar, peta tampil sebagai diagram bercabang: ikuti garis
+        biru dari atas ke bawah, kotak kuning adalah materi berikutnya,
+        kotak ber-border hijau tandanya materi selesai. Tumpukan berlabel
+        Grup dilewati dalam rute utama, sedangkan panel Cabang bersifat
+        opsional untuk pendalaman. Di layar kecil, peta tampil sebagai
+        timeline vertikal. Progresmu tersimpan otomatis di browser ini,
+        tidak perlu akun.
       </p>
     </div>
   );
