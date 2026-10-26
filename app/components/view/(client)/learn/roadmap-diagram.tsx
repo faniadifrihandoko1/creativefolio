@@ -84,18 +84,18 @@ export function getOrderedMainLessons(
 
 // ---- Layout deterministik bervariasi (pola dari indeks baris) ----
 
-const BOARD_W = 1160;
+const BOARD_W = 1024;
 const NODE_H = 80;
 const ROW_GAPS = [64, 92, 72, 104, 80, 96, 68, 112];
-const SPINE_X = [600, 550, 660, 580, 690, 610, 670, 560, 640, 600];
-const EDGE_GAPS = [70, 120, 90, 140, 80, 110];
+const SPINE_X = [520, 470, 580, 500, 610, 530, 590, 480, 560, 520];
+const EDGE_GAPS = [60, 100, 80, 120, 70, 95];
 const BOWS = [-26, 18, -14, 30, -20, 12];
 
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
 function nodeWidth(title: string): number {
-  return clamp(190 + (title?.length ?? 0) * 2.2, 240, 350);
+  return clamp(190 + (title?.length ?? 0) * 2.2, 240, 330);
 }
 
 function stackHeight(count: number): number {
