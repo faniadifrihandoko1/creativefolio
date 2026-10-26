@@ -97,11 +97,6 @@ const LessonCard = ({
       >
         {lesson.title}
       </Link>
-      {lesson.excerpt && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-1">
-          {lesson.excerpt}
-        </p>
-      )}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-2">
         {lesson.category && (
           <span className="flex items-center gap-1.5">
