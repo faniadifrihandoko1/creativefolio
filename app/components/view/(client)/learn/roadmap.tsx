@@ -63,7 +63,7 @@ const LessonCard = ({
   onToggle: (slug: string) => void;
 }) => (
   <div
-    className={`flex items-stretch gap-4 bg-white dark:bg-gray-800 border rounded-xl p-4 sm:p-5 transition-all duration-200 ${
+    className={`flex items-stretch gap-4 bg-white dark:bg-gray-800 border rounded-xl p-4 transition-all duration-200 ${
       isNext
         ? "border-blue-400 dark:border-blue-600 shadow-md"
         : done
@@ -129,7 +129,7 @@ const BranchPanel = ({
   doneSlugs: Set<string>;
   onToggle: (slug: string) => void;
 }) => (
-  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 sm:p-5 bg-gray-50/60 dark:bg-gray-800/40">
+  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 bg-gray-50/60 dark:bg-gray-800/40">
     <div className="flex flex-wrap items-center gap-2 mb-4">
       <FaCodeBranch className="text-blue-500" />
       <h3 className="font-bold text-gray-900 dark:text-gray-100">
@@ -237,7 +237,7 @@ export const RoadmapPath = ({
           return (
             <div
               key={lesson.slug}
-              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-8 last:pb-0"
+              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0"
             >
               {/* Sel halte (garis + lingkaran) */}
               <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
@@ -287,7 +287,7 @@ export const RoadmapPath = ({
         return (
           <div
             key={`branch-${item.branch._key}`}
-            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-8 last:pb-0"
+            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0"
           >
             <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
               {!isLast && (
