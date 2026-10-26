@@ -195,6 +195,112 @@ const BranchPanel = ({
   </div>
 );
 
+/**
+ * Titik-titik mini-map (DEL-108): urutan sama dengan peta — materi utama
+ * lalu materi cabang tepat setelah halte jangkarnya. Dipakai bar
+ * ringkasan di atas peta detail.
+ */
+export interface MinimapDot {
+  slug: string;
+  title: string;
+  kind: "main" | "branch";
+  targetId: string;
+}
+
+export function buildMinimapDots(
+  lessons: SanityLearningLesson[],
+  branches: SanityLearningBranch[]
+): MinimapDot[] {
+  const dots: MinimapDot[] = [];
+  const placedKeys = new Set<string>();
+  lessons.forEach((lesson) => {
+    dots.push({
+      slug: lesson.slug,
+      title: lesson.title,
+      kind: "main",
+      targetId: `halte-${lesson.slug}`,
+    });
+    branches
+      .filter((b) => b.afterSlug === lesson.slug)
+      .forEach((branch) => {
+        placedKeys.add(branch._key);
+        branch.lessons.forEach((bl) =>
+          dots.push({
+            slug: bl.slug,
+            title: bl.title,
+            kind: "branch",
+            targetId: `cabang-${branch._key}`,
+          })
+        );
+      });
+  });
+  // Cabang yang jangkarnya tidak ditemukan tetap muncul di akhir.
+  branches
+    .filter((b) => !placedKeys.has(b._key))
+    .forEach((branch) =>
+      branch.lessons.forEach((bl) =>
+        dots.push({
+          slug: bl.slug,
+          title: bl.title,
+          kind: "branch",
+          targetId: `cabang-${branch._key}`,
+        })
+      )
+    );
+  return dots;
+}
+
+export const RoadmapMinimap = ({
+  lessons,
+  branches,
+  doneSlugs,
+  nextSlug,
+}: {
+  lessons: SanityLearningLesson[];
+  branches: SanityLearningBranch[];
+  doneSlugs: Set<string>;
+  nextSlug: string | null;
+}) => {
+  const dots = buildMinimapDots(lessons, branches);
+  if (dots.length === 0) return null;
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      <span className="text-[11px] font-semibold tracking-wider uppercase text-gray-400 dark:text-gray-500 shrink-0">
+        Peta ringkas
+      </span>
+      <div
+        className="flex items-center gap-1.5 flex-wrap"
+        role="list"
+        aria-label="Ringkasan peta jalur"
+      >
+        {dots.map((dot) => {
+          const done = doneSlugs.has(dot.slug);
+          const isNext = nextSlug === dot.slug;
+          return (
+            <span
+              key={dot.slug}
+              role="listitem"
+              title={dot.title}
+              aria-label={dot.title}
+              className={`rounded-full ${
+                dot.kind === "branch" ? "w-2 h-2" : "w-2.5 h-2.5"
+              } ${
+                done
+                  ? "bg-green-500"
+                  : isNext
+                    ? "bg-amber-500 ring-2 ring-amber-200 dark:ring-amber-900/50"
+                    : dot.kind === "branch"
+                      ? "border border-amber-400 dark:border-amber-500"
+                      : "bg-gray-200 dark:bg-gray-600"
+              }`}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 export const RoadmapPath = ({
   lessons,
   branches,

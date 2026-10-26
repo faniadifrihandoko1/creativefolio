@@ -11,7 +11,10 @@ import {
 } from "react-icons/fa";
 
 import type { SanityLearningPath } from "@/sanity/lib/queries";
-import { RoadmapPath } from "@/app/components/view/(client)/learn/roadmap";
+import {
+  RoadmapMinimap,
+  RoadmapPath,
+} from "@/app/components/view/(client)/learn/roadmap";
 import {
   formatTotalMinutes,
   parseReadMinutes,
@@ -132,6 +135,14 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
 
       {total > 0 ? (
         <div className="mb-8">
+          <div className="mb-6">
+            <RoadmapMinimap
+              lessons={lessons}
+              branches={branches}
+              doneSlugs={doneSlugs}
+              nextSlug={nextLesson?.slug ?? null}
+            />
+          </div>
           <RoadmapPath
             lessons={lessons}
             branches={branches}
