@@ -245,7 +245,7 @@ export const RoadmapPath = ({
                   <span
                     className={`absolute left-1/2 -translate-x-1/2 top-10 md:top-12 bottom-[-2rem] w-[3px] rounded-full ${
                       done
-                        ? "bg-green-500/60"
+                        ? "bg-green-400/50"
                         : "bg-gray-200 dark:bg-gray-700"
                     }`}
                   />
@@ -253,7 +253,7 @@ export const RoadmapPath = ({
                 <span
                   className={`relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm md:text-base ${
                     done
-                      ? "bg-green-600 border-green-600 text-white"
+                      ? "bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400"
                       : isNext
                         ? "bg-amber-500 border-amber-500 text-white shadow-[0_0_0_6px] shadow-amber-100 dark:shadow-amber-900/40"
                         : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-400"
@@ -294,7 +294,7 @@ export const RoadmapPath = ({
                 <span
                   className={`absolute left-1/2 -translate-x-1/2 top-8 bottom-[-2rem] w-[3px] rounded-full ${
                     anchorDone
-                      ? "bg-green-500/60"
+                      ? "bg-green-400/50"
                       : "bg-gray-200 dark:bg-gray-700"
                   }`}
                 />
