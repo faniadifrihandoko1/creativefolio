@@ -44,7 +44,7 @@ const ToggleButton = ({
     } rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
       done
         ? "bg-green-600 border-green-600 text-white"
-        : "border-gray-300 dark:border-gray-600 text-transparent hover:border-blue-500 hover:text-blue-200"
+        : "border-gray-300 dark:border-gray-600 text-transparent hover:border-amber-500 hover:text-amber-200"
     }`}
   >
     <FaCheck className={small ? "text-[10px]" : "text-sm"} />
@@ -65,7 +65,7 @@ const LessonCard = ({
   <div
     className={`flex items-stretch gap-4 bg-white dark:bg-gray-800 border rounded-xl p-4 transition-all duration-200 ${
       isNext
-        ? "border-blue-400 dark:border-blue-600 shadow-md"
+        ? "border-amber-400 dark:border-amber-600 shadow-md"
         : done
           ? "border-green-200 dark:border-green-900"
           : "border-gray-200 dark:border-gray-700"
@@ -83,7 +83,7 @@ const LessonCard = ({
     )}
     <div className="flex-1 min-w-0">
       {isNext && (
-        <span className="inline-block bg-blue-600 text-white px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-2">
+        <span className="inline-block bg-amber-500 text-white px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-2">
           Materi Berikutnya
         </span>
       )}
@@ -255,7 +255,7 @@ export const RoadmapPath = ({
                     done
                       ? "bg-green-600 border-green-600 text-white"
                       : isNext
-                        ? "bg-blue-600 border-blue-600 text-white shadow-[0_0_0_6px] shadow-blue-100 dark:shadow-blue-900/40"
+                        ? "bg-amber-500 border-amber-500 text-white shadow-[0_0_0_6px] shadow-amber-100 dark:shadow-amber-900/40"
                         : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-400"
                   }`}
                 >
