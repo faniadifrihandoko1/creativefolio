@@ -159,6 +159,22 @@ export const learningPathBySlugQuery = groq`
         "coverUrl": cover.asset->url,
         "coverAlt": cover.alt
       }
+    },
+    "groups": groups[]{
+      _key,
+      label,
+      "afterSlug": afterLesson->slug.current,
+      "lessons": lessons[]->{
+        _id,
+        title,
+        "slug": slug.current,
+        excerpt,
+        readTime,
+        category,
+        publishedAt,
+        "coverUrl": cover.asset->url,
+        "coverAlt": cover.alt
+      }
     }
   }
 `;
@@ -182,6 +198,13 @@ export interface SanityLearningBranch {
   lessons: SanityLearningLesson[];
 }
 
+export interface SanityLearningGroup {
+  _key: string;
+  label: string;
+  afterSlug?: string | null;
+  lessons: SanityLearningLesson[];
+}
+
 export interface SanityLearningPath {
   _id: string;
   title: string;
@@ -192,6 +215,7 @@ export interface SanityLearningPath {
   lessonCount: number;
   lessons: SanityLearningLesson[];
   branches?: SanityLearningBranch[] | null;
+  groups?: SanityLearningGroup[] | null;
 }
 
 // ---- Keanggotaan artikel di jalur belajar (untuk halaman artikel) ----
@@ -199,7 +223,8 @@ export interface SanityLearningPath {
 export const postPathsQuery = groq`
   *[_type == "learningPath" && (
     $slug in lessons[]->slug.current ||
-    $slug in branches[].lessons[]->slug.current
+    $slug in branches[].lessons[]->slug.current ||
+    $slug in groups[].lessons[]->slug.current
   )] | order(order asc) {
     _id,
     title,
@@ -209,6 +234,15 @@ export const postPathsQuery = groq`
       title
     },
     "branches": branches[]{
+      _key,
+      label,
+      "afterSlug": afterLesson->slug.current,
+      "lessons": lessons[]->{
+        "slug": slug.current,
+        title
+      }
+    },
+    "groups": groups[]{
       _key,
       label,
       "afterSlug": afterLesson->slug.current,
@@ -232,10 +266,18 @@ export interface SanityPostPathBranch {
   lessons: SanityPathLessonRef[];
 }
 
+export interface SanityPostPathGroup {
+  _key: string;
+  label: string;
+  afterSlug: string | null;
+  lessons: SanityPathLessonRef[];
+}
+
 export interface SanityPostPath {
   _id: string;
   title: string;
   slug: string;
   lessons: SanityPathLessonRef[];
   branches: SanityPostPathBranch[] | null;
+  groups: SanityPostPathGroup[] | null;
 }

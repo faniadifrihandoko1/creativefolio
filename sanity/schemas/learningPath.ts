@@ -155,6 +155,61 @@ export const learningPath = defineType({
         },
       ],
     }),
+    defineField({
+      name: "groups",
+      title: "Grup (materi sejalur yang dikelompokkan)",
+      type: "array",
+      group: "curriculum",
+      description:
+        "Grup menempel pada satu materi rute utama (halte jangkar) seperti cabang, tapi BUKAN opsional: isinya satu klaster yang dilewati dalam rute utama, misalnya kumpulan soal latihan atau mini-seri artikel satu tema. Di peta, grup tampil sebagai tumpukan kotak berlabel dengan konektor solid.",
+      of: [
+        {
+          type: "object",
+          name: "group",
+          title: "Grup",
+          fields: [
+            defineField({
+              name: "label",
+              title: "Label Grup",
+              type: "string",
+              placeholder: "Contoh: Latihan Soal",
+              validation: (Rule) =>
+                Rule.required().error("Label grup wajib diisi."),
+            }),
+            defineField({
+              name: "afterLesson",
+              title: "Menempel Setelah Materi",
+              type: "reference",
+              to: [{ type: "post" }],
+              description:
+                "Halte jangkar di rute utama — grup tampil tepat setelah materi ini.",
+              validation: (Rule) =>
+                Rule.required().error("Halte jangkar wajib dipilih."),
+            }),
+            defineField({
+              name: "lessons",
+              title: "Materi Grup",
+              type: "array",
+              of: [{ type: "reference", to: [{ type: "post" }] }],
+              validation: (Rule) => [
+                Rule.min(1).error("Satu grup minimal berisi 1 materi."),
+                Rule.unique().error("Ada artikel yang dobel dalam grup ini."),
+              ],
+            }),
+          ],
+          preview: {
+            select: { title: "label", lessons: "lessons" },
+            prepare({ title, lessons }) {
+              const count = Array.isArray(lessons) ? lessons.length : 0;
+              return {
+                title: title || "Grup tanpa label",
+                subtitle: `${count} materi grup`,
+              };
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
