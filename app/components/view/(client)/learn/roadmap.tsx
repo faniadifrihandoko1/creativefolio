@@ -100,7 +100,7 @@ const LessonCard = ({
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-2">
         {lesson.category && (
           <span className="flex items-center gap-1.5">
-            <FaTag className="text-blue-500" />
+            <FaTag className="text-gray-400" />
             {lesson.category}
           </span>
         )}
@@ -131,7 +131,7 @@ const BranchPanel = ({
 }) => (
   <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 bg-gray-50/60 dark:bg-gray-800/40">
     <div className="flex flex-wrap items-center gap-2 mb-4">
-      <FaCodeBranch className="text-blue-500" />
+      <FaCodeBranch className="text-gray-400" />
       <h3 className="font-bold text-gray-900 dark:text-gray-100">
         Cabang: {branch.label}
       </h3>
@@ -170,7 +170,7 @@ const BranchPanel = ({
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {lesson.category && (
                   <span className="flex items-center gap-1.5">
-                    <FaTag className="text-blue-500" />
+                    <FaTag className="text-gray-400" />
                     {lesson.category}
                   </span>
                 )}
