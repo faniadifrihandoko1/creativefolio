@@ -135,7 +135,7 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
 
       {total > 0 ? (
         <div className="mb-8">
-          <div className="mb-6">
+          <div className="sticky top-24 z-30 mb-6 -mx-2 px-3 py-2.5 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <RoadmapMinimap
               lessons={lessons}
               branches={branches}
