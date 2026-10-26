@@ -78,6 +78,7 @@ export const LearnPathStrip = ({
   const doneCount = [
     ...(path.lessons ?? []),
     ...(path.branches ?? []).flatMap((b) => b.lessons ?? []),
+    ...(path.groups ?? []).flatMap((g) => g.lessons ?? []),
   ].filter((l) => doneSlugs.has(l.slug)).length;
 
   return (
@@ -102,6 +103,11 @@ export const LearnPathStrip = ({
                 Materi {position.index + 1} dari {position.listTotal} materi
                 utama
               </>
+            ) : position.kind === "group" ? (
+              <>
+                Materi grup · {position.groupLabel} ({position.index + 1}{" "}
+                dari {position.listTotal})
+              </>
             ) : (
               <>
                 Materi cabang · {position.branchLabel} ({position.index + 1}{" "}
@@ -110,6 +116,8 @@ export const LearnPathStrip = ({
             )}
             {position.anchoredBranchLabel &&
               ` · Ada cabang opsional setelah materi ini: ${position.anchoredBranchLabel}`}
+            {position.anchoredGroupLabel &&
+              ` · Ada grup setelah materi ini: ${position.anchoredGroupLabel}`}
           </p>
           <p className="text-sm mt-1.5 flex items-center gap-1.5">
             {done ? (
