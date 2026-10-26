@@ -44,7 +44,7 @@ const ToggleButton = ({
     } rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
       done
         ? "bg-green-600 border-green-600 text-white"
-        : "border-gray-300 dark:border-gray-600 text-transparent hover:border-blue-500 hover:text-blue-200"
+        : "border-gray-300 dark:border-gray-600 text-transparent hover:border-amber-500 hover:text-amber-200"
     }`}
   >
     <FaCheck className={small ? "text-[10px]" : "text-sm"} />
@@ -63,9 +63,9 @@ const LessonCard = ({
   onToggle: (slug: string) => void;
 }) => (
   <div
-    className={`flex items-stretch gap-4 bg-white dark:bg-gray-800 border rounded-xl p-4 sm:p-5 transition-all duration-200 ${
+    className={`flex items-stretch gap-4 bg-white dark:bg-gray-800 border rounded-xl p-4 transition-all duration-200 ${
       isNext
-        ? "border-blue-400 dark:border-blue-600 shadow-md"
+        ? "border-amber-400 dark:border-amber-600 shadow-md"
         : done
           ? "border-green-200 dark:border-green-900"
           : "border-gray-200 dark:border-gray-700"
@@ -83,7 +83,7 @@ const LessonCard = ({
     )}
     <div className="flex-1 min-w-0">
       {isNext && (
-        <span className="inline-block bg-blue-600 text-white px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-2">
+        <span className="inline-block bg-amber-500 text-white px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-2">
           Materi Berikutnya
         </span>
       )}
@@ -97,15 +97,10 @@ const LessonCard = ({
       >
         {lesson.title}
       </Link>
-      {lesson.excerpt && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-1">
-          {lesson.excerpt}
-        </p>
-      )}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-2">
         {lesson.category && (
           <span className="flex items-center gap-1.5">
-            <FaTag className="text-blue-500" />
+            <FaTag className="text-gray-400" />
             {lesson.category}
           </span>
         )}
@@ -134,9 +129,9 @@ const BranchPanel = ({
   doneSlugs: Set<string>;
   onToggle: (slug: string) => void;
 }) => (
-  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 sm:p-5 bg-gray-50/60 dark:bg-gray-800/40">
+  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 bg-gray-50/60 dark:bg-gray-800/40">
     <div className="flex flex-wrap items-center gap-2 mb-4">
-      <FaCodeBranch className="text-blue-500" />
+      <FaCodeBranch className="text-gray-400" />
       <h3 className="font-bold text-gray-900 dark:text-gray-100">
         Cabang: {branch.label}
       </h3>
@@ -175,7 +170,7 @@ const BranchPanel = ({
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {lesson.category && (
                   <span className="flex items-center gap-1.5">
-                    <FaTag className="text-blue-500" />
+                    <FaTag className="text-gray-400" />
                     {lesson.category}
                   </span>
                 )}
@@ -199,6 +194,117 @@ const BranchPanel = ({
     </div>
   </div>
 );
+
+/**
+ * Titik-titik mini-map (DEL-108): urutan sama dengan peta — materi utama
+ * lalu materi cabang tepat setelah halte jangkarnya. Dipakai bar
+ * ringkasan di atas peta detail.
+ */
+export interface MinimapDot {
+  slug: string;
+  title: string;
+  kind: "main" | "branch";
+  targetId: string;
+}
+
+export function buildMinimapDots(
+  lessons: SanityLearningLesson[],
+  branches: SanityLearningBranch[]
+): MinimapDot[] {
+  const dots: MinimapDot[] = [];
+  const placedKeys = new Set<string>();
+  lessons.forEach((lesson) => {
+    dots.push({
+      slug: lesson.slug,
+      title: lesson.title ?? lesson.slug,
+      kind: "main",
+      targetId: `halte-${lesson.slug}`,
+    });
+    branches
+      .filter((b) => b.afterSlug === lesson.slug)
+      .forEach((branch) => {
+        placedKeys.add(branch._key);
+        branch.lessons.forEach((bl) =>
+          dots.push({
+            slug: bl.slug,
+            title: bl.title ?? bl.slug,
+            kind: "branch",
+            targetId: `cabang-${branch._key}`,
+          })
+        );
+      });
+  });
+  // Cabang yang jangkarnya tidak ditemukan tetap muncul di akhir.
+  branches
+    .filter((b) => !placedKeys.has(b._key))
+    .forEach((branch) =>
+      branch.lessons.forEach((bl) =>
+        dots.push({
+          slug: bl.slug,
+          title: bl.title ?? bl.slug,
+          kind: "branch",
+          targetId: `cabang-${branch._key}`,
+        })
+      )
+    );
+  return dots;
+}
+
+export const RoadmapMinimap = ({
+  lessons,
+  branches,
+  doneSlugs,
+  nextSlug,
+}: {
+  lessons: SanityLearningLesson[];
+  branches: SanityLearningBranch[];
+  doneSlugs: Set<string>;
+  nextSlug: string | null;
+}) => {
+  const dots = buildMinimapDots(lessons, branches);
+  if (dots.length === 0) return null;
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      <span className="text-[11px] font-semibold tracking-wider uppercase text-gray-400 dark:text-gray-500 shrink-0">
+        Peta ringkas
+      </span>
+      <div
+        className="flex items-center gap-1.5 flex-wrap"
+        role="list"
+        aria-label="Ringkasan peta jalur"
+      >
+        {dots.map((dot) => {
+          const done = doneSlugs.has(dot.slug);
+          const isNext = nextSlug === dot.slug;
+          return (
+            <button
+              key={dot.slug}
+              type="button"
+              title={dot.title}
+              aria-label={`Lompat ke ${dot.title}`}
+              onClick={() =>
+                document
+                  .getElementById(dot.targetId)
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+              className={`rounded-full ${
+                dot.kind === "branch" ? "w-2 h-2" : "w-2.5 h-2.5"
+              } ${
+                done
+                  ? "bg-green-500"
+                  : isNext
+                    ? "bg-amber-500 ring-2 ring-amber-200 dark:ring-amber-900/50"
+                    : dot.kind === "branch"
+                      ? "border border-amber-400 dark:border-amber-500"
+                      : "bg-gray-200 dark:bg-gray-600"
+              }`}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 export const RoadmapPath = ({
   lessons,
@@ -242,7 +348,8 @@ export const RoadmapPath = ({
           return (
             <div
               key={lesson.slug}
-              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-8 last:pb-0"
+              id={`halte-${lesson.slug}`}
+              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0 scroll-mt-36"
             >
               {/* Sel halte (garis + lingkaran) */}
               <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
@@ -250,7 +357,7 @@ export const RoadmapPath = ({
                   <span
                     className={`absolute left-1/2 -translate-x-1/2 top-10 md:top-12 bottom-[-2rem] w-[3px] rounded-full ${
                       done
-                        ? "bg-green-500/60"
+                        ? "bg-green-400/50"
                         : "bg-gray-200 dark:bg-gray-700"
                     }`}
                   />
@@ -258,9 +365,9 @@ export const RoadmapPath = ({
                 <span
                   className={`relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm md:text-base ${
                     done
-                      ? "bg-green-600 border-green-600 text-white"
+                      ? "bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400"
                       : isNext
-                        ? "bg-blue-600 border-blue-600 text-white shadow-[0_0_0_6px] shadow-blue-100 dark:shadow-blue-900/40"
+                        ? "bg-amber-500 border-amber-500 text-white shadow-[0_0_0_6px] shadow-amber-100 dark:shadow-amber-900/40"
                         : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-400"
                   }`}
                 >
@@ -292,14 +399,15 @@ export const RoadmapPath = ({
         return (
           <div
             key={`branch-${item.branch._key}`}
-            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-8 last:pb-0"
+            id={`cabang-${item.branch._key}`}
+            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0 scroll-mt-36"
           >
             <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
               {!isLast && (
                 <span
                   className={`absolute left-1/2 -translate-x-1/2 top-8 bottom-[-2rem] w-[3px] rounded-full ${
                     anchorDone
-                      ? "bg-green-500/60"
+                      ? "bg-green-400/50"
                       : "bg-gray-200 dark:bg-gray-700"
                   }`}
                 />

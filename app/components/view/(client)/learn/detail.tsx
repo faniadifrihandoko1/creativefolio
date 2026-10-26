@@ -11,7 +11,10 @@ import {
 } from "react-icons/fa";
 
 import type { SanityLearningPath } from "@/sanity/lib/queries";
-import { RoadmapPath } from "@/app/components/view/(client)/learn/roadmap";
+import {
+  RoadmapMinimap,
+  RoadmapPath,
+} from "@/app/components/view/(client)/learn/roadmap";
 import {
   formatTotalMinutes,
   parseReadMinutes,
@@ -132,6 +135,14 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
 
       {total > 0 ? (
         <div className="mb-8">
+          <div className="sticky top-24 z-30 mb-6 -mx-2 px-3 py-2.5 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+            <RoadmapMinimap
+              lessons={lessons}
+              branches={branches}
+              doneSlugs={doneSlugs}
+              nextSlug={nextLesson?.slug ?? null}
+            />
+          </div>
           <RoadmapPath
             lessons={lessons}
             branches={branches}
@@ -147,7 +158,7 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
       )}
 
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-16">
-        Ikuti peta dari atas ke bawah — lingkaran terisi hijau tandanya materi
+        Ikuti peta dari atas ke bawah — lingkaran bercentang hijau tandanya materi
         selesai. Materi di dalam panel Cabang bersifat opsional untuk
         pendalaman. Progresmu tersimpan otomatis di browser ini, tidak perlu
         akun.
