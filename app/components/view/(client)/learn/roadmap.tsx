@@ -277,11 +277,16 @@ export const RoadmapMinimap = ({
           const done = doneSlugs.has(dot.slug);
           const isNext = nextSlug === dot.slug;
           return (
-            <span
+            <button
               key={dot.slug}
-              role="listitem"
+              type="button"
               title={dot.title}
-              aria-label={dot.title}
+              aria-label={`Lompat ke ${dot.title}`}
+              onClick={() =>
+                document
+                  .getElementById(dot.targetId)
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
               className={`rounded-full ${
                 dot.kind === "branch" ? "w-2 h-2" : "w-2.5 h-2.5"
               } ${
@@ -343,7 +348,8 @@ export const RoadmapPath = ({
           return (
             <div
               key={lesson.slug}
-              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0"
+              id={`halte-${lesson.slug}`}
+              className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0 scroll-mt-36"
             >
               {/* Sel halte (garis + lingkaran) */}
               <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
@@ -393,7 +399,8 @@ export const RoadmapPath = ({
         return (
           <div
             key={`branch-${item.branch._key}`}
-            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0"
+            id={`cabang-${item.branch._key}`}
+            className="relative grid grid-cols-[44px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] items-start pb-5 last:pb-0 scroll-mt-36"
           >
             <div className="relative col-start-1 row-start-1 md:col-start-2 flex justify-center self-stretch">
               {!isLast && (
