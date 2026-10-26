@@ -158,7 +158,7 @@ export const LearnDetailView = ({ path }: { path: SanityLearningPath }) => {
       )}
 
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-16">
-        Ikuti peta dari atas ke bawah — lingkaran terisi hijau tandanya materi
+        Ikuti peta dari atas ke bawah — lingkaran bercentang hijau tandanya materi
         selesai. Materi di dalam panel Cabang bersifat opsional untuk
         pendalaman. Progresmu tersimpan otomatis di browser ini, tidak perlu
         akun.
